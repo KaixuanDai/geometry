@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>基础场景</title>
+
+    <style>
+        html,body{
+            overflow: hidden;
+            width:100%;
+            height: 100%;
+            margin:0;
+            padding: 0;
+        }
+        #renderCanvas{
+            width:100%;
+            height: 100%;
+            touch-action: none;
+        }
+    </style>
+        <script src="/node_modules/_earcut@2.1.3@earcut/dist/earcut.min.js"></script>
+
+    <script src="/node_modules/babylonjs/babylon.js"></script>
+    <script src="/node_modules/babylonjs/Oimo.js"></script>
+</head>
+<body>
+
+    <canvas id="renderCanvas"></canvas>
+
+    <script>
+        function shapeObject()
+        {
+
+
+
+
+        }
+
+        var canvas=document.getElementById("renderCanvas");
+        var engine =new BABYLON.Engine(canvas,true);
+        var up;
+        var createScene = function () {
+         var scene = new BABYLON.Scene(engine);
+    scene.clearColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+
+    // camera
+    var camera = new BABYLON.ArcRotateCamera("camera1", 0, 0, 0, new BABYLON.Vector3(0, 0, 0), scene);
+    camera.setPosition(new BABYLON.Vector3(0, 5, -10));
+  // var camera=new BABYLON.FreeCamera("camera1",new BABYLON.Vector3(0,5,-10),scene);//创建和放置自由相机
+
+    camera.attachControl(canvas, true);
+    // lights
+    var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 0.5, 0), scene);
+    light.intensity = 0.8;
+
+    var ground = BABYLON.Mesh.CreateGround("ground1",12,12,2,scene);//创建地面 参数: 名称, 宽度, 深度, 细分度, 场景
+
+
+    var faceColors = [];
+    faceColors[0] = BABYLON.Color3.Blue();
+    faceColors[1] = BABYLON.Color3.Red();
+    faceColors[2] = BABYLON.Color3.Green();
+    faceColors[3] = BABYLON.Color3.White();
+    faceColors[4] = BABYLON.Color3.Yellow();
+    faceColors[5] = BABYLON.Color3.Black();
+
+    var box1 = BABYLON.MeshBuilder.CreateBox("Box1", { faceColors: faceColors }, scene);
+    box1.position.y=0.5;//上移一半高度
+    
+    // var box2 = BABYLON.MeshBuilder.CreateBox("Box2", { faceColors: faceColors }, scene);
+    // var box3 = BABYLON.MeshBuilder.CreateBox("Box3", { faceColors: faceColors }, scene);
+    // box2.position.y=0.5;
+    // box3.position.y=0.5;
+
+
+    //var small = BABYLON.MeshBuilder.CreateBox("Small", { width: 0.25, depth: 0.25, height: 0.75, faceColors: faceColors }, scene);
+
+    var localOrigin = localAxes(2);
+    localOrigin.parent = box1;
+
+
+    //var matrix;
+    //var local_pos;
+    //var y = 0;
+
+    //matrix = box.getWorldMatrix();
+
+    var realWidth=4;
+    var realHeihgt=4;
+    //长宽的尺度
+    var scaleW=12/realWidth;
+    var scaleH=12/realHeihgt;
+
+
+
+
+    var matrix = BABYLON.Matrix.Compose(
+      
+        new BABYLON.Vector3(scaleW,1,scaleH),//需要变动的就是x z 轴的比例，要根据 交互区域 与平面的大小决定每个方向上的缩放比例
+        
+        BABYLON.Quaternion.Identity(),//旋转矩阵，暂不考虑，为单位阵
+        
+        new BABYLON.Vector3(0,0,0),//平移向量，构建平移矩阵
+    
+    );
+
+
+
+
+
+    // var local_pos = new BABYLON.Vector3(1, 0.5, 1);
+   
+    // 根据转换矩阵计算映射坐标
+    // box.position = BABYLON.Vector3.TransformCoordinates(local_pos, matrix);
+    
+    // var result=new  BABYLON.Vector3(0,0,0);
+    // BABYLON.Vector3.TransformCoordinatesToRef(local_pos, matrix,result);
+    // box.position = result;
+
+
+    
+    //scene.registerAfterRender    对每一帧进行渲染 实现动态变化
+    //scene.registerAfterRender
+        
+    //var boxes=[box1,box2,box3]
+    
+    up = function updateStats(memuse) {
+        
+      var i;
+      
+      for (i in memuse.tracks) {
+          
+        if (memuse.tracks[i].x >= -2 && memuse.tracks[i].x <= 2 && memuse.tracks[i].y >= -2 && memuse.tracks[i]
+          .y <= 2) {
+          
+            var z = memuse.tracks[i]["x"];
+            var x = memuse.tracks[i]["y"];
+            var h = memuse.tracks[i]["height"];
+            var color = memuse.tracks[i]["confidence"];
+            var id = memuse.tracks[i]["id"];
+            
+            //console.log(id);
+            
+            var local_pos = new BABYLON.Vector3(x, 0.5, -z);  
+            
+
+            
+            box1.position = BABYLON.Vector3.TransformCoordinates(local_pos, matrix);
+          }
+        }        
+    }
+
+
+
+
+
+
+
+
+
+        //box.rotate(BABYLON.Axis.Y, Math.PI / 150, BABYLON.Space.LOCAL);
+        //box.rotate(BABYLON.Axis.X, Math.PI / 200, BABYLON.Space.LOCAL);
+       
+        //box.translate(new BABYLON.Vector3(-1, -1, -1).normalize(), 0.001, BABYLON.Space.WORLD)
+        
+        //small.rotationQuaternion = box.rotationQuaternion;
+        //matrix = box.getWorldMatrix();
+        // y += 0.001;
+        // local_pos = new BABYLON.Vector3(1, 0, 1);
+
+
+
+       // box.position = BABYLON.Vector3.TransformCoordinates(local_pos, matrix);
+
+
+   
+   
+   /****************************************************************/
+
+    // show axis
+    var showAxis = function (size) {
+        var makeTextPlane = function (text, color, size) {
+            var dynamicTexture = new BABYLON.DynamicTexture("DynamicTexture", 50, scene, true);
+            dynamicTexture.hasAlpha = true;
+            dynamicTexture.drawText(text, 5, 40, "bold 36px Arial", color, "transparent", true);
+            var plane = new BABYLON.Mesh.CreatePlane("TextPlane", size, scene, true);
+            plane.material = new BABYLON.StandardMaterial("TextPlaneMaterial", scene);
+            plane.material.backFaceCulling = false;
+            plane.material.specularColor = new BABYLON.Color3(0, 0, 0);
+            plane.material.diffuseTexture = dynamicTexture;
+            return plane;
+        };
+
+        var axisX = BABYLON.Mesh.CreateLines("axisX", [
+            new BABYLON.Vector3.Zero(), new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, 0.05 * size, 0),
+            new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, -0.05 * size, 0)
+        ], scene);
+        axisX.color = new BABYLON.Color3(1, 0, 0);
+        var xChar = makeTextPlane("X", "red", size / 10);
+        xChar.position = new BABYLON.Vector3(0.9 * size, -0.05 * size, 0);
+        var axisY = BABYLON.Mesh.CreateLines("axisY", [
+            new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, size, 0), new BABYLON.Vector3(-0.05 * size, size * 0.95, 0),
+            new BABYLON.Vector3(0, size, 0), new BABYLON.Vector3(0.05 * size, size * 0.95, 0)
+        ], scene);
+        axisY.color = new BABYLON.Color3(0, 1, 0);
+        var yChar = makeTextPlane("Y", "green", size / 10);
+        yChar.position = new BABYLON.Vector3(0, 0.9 * size, -0.05 * size);
+        var axisZ = BABYLON.Mesh.CreateLines("axisZ", [
+            new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, 0, size), new BABYLON.Vector3(0, -0.05 * size, size * 0.95),
+            new BABYLON.Vector3(0, 0, size), new BABYLON.Vector3(0, 0.05 * size, size * 0.95)
+        ], scene);
+        axisZ.color = new BABYLON.Color3(0, 0, 1);
+        var zChar = makeTextPlane("Z", "blue", size / 10);
+        zChar.position = new BABYLON.Vector3(0, 0.05 * size, 0.9 * size);
+    };
+
+    //Local Axes
+    function localAxes(size) {
+        var pilot_local_axisX = BABYLON.Mesh.CreateLines("pilot_local_axisX", [
+            new BABYLON.Vector3.Zero(), new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, 0.05 * size, 0),
+            new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, -0.05 * size, 0)
+        ], scene);
+        pilot_local_axisX.color = new BABYLON.Color3(1, 0, 0);
+
+        pilot_local_axisY = BABYLON.Mesh.CreateLines("pilot_local_axisY", [
+            new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, size, 0), new BABYLON.Vector3(-0.05 * size, size * 0.95, 0),
+            new BABYLON.Vector3(0, size, 0), new BABYLON.Vector3(0.05 * size, size * 0.95, 0)
+        ], scene);
+        pilot_local_axisY.color = new BABYLON.Color3(0, 1, 0);
+
+        var pilot_local_axisZ = BABYLON.Mesh.CreateLines("pilot_local_axisZ", [
+            new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, 0, size), new BABYLON.Vector3(0, -0.05 * size, size * 0.95),
+            new BABYLON.Vector3(0, 0, size), new BABYLON.Vector3(0, 0.05 * size, size * 0.95)
+        ], scene);
+        pilot_local_axisZ.color = new BABYLON.Color3(0, 0, 1);
+
+        var local_origin = BABYLON.MeshBuilder.CreateBox("local_origin", { size: 1 }, scene);
+        local_origin.isVisible = false;
+
+        pilot_local_axisX.parent = local_origin;
+        pilot_local_axisY.parent = local_origin;
+        pilot_local_axisZ.parent = local_origin;
+
+        return local_origin;
+
+    }
+
+    showAxis(4);
+
+    return scene;
+};
+
+        var scene=createScene();//调用函数
+        
+        //注册一个重复渲染场景
+        engine.runRenderLoop(function(){
+            scene.render();
+        })
+          // 监测浏览器/画布大小改变事件
+        window.addEventListener("resize",function()
+        {
+            engine.resize();
+        })
+
+
+    </script>
+
+<script>
+    
+    //websocket 传输数据
+    var ws = new WebSocket('ws://' + '192.168.1.5' + ':3030');
+    ws.onopen = function () {
+      //alert("open WebSocket on server");
+    };
+
+    ws.onmessage = function (evt) {
+    //   if (tf_a == 0) {
+    //     getWidth(JSON.parse(evt.data));
+    //   }
+
+    up(JSON.parse(evt.data));
+
+    
+    };
+
+    ws.onclose = function () {
+      // websocket is closed.
+      //alert("Connection is closed...");
+    };
+
+
+
+
+
+
+</script>
+
+</body>
+</html>
