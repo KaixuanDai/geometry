@@ -30,19 +30,13 @@
     <canvas id="renderCanvas"></canvas>
 
     <script>
-        function shapeObject()
-        {
-
-
-
-
-        }
+       
 
         var canvas=document.getElementById("renderCanvas");
         var engine =new BABYLON.Engine(canvas,true);
         var up;
         var createScene = function () {
-         var scene = new BABYLON.Scene(engine);
+        var scene = new BABYLON.Scene(engine);
     scene.clearColor = new BABYLON.Color3(0.5, 0.5, 0.5);
 
     // camera
@@ -92,7 +86,7 @@
     //长宽的尺度
     var scaleW=12/realWidth;
     var scaleH=12/realHeihgt;
-
+    var box;
 
 
 
@@ -106,32 +100,65 @@
     
     );
 
+    function createShape(id,pos)
+            {
+                var i=id.toString();
+                
+                box = BABYLON.MeshBuilder.CreateBox(i, scene);
+                
+                box.position = BABYLON.Vector3.TransformCoordinates(pos, matrix);
+
+
+
+            }
+            
+            createShape(1,new BABYLON.Vector3(1, 0.5, 1));
+           
+            // createShape(2,new BABYLON.Vector3(2, 0.5, 1));
+            // createShape(1,new BABYLON.Vector3(-3, 0.5, 1));
+            
+            // for (var i = 1; i < scene.meshes.length; i++) {
+            //     scene.meshes[i].dispose();
+            //     i--;
+            // } 
+
+            // times=3;
+            // for(var t=0;t<=times;t++)
+            // {
+            //     scene.removeMesh(box);
+            // }
+
+
+
+
 
 
 
 
     // var local_pos = new BABYLON.Vector3(1, 0.5, 1);
-   
     // 根据转换矩阵计算映射坐标
-    // box.position = BABYLON.Vector3.TransformCoordinates(local_pos, matrix);
-    
+    // box.position = BABYLON.Vector3.TransformCoordinates(local_pos, matrix)
     // var result=new  BABYLON.Vector3(0,0,0);
     // BABYLON.Vector3.TransformCoordinatesToRef(local_pos, matrix,result);
-    // box.position = result;
-
-
-    
+    // box.position = result; 
     //scene.registerAfterRender    对每一帧进行渲染 实现动态变化
-    //scene.registerAfterRender
-        
+    //scene.registerAfterRender 
     //var boxes=[box1,box2,box3]
     
+    var times=0;
+
     up = function updateStats(memuse) {
         
       var i;
+
       
+      for(var t=0;t<=times;t++)
+      {
+        scene.removeMesh(box);
+      }
+
       for (i in memuse.tracks) {
-          
+
         if (memuse.tracks[i].x >= -2 && memuse.tracks[i].x <= 2 && memuse.tracks[i].y >= -2 && memuse.tracks[i]
           .y <= 2) {
           
@@ -146,10 +173,13 @@
             var local_pos = new BABYLON.Vector3(x, 0.5, -z);  
             
 
-            
-            box1.position = BABYLON.Vector3.TransformCoordinates(local_pos, matrix);
+            createShape(id,local_pos)
+            //box1.position = BABYLON.Vector3.TransformCoordinates(local_pos, matrix);
+
           }
-        }        
+        }  
+        
+        times=i;      
     }
 
 
@@ -248,11 +278,10 @@
     }
 
     showAxis(4);
-
     return scene;
 };
 
-        var scene=createScene();//调用函数
+        scene=createScene();//调用函数
         
         //注册一个重复渲染场景
         engine.runRenderLoop(function(){
@@ -272,7 +301,7 @@
     //websocket 传输数据
     var ws = new WebSocket('ws://' + '192.168.1.5' + ':3030');
     ws.onopen = function () {
-      //alert("open WebSocket on server");
+      alert("open WebSocket on server");
     };
 
     ws.onmessage = function (evt) {
@@ -287,7 +316,7 @@
 
     ws.onclose = function () {
       // websocket is closed.
-      //alert("Connection is closed...");
+      alert("Connection is closed...");
     };
 
 
