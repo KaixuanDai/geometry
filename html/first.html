@@ -142,8 +142,14 @@
     }
    
             
-            // createShape(12,new BABYLON.Vector3(1, 0.5, 1));
-            // console.log(box.id.toString());
+            createShape(12,new BABYLON.Vector3(1, 0.5, 1));
+            box1 = BABYLON.MeshBuilder.CreateSphere(5, scene);
+           
+            box1.state="box";//用户自定义属性
+
+            console.log(box);
+            console.log(box1);
+
             // createShape(2,new BABYLON.Vector3(2, 0.5, 1));
             // createShape(1,new BABYLON.Vector3(-3, 0.5, 1));
             
@@ -152,11 +158,16 @@
             //     i--;
             // } 
 
-            // times=3;
-            // for(var t=0;t<=times;t++)
-            // {
-            //     scene.removeMesh(box);
-            // }
+    //判断函数，既要判断位置，还要判断形状
+    function judge()
+    {
+
+    //geometry
+
+
+
+
+    }
 
 
 
@@ -165,16 +176,9 @@
 
 
 
-    // var local_pos = new BABYLON.Vector3(1, 0.5, 1);
-    // 根据转换矩阵计算映射坐标
-    // box.position = BABYLON.Vector3.TransformCoordinates(local_pos, matrix)
-    // var result=new  BABYLON.Vector3(0,0,0);
-    // BABYLON.Vector3.TransformCoordinatesToRef(local_pos, matrix,result);
-    // box.position = result; 
-    //scene.registerAfterRender    对每一帧进行渲染 实现动态变化
-    //scene.registerAfterRender 
-    //var boxes=[box1,box2,box3]
     
+    
+
     var shapes=[];//存储当前的场景中的mesh的id
 
 
@@ -193,7 +197,6 @@
             var color = memuse.tracks[i]["confidence"];
             var id = memuse.tracks[i]["id"];
             
-            //console.log(id);
             var local_pos = new BABYLON.Vector3(x, 0.5, -z);
 
             
