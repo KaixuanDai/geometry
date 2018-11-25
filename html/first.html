@@ -100,7 +100,7 @@
     
     );
 
-    function createShape(id,pos)
+    function createShape(id,pos)//创建新的mesh
             {
                 var i=id.toString();
                 
@@ -108,12 +108,42 @@
                 
                 box.position = BABYLON.Vector3.TransformCoordinates(pos, matrix);
 
-
-
             }
+    function changePos(id,pos)//更新已有mesh的位置
+            {
+                var m = scene.getMeshByID(id.toString());
+                
+                m.position = BABYLON.Vector3.TransformCoordinates(pos, matrix);
+
+                //m.setAbsolutePosition(pos);
+            }
+
+    function disposePos(ids)//删除不再更新的mesh
+    {
+        var i=0;
+        
+        for(i;i<ids.length;i++)
+        {
+            var m = scene.getMeshByID(id[i].toString());
             
-            createShape(1,new BABYLON.Vector3(1, 0.5, 1));
-           
+            scene.meshes[m.id].dispose();
+        }
+    }
+
+
+
+    function getArrDifference(arr1, arr2) {
+ 
+        return arr1.concat(arr2).filter(function(v, i, arr) {
+    
+            return arr.indexOf(v) === arr.lastIndexOf(v);
+    
+        });
+    }
+   
+            
+            // createShape(12,new BABYLON.Vector3(1, 0.5, 1));
+            // console.log(box.id.toString());
             // createShape(2,new BABYLON.Vector3(2, 0.5, 1));
             // createShape(1,new BABYLON.Vector3(-3, 0.5, 1));
             
@@ -145,17 +175,12 @@
     //scene.registerAfterRender 
     //var boxes=[box1,box2,box3]
     
-    var times=0;
+    var shapes=[];//存储当前的场景中的mesh的id
+
 
     up = function updateStats(memuse) {
         
       var i;
-
-      
-      for(var t=0;t<=times;t++)
-      {
-        scene.removeMesh(box);
-      }
 
       for (i in memuse.tracks) {
 
@@ -169,17 +194,28 @@
             var id = memuse.tracks[i]["id"];
             
             //console.log(id);
-            
-            var local_pos = new BABYLON.Vector3(x, 0.5, -z);  
-            
+            var local_pos = new BABYLON.Vector3(x, 0.5, -z);
 
-            createShape(id,local_pos)
-            //box1.position = BABYLON.Vector3.TransformCoordinates(local_pos, matrix);
+            
+            if(shapes.indexOf(id)==-1)//id在场景数组中不存在,添加新的对象
+            {
 
+                createShape(id,local_pos);  
+                
+                shapes.push(id);
+            }
+            else//该id在现有场景数组中存在，更新其位置
+            {
+                changePos(id,local_pos);
+            }
           }
         }  
         
-        times=i;      
+        //场景数组中存在，但传入数据不存在，停止对其位置更新
+       var diff = getArrDifference(shapes, memuse.tracks);
+       disposePos(diff);
+
+
     }
 
 
