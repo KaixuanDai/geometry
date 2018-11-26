@@ -37,7 +37,7 @@
         var up;
         var createScene = function () {
         var scene = new BABYLON.Scene(engine);
-    scene.clearColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+        scene.clearColor = new BABYLON.Color3(0.5, 0.5, 0.5);
 
     // camera
     var camera = new BABYLON.ArcRotateCamera("camera1", 0, 0, 0, new BABYLON.Vector3(0, 0, 0), scene);
@@ -60,8 +60,8 @@
     faceColors[4] = BABYLON.Color3.Yellow();
     faceColors[5] = BABYLON.Color3.Black();
 
-    var box1 = BABYLON.MeshBuilder.CreateBox("Box1", { faceColors: faceColors }, scene);
-    box1.position.y=0.5;//上移一半高度
+    //var box1 = BABYLON.MeshBuilder.CreateBox("Box1", { faceColors: faceColors }, scene);
+    //box1.position.y=0.5;//上移一半高度
     
     // var box2 = BABYLON.MeshBuilder.CreateBox("Box2", { faceColors: faceColors }, scene);
     // var box3 = BABYLON.MeshBuilder.CreateBox("Box3", { faceColors: faceColors }, scene);
@@ -71,8 +71,8 @@
 
     //var small = BABYLON.MeshBuilder.CreateBox("Small", { width: 0.25, depth: 0.25, height: 0.75, faceColors: faceColors }, scene);
 
-    var localOrigin = localAxes(2);
-    localOrigin.parent = box1;
+    // var localOrigin = localAxes(2);
+    // localOrigin.parent = box1;
 
 
     //var matrix;
@@ -81,11 +81,13 @@
 
     //matrix = box.getWorldMatrix();
 
-    var realWidth=4;
-    var realHeihgt=4;
+    var realWidth=4.1;
+    var realHeihgt=4.1;
     //长宽的尺度
+    
     var scaleW=12/realWidth;
     var scaleH=12/realHeihgt;
+    
     var box;
 
 
@@ -107,27 +109,50 @@
                 box = BABYLON.MeshBuilder.CreateBox(i, scene);
                 
                 box.position = BABYLON.Vector3.TransformCoordinates(pos, matrix);
-
+                console.log(1);
             }
+    
     function changePos(id,pos)//更新已有mesh的位置
             {
                 var m = scene.getMeshByID(id.toString());
                 
-                m.position = BABYLON.Vector3.TransformCoordinates(pos, matrix);
+                //m.setAbsolutePosition(BABYLON.Vector3.TransformCoordinates(pos, matrix));
+                
+                m.setPositionWithLocalVector(BABYLON.Vector3.TransformCoordinates(pos, matrix));
+                
+                //m.updateMeshPositions(BABYLON.Vector3.TransformCoordinates(pos, matrix));
+                scene.render();
+
+                console.log(2);
 
                 //m.setAbsolutePosition(pos);
             }
 
     function disposePos(ids)//删除不再更新的mesh
     {
-        var i=0;
         
-        for(i;i<ids.length;i++)
+        for(var i=0;i<ids.length;i++)
         {
-            var m = scene.getMeshByID(id[i].toString());
+           var m = scene.getMeshByID(ids[i].toString());
+           
+           // var m = scene.getMeshByName(ids[i].toString());
+           //m.dispose();
+           // scene.meshes[m].dispose();
             
-            scene.meshes[m.id].dispose();
+            console.log(3);
+            m.isVisible=false;
+            
+            //m.isDisposed=false;
+            //shapes.pop(ids[i]);
+            
+            var index = shapes.indexOf(ids[i]);
+            if (index > -1) {
+                    shapes.splice(index, 1);
+                }
+            
+            //scene.meshes[m].dispose();
         }
+        
     }
 
 
@@ -142,13 +167,13 @@
     }
    
             
-            createShape(12,new BABYLON.Vector3(1, 0.5, 1));
-            box1 = BABYLON.MeshBuilder.CreateSphere(5, scene);
+            // createShape(12,new BABYLON.Vector3(1, 0.5, 1));
+            // box1 = BABYLON.MeshBuilder.CreateSphere(5, scene);
            
-            box1.state="box";//用户自定义属性
+            // box1.state="box";//用户自定义属性
 
-            console.log(box);
-            console.log(box1);
+            // console.log(box);
+            // console.log(box1.state);
 
             // createShape(2,new BABYLON.Vector3(2, 0.5, 1));
             // createShape(1,new BABYLON.Vector3(-3, 0.5, 1));
@@ -180,13 +205,15 @@
     
 
     var shapes=[];//存储当前的场景中的mesh的id
-
+    var s=[];
 
     up = function updateStats(memuse) {
         
       var i;
+      
 
       for (i in memuse.tracks) {
+        
 
         if (memuse.tracks[i].x >= -2 && memuse.tracks[i].x <= 2 && memuse.tracks[i].y >= -2 && memuse.tracks[i]
           .y <= 2) {
@@ -197,6 +224,8 @@
             var color = memuse.tracks[i]["confidence"];
             var id = memuse.tracks[i]["id"];
             
+            s.push(id);
+
             var local_pos = new BABYLON.Vector3(x, 0.5, -z);
 
             
@@ -207,18 +236,23 @@
                 
                 shapes.push(id);
             }
-            else//该id在现有场景数组中存在，更新其位置
+            else if(shapes.indexOf(id)!=-1)//该id在现有场景数组中存在，更新其位置
             {
                 changePos(id,local_pos);
             }
           }
         }  
         
+
         //场景数组中存在，但传入数据不存在，停止对其位置更新
-       var diff = getArrDifference(shapes, memuse.tracks);
+       var diff = getArrDifference(shapes,s);
+       
        disposePos(diff);
+       //console.log(s);
 
-
+       s=[];
+        
+        //console.log(s);
     }
 
 
@@ -340,7 +374,7 @@
     //websocket 传输数据
     var ws = new WebSocket('ws://' + '192.168.1.5' + ':3030');
     ws.onopen = function () {
-      alert("open WebSocket on server");
+      //alert("open WebSocket on server");
     };
 
     ws.onmessage = function (evt) {
@@ -355,7 +389,7 @@
 
     ws.onclose = function () {
       // websocket is closed.
-      alert("Connection is closed...");
+      //alert("Connection is closed...");
     };
 
 
