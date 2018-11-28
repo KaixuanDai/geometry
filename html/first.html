@@ -20,8 +20,7 @@
             touch-action: none;
         }
     </style>
-        <script src="/node_modules/_earcut@2.1.3@earcut/dist/earcut.min.js"></script>
-
+    <script src="/node_modules/_earcut@2.1.3@earcut/dist/earcut.min.js"></script>
     <script src="/node_modules/babylonjs/babylon.js"></script>
     <script src="/node_modules/babylonjs/Oimo.js"></script>
 </head>
@@ -44,45 +43,88 @@
     // camera
     var camera = new BABYLON.ArcRotateCamera("camera1", 0, 0, 0, new BABYLON.Vector3(0, 0, 0), scene);
     camera.setPosition(new BABYLON.Vector3(0, 5, -10));
-  // var camera=new BABYLON.FreeCamera("camera1",new BABYLON.Vector3(0,5,-10),scene);//创建和放置自由相机
+    // var camera=new BABYLON.FreeCamera("camera1",new BABYLON.Vector3(0,5,-10),scene);//创建和放置自由相机
 
     camera.attachControl(canvas, true);
     // lights
+    
     var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 0.5, 0), scene);
     light.intensity = 0.8;
 
     var ground = BABYLON.Mesh.CreateGround("ground1",12,12,2,scene);//创建地面 参数: 名称, 宽度, 深度, 细分度, 场景
 
+    var holes = [];
+    holes[0] = [ 
+                  new BABYLON.Vector3(0, 0, 0), 
+                  new BABYLON.Vector3(1.5, 0, 0), 
+                  new BABYLON.Vector3(1.5, 0, 1.5), 
+                  new BABYLON.Vector3(0, 0, 1.5), 
+                ];
+    
+    
+    var shapeBox = [ 
+                  new BABYLON.Vector3(0, 0, 0),
+                  new BABYLON.Vector3(1, 0, 0), 
+                  new BABYLON.Vector3(1, 0, 1), 
+                  new BABYLON.Vector3(0, 0, 1), 
+
+            ];
+    var shapeTri = [ 
+                  new BABYLON.Vector3(0, 0, 0),
+                  new BABYLON.Vector3(1, 0, 0), 
+                  new BABYLON.Vector3(0.5, 0, 1), 
+
+            ];
+
+
+    var shapeTrueBox = [ 
+                  new BABYLON.Vector3(0, 0, 0),
+                  new BABYLON.Vector3(1.5, 0, 0), 
+                  new BABYLON.Vector3(1.5, 0, 1.5), 
+                  new BABYLON.Vector3(0, 0, 1.5), 
+
+            ];
+    var shapeTrueTri = [ 
+                  new BABYLON.Vector3(0, 0, 0),
+                  new BABYLON.Vector3(2, 0, 0), 
+                  new BABYLON.Vector3(1, 0, 2), 
+
+            ];
+                
+    var faceColors = [];
+        faceColors[0] = BABYLON.Color3.Red();
+        faceColors[1] = BABYLON.Color3.Red();
+        faceColors[2] = BABYLON.Color3.Red();
+        faceColors[3] = BABYLON.Color3.Red();
+        faceColors[4] = BABYLON.Color3.Red();
+        faceColors[5] = BABYLON.Color3.Red();
+   
+        var trueFaceColors = [];
+        trueFaceColors[0] = BABYLON.Color3.Green();
+        trueFaceColors[1] = BABYLON.Color3.Green();
+        trueFaceColors[2] = BABYLON.Color3.Green();
+        trueFaceColors[3] = BABYLON.Color3.Green();
+        trueFaceColors[4] = BABYLON.Color3.Green();
+        trueFaceColors[5] = BABYLON.Color3.Green();
+
+
+    //Box的判定区域        
+    var trueBox = BABYLON.MeshBuilder.ExtrudePolygon("trueBox",{shape:shapeTrueBox, depth: 0.01, faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:trueFaceColors }, scene);
+    
+    trueBox.setAbsolutePosition(-4,0.2,0);
+
+    //Tri的判定区域
+    var trueTri = BABYLON.MeshBuilder.ExtrudePolygon("trueTri", {shape:shapeTrueTri, depth: 0.01,faceColors:trueFaceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+   
+    trueTri.setAbsolutePosition(-1,0.2,0);
+
+    //Cir的判定区域
+    var trueCir = BABYLON.MeshBuilder.CreateCylinder("trueCir", {height:0.01,diameter: 1.5, tessellation: 99, faceColors:trueFaceColors}, scene);
+
+    trueCir.setAbsolutePosition(3,0.2,-2);
+
 
     
-  var faceColors = [];
-    faceColors[0] = BABYLON.Color3.Red();
-    faceColors[1] = BABYLON.Color3.Red();
-    faceColors[2] = BABYLON.Color3.Red();
-    faceColors[3] = BABYLON.Color3.Red();
-    faceColors[4] = BABYLON.Color3.Red();
-    faceColors[5] = BABYLON.Color3.Red();
-
-    //var box1 = BABYLON.MeshBuilder.CreateBox("Box1", { faceColors: faceColors }, scene);
-    //box1.position.y=0.5;//上移一半高度
-    
-    // var box2 = BABYLON.MeshBuilder.CreateBox("Box2", { faceColors: faceColors }, scene);
-    // var box3 = BABYLON.MeshBuilder.CreateBox("Box3", { faceColors: faceColors }, scene);
-    // box2.position.y=0.5;
-    // box3.position.y=0.5;
-
-
-    //var small = BABYLON.MeshBuilder.CreateBox("Small", { width: 0.25, depth: 0.25, height: 0.75, faceColors: faceColors }, scene);
-
-    // var localOrigin = localAxes(2);
-    // localOrigin.parent = box1;
-
-
-    //var matrix;
-    //var local_pos;
-    //var y = 0;
-
-    //matrix = box.getWorldMatrix();
 
     var realWidth=4.1;
     var realHeihgt=4.1;
@@ -105,20 +147,9 @@
     
     );
 
-    var shapeBox = [ 
-                  new BABYLON.Vector3(0, 0, 0),
-                  new BABYLON.Vector3(1, 0, 0), 
-                  new BABYLON.Vector3(1, 0, 1), 
-                  new BABYLON.Vector3(0, 0, 1), 
+ 
 
-            ];
-
-    var shapeTri = [ 
-                  new BABYLON.Vector3(0, 0, 0),
-                  new BABYLON.Vector3(1, 0, 0), 
-                  new BABYLON.Vector3(0.5, 0, 1), 
-
-            ];
+    
 
     var time=0;
     
@@ -146,21 +177,15 @@
                 else if(time==2)
                 {
                     var cir = BABYLON.MeshBuilder.CreateCylinder(i, {height:0.1,diameterTop: 1, tessellation: 99, faceColors:faceColors}, scene);
-                    
-                    // var cylinder = BABYLON.Mesh.CreateCylinder(i, 0.1, 3, 3, 100, 1,scene, false);
-                    
+                                        
                     cir.state="cir";
                     time=0
                 }
                 else{
-                    console.log("error in creating");
+                    alert("error in creating");
                 }
                 
-
-
-                // var disc = BABYLON.MeshBuilder.CreateDisc(i, {radius: 1,depth: 1, faceColors:faceColors,sideOrientation: BABYLON.Mesh.BACKSIDE}, scene);
-
-                console.log(1);
+                console.log("Create");
             }
     
     function changePos(id,pos)//更新已有mesh的位置
@@ -169,14 +194,8 @@
                 
                 m.setAbsolutePosition(BABYLON.Vector3.TransformCoordinates(pos, matrix));
                 
-                //m.setPositionWithLocalVector(BABYLON.Vector3.TransformCoordinates(pos, matrix));
-                
-                //m.updateMeshPositions(BABYLON.Vector3.TransformCoordinates(pos, matrix));
-                //scene.render();
+                console.log("Change");
 
-                console.log(2);
-
-                //m.setAbsolutePosition(pos);
             }
 
     function disposePos(ids)//删除不再更新的mesh
@@ -186,22 +205,17 @@
         {
            var m = scene.getMeshByID(ids[i].toString());
            
-           // var m = scene.getMeshByName(ids[i].toString());
-           //m.dispose();
-           // scene.meshes[m].dispose();
+           
             
-            console.log(3);
+            console.log("Dispose");
+
             m.isVisible=false;
-            
-            //m.isDisposed=false;
-            //shapes.pop(ids[i]);
-            
+ 
             var index = shapes.indexOf(ids[i]);
             if (index > -1) {
                     shapes.splice(index, 1);
                 }
             
-            //scene.meshes[m].dispose();
         }
         
     }
@@ -226,27 +240,69 @@
     }
    
             
-            // createShape(12,new BABYLON.Vector3(1, 0.5, 1));
-            // box1 = BABYLON.MeshBuilder.CreateSphere(5, scene);
-           
-            // box1.state="box";//用户自定义属性
-
-            // console.log(box);
-            // console.log(box1.state);
-
-            // createShape(2,new BABYLON.Vector3(2, 0.5, 1));
-            // createShape(1,new BABYLON.Vector3(-3, 0.5, 1));
             
-            // for (var i = 1; i < scene.meshes.length; i++) {
-            //     scene.meshes[i].dispose();
-            //     i--;
-            // } 
+    function afterJudge(id)
+    {
+        
+
+
+    }
+
+
+
 
     //判断函数，既要判断位置，还要判断形状
-    function judge()
+    function judge(id)
     {
+        var m = scene.getMeshByID(id);
+        var pos = m.getAbsolutePosition();
+        var s=m.state;
+        var t=[];
 
-    //geometry
+
+
+        
+        if(s=="box")
+        {
+            if(Math.abs(m.position.x- (-4)) <= 0.7 && Math.abs(m.position.z- 0) <= 0.7)
+            {
+
+                console.log("boxxxx");
+
+                
+
+                
+            }
+
+
+        }
+        else if(s=="tri")
+        {
+            if(Math.abs(m.position.x- (-1)) <= 0.7 && Math.abs(m.position.z- 0) <= 0.7)
+            {
+
+                console.log("triiii");
+
+                
+
+            }
+        }
+        else if(s=="cir")
+        {
+            if(Math.abs(m.position.x- (3)) <= 0.7 && Math.abs(m.position.z- (-2)) <= 0.7)
+            {
+
+                console.log("cirrrr");
+
+               
+            }
+        }
+        else
+        {
+            alert("judge error")
+        }
+
+
 
 
 
@@ -258,9 +314,9 @@
     function getAllmeshid()//获取当前场景中所有mesh的id
     {
         
-        if(scene.meshes.length>6)
+        if(scene.meshes.length>9)
         {
-            for (var i = 7; i < scene.meshes.length; i++) {
+            for (var i = 10; i < scene.meshes.length; i++) {
                         
                         shapes.push(parseInt(scene.meshes[i].id));
                         
@@ -277,9 +333,9 @@
 
     var shapes=[];//存储当前的场景中的mesh的id
     
-    var s=[];
+    var s=[];//存储本次输入的id
 
-    var diff =[];
+    var diff =[];//比较二者的不同
 
     up = function updateStats(memuse) {
         
@@ -310,12 +366,14 @@
 
                 createShape(id,local_pos);    
                 
-                //shapes.push(id);
             }
 
             else//该id在现有场景数组中存在，更新其位置
             {
                 changePos(id.toString(),local_pos);
+                
+                judge(id.toString());
+                
             }
 
             shapes=[];
@@ -437,6 +495,8 @@
     }
 
     showAxis(4);
+    
+    
     return scene;
 };
 
@@ -446,6 +506,7 @@
         engine.runRenderLoop(function(){
             scene.render();
         })
+
           // 监测浏览器/画布大小改变事件
         window.addEventListener("resize",function()
         {
