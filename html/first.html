@@ -209,8 +209,9 @@
             
             console.log("Dispose");
 
-            m.isVisible=false;
- 
+            // m.isVisible=false;
+            m.dispose();
+
             var index = shapes.indexOf(ids[i]);
             if (index > -1) {
                     shapes.splice(index, 1);
@@ -243,7 +244,44 @@
             
     function afterJudge(id)
     {
+        var i= id;
+        var m = scene.getMeshByID(id);
+        var s=m.state;
         
+        //m.isVisible=false;
+       
+        m.dispose();
+
+        var t=setTimeout("console.log('5 seconds!')",4000)
+        
+        if(s=="box")
+        {
+            m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeTri,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+            
+            m.state="tri";
+
+        }
+        else if(s=="tri")
+        {
+             m=BABYLON.MeshBuilder.CreateCylinder(i, {height:0.1,diameterTop: 1, tessellation: 99, faceColors:faceColors}, scene);
+
+             m.state="cir";
+
+        }
+        else if(s=="cir")
+        {
+            m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeBox,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+
+            m.state="box";
+
+
+        }
+        else
+        {
+            alert("judge after error")
+        }
+
+
 
 
     }
