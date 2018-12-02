@@ -23,6 +23,8 @@
     <script src="/node_modules/_earcut@2.1.3@earcut/dist/earcut.min.js"></script>
     <script src="/node_modules/babylonjs/babylon.js"></script>
     <script src="/node_modules/babylonjs/Oimo.js"></script>
+    <script src="/node_modules/_babylonjs-gui@3.3.0@babylonjs-gui/babylon.gui.min.js"></script>
+
 </head>
 <body>
 
@@ -40,19 +42,28 @@
         var scene = new BABYLON.Scene(engine);
         scene.clearColor = new BABYLON.Color3(0.5, 0.5, 0.5);
 
-    // camera
-    var camera = new BABYLON.ArcRotateCamera("camera1", 0, 0, 0, new BABYLON.Vector3(0, 0, 0), scene);
-    camera.setPosition(new BABYLON.Vector3(0, 5, -10));
-    // var camera=new BABYLON.FreeCamera("camera1",new BABYLON.Vector3(0,5,-10),scene);//创建和放置自由相机
+        // camera
+        var camera = new BABYLON.ArcRotateCamera("camera1", 0, 0, 0, new BABYLON.Vector3(0, 0, 0), scene);
+        camera.setPosition(new BABYLON.Vector3(0, 5, -10));
+        // var camera=new BABYLON.FreeCamera("camera1",new BABYLON.Vector3(0,5,-10),scene);//创建和放置自由相机
 
-    camera.attachControl(canvas, true);
-    // lights
+        camera.attachControl(canvas, true);
+        // lights
+        
+        var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 0.5, 0), scene);
+        light.intensity = 1.0;
+
+        //创建地面
+        var ground = BABYLON.Mesh.CreateGround("ground1",30,25,2,scene);
+        var materialGround = new BABYLON.StandardMaterial("texture1", scene);
+        materialGround.material = materialGround;
+        materialGround.alpha = 1;
+        materialGround.diffuseColor = new BABYLON.Color3(1.0, 1.0, 1.0);
+        materialGround.diffuseTexture = new BABYLON.Texture("../pic/ground.jpg", scene);
+        ground.material = materialGround;
+
     
-    var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 0.5, 0), scene);
-    light.intensity = 0.8;
-
-    var ground = BABYLON.Mesh.CreateGround("ground1",12,12,2,scene);//创建地面 参数: 名称, 宽度, 深度, 细分度, 场景
-
+    
     var holes = [];
     holes[0] = [ 
                   new BABYLON.Vector3(0, 0, 0), 
@@ -79,15 +90,15 @@
 
     var shapeTrueBox = [ 
                   new BABYLON.Vector3(0, 0, 0),
-                  new BABYLON.Vector3(1.5, 0, 0), 
-                  new BABYLON.Vector3(1.5, 0, 1.5), 
-                  new BABYLON.Vector3(0, 0, 1.5), 
+                  new BABYLON.Vector3(5, 0, 0), 
+                  new BABYLON.Vector3(5, 0, 5), 
+                  new BABYLON.Vector3(0, 0, 5), 
 
             ];
     var shapeTrueTri = [ 
                   new BABYLON.Vector3(0, 0, 0),
-                  new BABYLON.Vector3(2, 0, 0), 
-                  new BABYLON.Vector3(1, 0, 2), 
+                  new BABYLON.Vector3(8, 0, 0), 
+                  new BABYLON.Vector3(4, 0, 7), 
 
             ];
                 
@@ -106,37 +117,110 @@
         trueFaceColors[3] = BABYLON.Color3.Green();
         trueFaceColors[4] = BABYLON.Color3.Green();
         trueFaceColors[5] = BABYLON.Color3.Green();
-
+        
+        var redColors = [];
+            redColors[0] = BABYLON.Color3.Red();
+            redColors[1] = BABYLON.Color3.Red();
+            redColors[2] = BABYLON.Color3.Red();
+            redColors[3] = BABYLON.Color3.Red();
+            redColors[4] = BABYLON.Color3.Red();
+            redColors[5] = BABYLON.Color3.Red();
+        var blueColors = [];
+            blueColors[0] = BABYLON.Color3.Blue();
+            blueColors[1] = BABYLON.Color3.Blue();
+            blueColors[2] = BABYLON.Color3.Blue();
+            blueColors[3] = BABYLON.Color3.Blue();
+            blueColors[4] = BABYLON.Color3.Blue();
+            blueColors[5] = BABYLON.Color3.Blue();  
+        var greenColors = [];
+            greenColors[0] = BABYLON.Color3.Green();
+            greenColors[1] = BABYLON.Color3.Green();
+            greenColors[2] = BABYLON.Color3.Green();
+            greenColors[3] = BABYLON.Color3.Green();
+            greenColors[4] = BABYLON.Color3.Green();
+            greenColors[5] = BABYLON.Color3.Green();
 
     //Box的判定区域        
-    var trueBox = BABYLON.MeshBuilder.ExtrudePolygon("trueBox",{shape:shapeTrueBox, depth: 0.01, faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:trueFaceColors }, scene);
+    var trueBox = BABYLON.MeshBuilder.ExtrudePolygon("trueBox",{shape:shapeTrueBox, depth: 0.01, faceColors:redColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:redColors }, scene);
     
-    trueBox.setAbsolutePosition(-4,0.2,0);
+    trueBox.setAbsolutePosition(-10,0.2,-8);
 
     //Tri的判定区域
-    var trueTri = BABYLON.MeshBuilder.ExtrudePolygon("trueTri", {shape:shapeTrueTri, depth: 0.01,faceColors:trueFaceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+    var trueTri = BABYLON.MeshBuilder.ExtrudePolygon("trueTri", {shape:shapeTrueTri, depth: 0.01,faceColors:blueColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
    
-    trueTri.setAbsolutePosition(-1,0.2,0);
+    trueTri.setAbsolutePosition(-4,0.2,-1);
 
     //Cir的判定区域
-    var trueCir = BABYLON.MeshBuilder.CreateCylinder("trueCir", {height:0.01,diameter: 1.5, tessellation: 99, faceColors:trueFaceColors}, scene);
+    var trueCir = BABYLON.MeshBuilder.CreateCylinder("trueCir", {height:0.01,diameter: 5.5, tessellation: 99, faceColors:greenColors}, scene);
 
-    trueCir.setAbsolutePosition(3,0.2,-2);
+    trueCir.setAbsolutePosition(8,0.2,-6);
+
+    //设置skybox
+    var skybox = BABYLON.Mesh.CreateBox("skyBox", 100.0, scene);
+    var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
+    skyboxMaterial.backFaceCulling = false;
+    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("3", scene);
+    skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+    skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+    skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+    skyboxMaterial.disableLighting = true;
+    skybox.material = skyboxMaterial;
+
+
+    var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("ui1");
+
+    var createLabel = function(mesh) {
+        
+        var label = new BABYLON.GUI.Rectangle("label for " + mesh.name);
+        
+        label.background = "white"
+        label.height = "30px";
+        label.alpha = 0.5;
+        label.width = "70px";
+        label.height = "30px";
+
+        label.cornerRadius = 20;
+        label.thickness = 1;
+        label.linkOffsetY = 30;
+        
+        advancedTexture.addControl(label); 
+    label.linkWithMesh(mesh);
+
+        var text1 = new BABYLON.GUI.TextBlock();
+        text1.text = mesh.id;
+        text1.color = "black";
+        label.addControl(text1);  
+    }  
+
+    createLabel(trueBox);
+    createLabel(trueTri);
+    createLabel(trueCir);
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     
-
+    //实际场地长宽
     var realWidth=4.1;
     var realHeihgt=4.1;
-    //长宽的尺度
-    
-    var scaleW=12/realWidth;
-    var scaleH=12/realHeihgt;
+    //长宽缩放的尺度
+    var scaleW=30/realWidth;
+    var scaleH=25/realHeihgt;
     
     var box;
 
 
-
+    //计算转换矩阵
     var matrix = BABYLON.Matrix.Compose(
       
         new BABYLON.Vector3(scaleW,1,scaleH),//需要变动的就是x z 轴的比例，要根据 交互区域 与平面的大小决定每个方向上的缩放比例
@@ -150,9 +234,8 @@
  
 
     
-
+    //创建新的mesh
     var time=0;
-    
     function createShape(id,pos)//创建新的mesh
             {
                 var i=id.toString();
@@ -188,7 +271,8 @@
                 console.log("Create");
             }
     
-    function changePos(id,pos)//更新已有mesh的位置
+    //更新已有mesh的位置
+    function changePos(id,pos)
             {
                 var m = scene.getMeshByID(id.toString());
                 
@@ -197,8 +281,9 @@
                 console.log("Change");
 
             }
-
-    function disposePos(ids)//删除不再更新的mesh
+    
+    //删除不再更新的mesh
+    function disposePos(ids)
     {
         
         for(var i=0;i<ids.length;i++)
@@ -222,7 +307,7 @@
     }
 
 
-
+    //比较两个数组的不同
     function getArrDifference(arr1, arr2) {
         
         if(arr1.length!=0&&arr2.length!=0)
@@ -306,7 +391,7 @@
         
         if(s=="box")
         {
-            if(Math.abs(m.position.x- (-4)) <= 0.5 && Math.abs(m.position.z- 0) <= 0.5)
+            if(Math.abs(m.position.x- (-10)) <= 0.5 && Math.abs(m.position.z- (-8)) <= 0.5)
             {
 
                 console.log("boxxxx");
@@ -320,7 +405,7 @@
         }
         else if(s=="tri")
         {
-            if(Math.abs(m.position.x- (-1)) <= 0.5 && Math.abs(m.position.z- 0) <= 0.5)
+            if(Math.abs(m.position.x- (-4)) <= 0.5 && Math.abs(m.position.z- (-1)) <= 0.5)
             {
 
                 console.log("triiii");
@@ -332,7 +417,7 @@
         }
         else if(s=="cir")
         {
-            if(Math.abs(m.position.x- (3)) <= 0.5 && Math.abs(m.position.z- (-2)) <= 0.5)
+            if(Math.abs(m.position.x- (8)) <= 0.5 && Math.abs(m.position.z- (-6)) <= 0.5)
             {
 
                 console.log("cirrrr");
@@ -346,16 +431,11 @@
             alert("judge error")
         }
 
-
-
-
-
-
     }
 
 
-
-    function getAllmeshid()//获取当前场景中所有mesh的id
+    //获取当前场景中所有mesh的id
+    function getAllmeshid()
     {
         
         if(scene.meshes.length>9)
