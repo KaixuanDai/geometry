@@ -252,8 +252,13 @@
        
         m.dispose();
 
-        var t=setTimeout("console.log('5 seconds!')",4000)
+        var t = Date.now();
         
+        function sleep(d){
+            while(Date.now - t <= d);
+        } 
+        sleep(1000);
+         
         if(s=="box")
         {
             m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeTri,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
@@ -273,7 +278,6 @@
             m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeBox,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
 
             m.state="box";
-
 
         }
         else
@@ -302,11 +306,11 @@
         
         if(s=="box")
         {
-            if(Math.abs(m.position.x- (-4)) <= 0.7 && Math.abs(m.position.z- 0) <= 0.7)
+            if(Math.abs(m.position.x- (-4)) <= 0.5 && Math.abs(m.position.z- 0) <= 0.5)
             {
 
                 console.log("boxxxx");
-
+                afterJudge(id);
                 
 
                 
@@ -316,10 +320,11 @@
         }
         else if(s=="tri")
         {
-            if(Math.abs(m.position.x- (-1)) <= 0.7 && Math.abs(m.position.z- 0) <= 0.7)
+            if(Math.abs(m.position.x- (-1)) <= 0.5 && Math.abs(m.position.z- 0) <= 0.5)
             {
 
                 console.log("triiii");
+                afterJudge(id);
 
                 
 
@@ -327,10 +332,11 @@
         }
         else if(s=="cir")
         {
-            if(Math.abs(m.position.x- (3)) <= 0.7 && Math.abs(m.position.z- (-2)) <= 0.7)
+            if(Math.abs(m.position.x- (3)) <= 0.5 && Math.abs(m.position.z- (-2)) <= 0.5)
             {
 
                 console.log("cirrrr");
+                afterJudge(id);
 
                
             }
