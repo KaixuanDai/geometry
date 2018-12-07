@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>基础场景</title>
+    <title>Level-1</title>
 
     <style>
         html,body{
@@ -115,7 +115,7 @@
         faceColors[4] = BABYLON.Color3.Red();
         faceColors[5] = BABYLON.Color3.Red();
    
-        var trueFaceColors = [];
+    var trueFaceColors = [];
         trueFaceColors[0] = BABYLON.Color3.Green();
         trueFaceColors[1] = BABYLON.Color3.Green();
         trueFaceColors[2] = BABYLON.Color3.Green();
@@ -123,21 +123,21 @@
         trueFaceColors[4] = BABYLON.Color3.Green();
         trueFaceColors[5] = BABYLON.Color3.Green();
         
-        var redColors = [];
+    var redColors = [];
             redColors[0] = BABYLON.Color3.Red();
             redColors[1] = BABYLON.Color3.Red();
             redColors[2] = BABYLON.Color3.Red();
             redColors[3] = BABYLON.Color3.Red();
             redColors[4] = BABYLON.Color3.Red();
             redColors[5] = BABYLON.Color3.Red();
-        var blueColors = [];
+    var blueColors = [];
             blueColors[0] = BABYLON.Color3.Blue();
             blueColors[1] = BABYLON.Color3.Blue();
             blueColors[2] = BABYLON.Color3.Blue();
             blueColors[3] = BABYLON.Color3.Blue();
             blueColors[4] = BABYLON.Color3.Blue();
             blueColors[5] = BABYLON.Color3.Blue();  
-        var greenColors = [];
+    var greenColors = [];
             greenColors[0] = BABYLON.Color3.Green();
             greenColors[1] = BABYLON.Color3.Green();
             greenColors[2] = BABYLON.Color3.Green();
@@ -160,58 +160,61 @@
 
     trueCir.setAbsolutePosition(8,0.2,-6);
 
-    var disc = BABYLON.MeshBuilder.CreateDisc("1", {radius: 1,depth: 1, faceColors:faceColors,sideOrientation: BABYLON.Mesh.BACKSIDE}, scene);
+    
+    
 
-    disc.position.z=35;
 
-    var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("ui1");
+ 
 
-   
-        var label = new BABYLON.GUI.Rectangle("label for " + disc.id);
+        var lablePlane = BABYLON.Mesh.CreatePlane("lablePlane", 5.0, scene, false, BABYLON.Mesh.DEFAULTSIDE);//创建一个平面
+        lablePlane.setAbsolutePosition(50,0,50);
+        lablePlane.isVisible=false;
+
+        var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("ui1");
         
-        label.background = "green"
-        label.alpha = 0.5;
-        label.width = "700px";
-        label.height = "200px";
+        var label = new BABYLON.GUI.Rectangle("label for " + lablePlane.id);
 
-        label.cornerRadius = 20;
+        label.background = "white"
+        label.alpha = 0.7;
+        label.width = "200px";
+        label.height = "150px";
+        label.autoscale=true;
+        label.cornerRadius = 10;
         label.thickness = 1;
-        label.linkOffsetY = 30;
-        
+        label.linkOffsetY = 0;
+        label.left="50px";
         advancedTexture.addControl(label); 
-        label.linkWithMesh(disc);
+        label.linkWithMesh(lablePlane);
+
 
         var text1 = new BABYLON.GUI.TextBlock();
-        text1.text = "你好！！！！";
+        text1.text = "根据视频提示移动到相应位置";
         text1.color = "red";
+        text1.fontSize="15px";
+        text1.left="0px";
+        text1.top="-10px";
+
         label.addControl(text1);  
-    
-        // var image1 = new BABYLON.GUI.Image("test","../pic/cir.jpg");
-        // image1.autoscale=false;
-        // image1.height = "200px";
-        // image1.width = "200px";
-        //advancedTexture.addControl(image1); 
-        //image1.linkWithMesh(disc);
-        
-    // var box = BABYLON.MeshBuilder.CreateBox("Box", scene);
-
-    var mat = new BABYLON.StandardMaterial("mat", scene);
-	
-	// var videoTexture = new BABYLON.VideoTexture("video", ["textures/babylonjs.mp4", "textures/babylonjs.webm"], scene, true, true);
-    
-    var videoTexture = new BABYLON.VideoTexture("video", ["../pic/2.mp4"], scene, true, true);
-
-	mat.diffuseTexture = videoTexture;
-    
-    disc.material = mat;
-
-    //advancedTexture.addControl(videoTexture); 
-    //image1.linkWithMesh(disc);
 
 
-	scene.onPointerUp = function () {
-		videoTexture.video.play();
-	}
+        //button change pic
+        var button1 = BABYLON.GUI.Button.CreateSimpleButton("but1", "下一题");
+            
+            button1.width = 0.5;
+            button1.height = "40px";
+            button1.color = "black";
+            button1.background = "white";
+            button1.top="50px";
+            button1.left="0px";
+            button1.onPointerUpObservable.add(function()
+            {
+                changeVid();
+            }
+        );
+        label.addControl(button1); 
+
+
+
 
 
 
@@ -252,12 +255,55 @@
         label.addControl(text1);  
     }  
 
-    createLabel(trueBox);
-    createLabel(trueTri);
-    createLabel(trueCir);
+
+   //视频播放区域
+    
+    var videoMat = new BABYLON.StandardMaterial("videoMat", scene);
+    
+    var videoTexture = new BABYLON.VideoTexture("videoTexture", ["../video/test2.mp4"], scene, true, false);
+    
+    videoMat.diffuseTexture = videoTexture;
+    
+    var videoPlane = BABYLON.MeshBuilder.CreatePlane("plane",{width:50,height:14}, scene);
+    // videoPlane.scaling.x = 1920/1080; // set aspect ratio
+    videoPlane.material = videoMat;
+    videoPlane.setAbsolutePosition(0.1,1.5,30);
+    
+    var playing = false;
+    videoTexture.video.pause()
+
+    scene.onPointerDown = function () { 
+        if(playing){
+            videoTexture.video.pause()
+        }else{
+            videoTexture.video.play()
+        }
+        playing = !playing
+    }
+    
 
 
+        //path of videos
+        var vidSou=["../video/test1.mp4","../video/test2.mp4","../video/test2.mp4"]
+        
+        var vId=0;
+        var vName="";
+        
+        function changeVid(){
+            
+            if(vId<vidSou.length)
+            {
+                videoTexture.updateURL(vidSou[vId]);
+                vId++;
+            }
+            else
+            {
+                vId=0;
+                videoTexture.updateURL(vidSou[vId]);
+                vId++;
 
+            }
+        }
 
 
 
@@ -437,7 +483,6 @@
 
 
 
-
     //判断函数，既要判断位置，还要判断形状
     function judge(id)
     {
@@ -446,42 +491,33 @@
         var s=m.state;
         var t=[];
 
-
-
-        
-        if(s=="box")
+        if(pId==0)
         {
             if(Math.abs(m.position.x- (-10)) <= 0.8 && Math.abs(m.position.z- (-8)) <= 0.8)
             {
-
                 console.log("boxxxx");
-                afterJudge(id);
-                
-
+                //afterJudge(id);
                 
             }
 
 
         }
-        else if(s=="tri")
+        else if(pId==1)
         {
             if(Math.abs(m.position.x- (-4)) <= 0.8 && Math.abs(m.position.z- (-8)) <= 0.8)
             {
 
                 console.log("triiii");
-                afterJudge(id);
-
-                
-
+                //afterJudge(id);
             }
         }
-        else if(s=="cir")
+        else if(pId==2)
         {
             if(Math.abs(m.position.x- (8)) <= 0.8 && Math.abs(m.position.z- (-6)) <= 0.8)
             {
 
                 console.log("cirrrr");
-                afterJudge(id);
+                //afterJudge(id);
 
                
             }
@@ -494,7 +530,7 @@
     }
 
 
-    //获取当前场景中所有mesh的id
+    //获取当前场景中所有mesh的id 待改进
     function getAllmeshid()
     {
         

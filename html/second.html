@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>基础场景</title>
+    <title>Level-1</title>
 
     <style>
         html,body{
@@ -160,42 +160,100 @@
 
     trueCir.setAbsolutePosition(8,0.2,-6);
 
-    var disc = BABYLON.MeshBuilder.CreateDisc("1", {radius: 1,depth: 1, faceColors:faceColors,sideOrientation: BABYLON.Mesh.BACKSIDE}, scene);
+    
+    
 
-    disc.position.z=35;
+
+    var imagePlane = BABYLON.Mesh.CreatePlane("imagePlane", 5.0, scene, false, BABYLON.Mesh.DEFAULTSIDE);//创建一个平面
+    imagePlane.setAbsolutePosition(-15,0,35);
+    imagePlane.isVisible=false;
+    
+    var lablePlane = BABYLON.Mesh.CreatePlane("lablePlane", 5.0, scene, false, BABYLON.Mesh.DEFAULTSIDE);//创建一个平面
+    lablePlane.setAbsolutePosition(1,0,50);
+    lablePlane.isVisible=false;
+
+
+
+
+    
+
+
+
 
     var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("ui1");
 
    
-        var label = new BABYLON.GUI.Rectangle("label for " + disc.id);
+        var label = new BABYLON.GUI.Rectangle("label for " + lablePlane.id);
         
-        label.background = "green"
-        label.alpha = 0.5;
-        label.width = "700px";
-        label.height = "200px";
-
-        label.cornerRadius = 20;
+        label.background = "white"
+        label.alpha = 0.9;
+        label.width = "730px";
+        label.height = "240px";
+        label.autoscale=true;
+        label.cornerRadius = 10;
         label.thickness = 1;
         label.linkOffsetY = 30;
-        
         advancedTexture.addControl(label); 
-        label.linkWithMesh(disc);
+        label.linkWithMesh(lablePlane);
+
 
         var text1 = new BABYLON.GUI.TextBlock();
-        text1.text = "你好！！！！";
+        text1.text = "请移动到与左侧图片相似的形状区域中";
         text1.color = "red";
+        text1.fontSize="25px";
+        text1.left="100px";
         label.addControl(text1);  
-    
-        var image1 = new BABYLON.GUI.Image("test","../pic/cir.jpg");
-        image1.autoscale=false;
+
+
+        var image1 = new BABYLON.GUI.Image("test","../pic/box.jpg");
+        image1.autoscale=true;
         image1.height = "200px";
-        image1.width = "200px";
+        image1.width = "250px";
+        advancedTexture.addControl(image1);   
+        image1.linkWithMesh(imagePlane);
+
+        //path of pictures
+        var picSou=["../pic/box.jpg","../pic/tri.jpg","../pic/cir.jpg"]
+        var pId=0;
+        var pName="";
+        function changePic(){
+            
+            if(pId<picSou.length)
+            {
+                image1.source=picSou[pId];
+
+                pId++;
+            }
+            else
+            {
+                pId=0;
+                image1.source=picSou[pId];
+                pId++;
+
+            }
+        }
+
+
+        //button change pic
+        var button1 = BABYLON.GUI.Button.CreateSimpleButton("but1", "下一张");
+            
+            button1.width = 0.2;
+            button1.height = "40px";
+            button1.color = "black";
+            button1.background = "white";
+            button1.top="50px";
+            button1.left="100px";
+            button1.onPointerUpObservable.add(function()
+            {
+                changePic();
+            }
+        );
+        label.addControl(button1); 
 
 
 
 
-        advancedTexture.addControl(image1); 
-        image1.linkWithMesh(disc);
+
 
     //设置skybox
     var skybox = BABYLON.Mesh.CreateBox("skyBox", 100.0, scene);
@@ -233,10 +291,6 @@
         text1.color = "black";
         label.addControl(text1);  
     }  
-
-    createLabel(trueBox);
-    createLabel(trueTri);
-    createLabel(trueCir);
 
 
 
@@ -419,7 +473,6 @@
 
 
 
-
     //判断函数，既要判断位置，还要判断形状
     function judge(id)
     {
@@ -428,42 +481,33 @@
         var s=m.state;
         var t=[];
 
-
-
-        
-        if(s=="box")
+        if(pId==0)
         {
             if(Math.abs(m.position.x- (-10)) <= 0.8 && Math.abs(m.position.z- (-8)) <= 0.8)
             {
-
                 console.log("boxxxx");
-                afterJudge(id);
-                
-
+                //afterJudge(id);
                 
             }
 
 
         }
-        else if(s=="tri")
+        else if(pId==1)
         {
             if(Math.abs(m.position.x- (-4)) <= 0.8 && Math.abs(m.position.z- (-8)) <= 0.8)
             {
 
                 console.log("triiii");
-                afterJudge(id);
-
-                
-
+                //afterJudge(id);
             }
         }
-        else if(s=="cir")
+        else if(pId==2)
         {
             if(Math.abs(m.position.x- (8)) <= 0.8 && Math.abs(m.position.z- (-6)) <= 0.8)
             {
 
                 console.log("cirrrr");
-                afterJudge(id);
+                //afterJudge(id);
 
                
             }
@@ -476,7 +520,7 @@
     }
 
 
-    //获取当前场景中所有mesh的id
+    //获取当前场景中所有mesh的id 待改进
     function getAllmeshid()
     {
         
