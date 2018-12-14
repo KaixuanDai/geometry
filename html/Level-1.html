@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Level-3</title>
+    <title>Level-1</title>
 
     <style>
         html,body{
@@ -214,13 +214,22 @@
 
         //path of pictures
         var picSou=["../pic/box.jpg","../pic/tri.jpg","../pic/cir.jpg"]
+        
         var pId=0;
-        var pName="";
+        //图片的名称，用于之后的判断
+        var pName="box";
+
+
+
         function changePic(){
             
             if(pId<picSou.length)
             {
                 image1.source=picSou[pId];
+                //console.log(picSou[pId].substring(7,10))
+                pName=picSou[pId].substring(7,10)
+                console.log(pName);//id name 皆可 待测试
+                console.log(pId);
 
                 pId++;
             }
@@ -228,6 +237,11 @@
             {
                 pId=0;
                 image1.source=picSou[pId];
+                //console.log(picSou[pId].substring(7,10))
+                pName=picSou[pId].substring(7,10)
+                console.log(pName);
+                console.log(pId);
+
                 pId++;
 
             }
@@ -486,6 +500,7 @@
             if(Math.abs(m.position.x- (-10)) <= 0.8 && Math.abs(m.position.z- (-8)) <= 0.8)
             {
                 console.log("boxxxx");
+                changePic();
                 //afterJudge(id);
                 
             }
@@ -498,6 +513,8 @@
             {
 
                 console.log("triiii");
+                changePic();
+
                 //afterJudge(id);
             }
         }
@@ -507,6 +524,8 @@
             {
 
                 console.log("cirrrr");
+                changePic();
+
                 //afterJudge(id);
 
                
