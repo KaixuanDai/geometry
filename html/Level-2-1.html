@@ -59,13 +59,13 @@
  
 
         //创建地面
-        // var ground = BABYLON.Mesh.CreateGround("ground1",30,25,2,scene);
-        // var materialGround = new BABYLON.StandardMaterial("texture1", scene);
-        // materialGround.material = materialGround;
-        // materialGround.alpha = 1;
-        // materialGround.diffuseColor = new BABYLON.Color3(1.0, 1.0, 1.0);
-        // materialGround.diffuseTexture = new BABYLON.Texture("../pic/ground.jpg", scene);
-        // ground.material = materialGround;
+        var ground = BABYLON.Mesh.CreateGround("ground1",30,25,2,scene);
+        var materialGround = new BABYLON.StandardMaterial("texture1", scene);
+        materialGround.material = materialGround;
+        materialGround.alpha = 1;
+        materialGround.diffuseColor = new BABYLON.Color3(1.0, 1.0, 1.0);
+        materialGround.diffuseTexture = new BABYLON.Texture("../pic/ground.jpg", scene);
+        ground.material = materialGround;
 
     
     
@@ -161,29 +161,82 @@
     // trueCir.setAbsolutePosition(8,0.2,-6);
 
     var trueLine = [
-        new BABYLON.Vector3(0, 0, 0), 
-        new BABYLON.Vector3(4, 0, 0), 
-        new BABYLON.Vector3(2, 0, 2), 
-     // new BABYLON.Vector3(0, 0, 1), 
+        new BABYLON.Vector3(-1, 0, -1), 
+        new BABYLON.Vector3(13, 0, -1), 
+        new BABYLON.Vector3(13, 0, 13), 
+        new BABYLON.Vector3(-1, 0, 13),
     ]; 
     
     var trueLineHoles = [];
+              
+    // trueLineHoles[0] = [
+    //     new BABYLON.Vector3(0, 0, 0), 
+    //     new BABYLON.Vector3(12, 0, 0), 
         
+    //     new BABYLON.Vector3(11, 0, 1), 
+    //     new BABYLON.Vector3(1, 0, 1),           
+    //     ]; 
+    // trueLineHoles[1] = [
+    //     new BABYLON.Vector3(0, 0, 0), 
+    //     new BABYLON.Vector3(1, 0, 1),
+
+    //     new BABYLON.Vector3(1, 0, 11), 
+    //     new BABYLON.Vector3(0, 0, 12),           
+    //     ]; 
+    // trueLineHoles[2] = [
+    //     new BABYLON.Vector3(1, 0, 11), 
+    //     new BABYLON.Vector3(11, 0, 11),
+
+    //     new BABYLON.Vector3(12, 0, 12), 
+    //     new BABYLON.Vector3(0, 0, 12),           
+    //     ];
+    // trueLineHoles[3] = [
+    //     new BABYLON.Vector3(11, 0, 1), 
+    //     new BABYLON.Vector3(12, 0, 0),
+
+    //     new BABYLON.Vector3(12, 0, 12), 
+    //     new BABYLON.Vector3(11, 0, 11),           
+    //     ];
+    
     trueLineHoles[0] = [
-        new BABYLON.Vector3(1, 0, 1), 
-        new BABYLON.Vector3(3, 0, 1), 
-        new BABYLON.Vector3(1.5, 0, 0.5), 
-            
-            // new BABYLON.Vector3(0.5, 0, 0.25), 
-            // new BABYLON.Vector3(7.5, 0, 0.25), 
-            // new BABYLON.Vector3(7.5, 0, 0.75), 
-            // new BABYLON.Vector3(0.5, 0, 0.75), 
+        new BABYLON.Vector3(0, 0, 0), 
+        new BABYLON.Vector3(12, 0, 0), 
+        
+        new BABYLON.Vector3(12, 0, 1), 
+        new BABYLON.Vector3(0, 0, 1),           
         ]; 
+    trueLineHoles[1] = [
+        new BABYLON.Vector3(0, 0, 1), 
+        new BABYLON.Vector3(1, 0, 1),
+
+        new BABYLON.Vector3(1, 0, 11), 
+        new BABYLON.Vector3(0, 0, 11),           
+        ]; 
+    trueLineHoles[2] = [
+        new BABYLON.Vector3(0, 0, 11), 
+        new BABYLON.Vector3(12, 0, 11),
+
+        new BABYLON.Vector3(12, 0, 12), 
+        new BABYLON.Vector3(0, 0, 12),           
+        ];
+    trueLineHoles[3] = [
+        new BABYLON.Vector3(11, 0, 1), 
+        new BABYLON.Vector3(12, 0, 1),
+
+        new BABYLON.Vector3(12, 0, 11), 
+        new BABYLON.Vector3(11, 0, 11),           
+        ];
 
    
     
+    var trueLine1 = BABYLON.MeshBuilder.ExtrudePolygon("trueLine1",{shape:trueLine, holes:trueLineHoles,  depth: 0.2, faceColors:redColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:redColors }, scene);
+    trueLine1.setAbsolutePosition(new BABYLON.Vector3(-6, 0.1, -6));
 
-    var trueLine1 = BABYLON.MeshBuilder.ExtrudePolygon("trueLine1",{shape:trueLine, holes:trueLineHoles,  depth: 1, faceColors:redColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:redColors }, scene);
+
+
+
+
+
 
 
     //设置skybox
