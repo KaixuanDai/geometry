@@ -227,9 +227,9 @@
             {
                 image1.source=picSou[pId];
                 //console.log(picSou[pId].substring(7,10))
-                pName=picSou[pId].substring(7,10)
-                console.log(pName);//id name 皆可 待测试
-                console.log(pId);
+                //pName=picSou[pId].substring(7,10)
+                //console.log(pName);//id name 皆可 待测试
+                console.log("change pic");
 
                 pId++;
             }
@@ -238,9 +238,10 @@
                 pId=0;
                 image1.source=picSou[pId];
                 //console.log(picSou[pId].substring(7,10))
-                pName=picSou[pId].substring(7,10)
-                console.log(pName);
-                console.log(pId);
+                // pName=picSou[pId].substring(7,10)
+                // console.log(pName);
+                // console.log(pId);
+                console.log("change pic1");
 
                 pId++;
 
@@ -249,20 +250,20 @@
 
 
         //button change pic
-        var button1 = BABYLON.GUI.Button.CreateSimpleButton("but1", "下一张");
+        // var button1 = BABYLON.GUI.Button.CreateSimpleButton("but1", "下一张");
             
-            button1.width = 0.2;
-            button1.height = "40px";
-            button1.color = "black";
-            button1.background = "white";
-            button1.top="50px";
-            button1.left="100px";
-            button1.onPointerUpObservable.add(function()
-            {
-                changePic();
-            }
-        );
-        label.addControl(button1); 
+        //     button1.width = 0.2;
+        //     button1.height = "40px";
+        //     button1.color = "black";
+        //     button1.background = "white";
+        //     button1.top="50px";
+        //     button1.left="100px";
+        //     button1.onPointerUpObservable.add(function()
+        //     {
+        //         changePic();
+        //     }
+        // );
+        // label.addControl(button1); 
 
 
 
@@ -271,9 +272,9 @@
 
     //设置skybox
     var skybox = BABYLON.Mesh.CreateBox("skyBox", 100.0, scene);
-    var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
+    var skyboxMaterial = new BABYLON.StandardMaterial("../skyBox", scene);
     skyboxMaterial.backFaceCulling = false;
-    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("3", scene);
+    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("../skyBox/3", scene);
     skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
     skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
     skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
@@ -298,7 +299,7 @@
         label.linkOffsetY = 30;
         
         advancedTexture.addControl(label); 
-    label.linkWithMesh(mesh);
+        label.linkWithMesh(mesh);
 
         var text1 = new BABYLON.GUI.TextBlock();
         text1.text = mesh.id;
@@ -344,8 +345,8 @@
  
 
     
-    //创建新的mesh
-    var time=0;
+    //循环创建新的mesh
+    //var time=0;
     function createShape(id,pos)//创建新的mesh
             {
                 var i=id.toString();
@@ -355,27 +356,28 @@
                 // box.state="box";
                 // box.position = BABYLON.Vector3.TransformCoordinates(pos, matrix);
 
-                if(time==0)
+                if(pId==0)
                 {
                     var box = BABYLON.MeshBuilder.ExtrudePolygon(i,{shape:shapeBox, depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE }, scene);
                     box.state="box"
                     time=1;
                 }
-                else if(time==1)
+                else if(pId==1)
                 {
                     var tri = BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeTri,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
                     tri.state="tri";
                     time=2;
                 }
-                else if(time==2)
+                else if(pId==2)
                 {
-                    var cir = BABYLON.MeshBuilder.CreateCylinder(i, {height:0.1,diameterTop: 1, diameter:3,tessellation: 99, faceColors:faceColors}, scene);
+                    var cir = BABYLON.MeshBuilder.CreateCylinder(i, {height:0.1,diameter:3,tessellation: 99, faceColors:faceColors}, scene);
                                         
                     cir.state="cir";
                     time=0
                 }
                 else{
-                    alert("error in creating");
+                    //alert("error in creating");
+                    console.log("error in creating");
                 }
                 
                 console.log("Create");
@@ -388,7 +390,7 @@
                 
                 m.setAbsolutePosition(BABYLON.Vector3.TransformCoordinates(pos, matrix));
                 
-                console.log("Change");
+                //console.log("Change");
 
             }
     
@@ -447,28 +449,22 @@
        
         m.dispose();
 
-        var t = Date.now();
         
-        function sleep(d){
-            while(Date.now - t <= d);
-        } 
-        sleep(1000);
-         
-        if(s=="box")
+        if(pId==1)
         {
             m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeTri,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
             
             m.state="tri";
 
         }
-        else if(s=="tri")
+        else if(pId==2)
         {
-             m=BABYLON.MeshBuilder.CreateCylinder(i, {height:0.1,diameterTop: 1, tessellation: 99, faceColors:faceColors}, scene);
+             m=BABYLON.MeshBuilder.CreateCylinder(i, {height:0.1, tessellation: 99, faceColors:faceColors}, scene);
 
              m.state="cir";
 
         }
-        else if(s=="cir")
+        else if(pId==0)
         {
             m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeBox,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
 
@@ -477,7 +473,8 @@
         }
         else
         {
-            alert("judge after error")
+            //alert("judge after error")
+            console.log("judge after error"+pId);
         }
 
 
@@ -497,11 +494,14 @@
 
         if(pId==0)
         {
-            if(Math.abs(m.position.x- (-10)) <= 0.8 && Math.abs(m.position.z- (-8)) <= 0.8)
+            if(Math.abs(m.position.x- (-10)) <= 3 && Math.abs(m.position.z- (-8)) <= 3)
             {
                 console.log("boxxxx");
-                changePic();
-                //afterJudge(id);
+                pId++
+                image1.source=picSou[pId];
+
+                // changePic();
+                afterJudge(id);
                 
             }
 
@@ -509,31 +509,38 @@
         }
         else if(pId==1)
         {
-            if(Math.abs(m.position.x- (-4)) <= 0.8 && Math.abs(m.position.z- (-8)) <= 0.8)
+            if(Math.abs(m.position.x- (-4)) <= 3 && Math.abs(m.position.z- (-8)) <= 3)
             {
 
                 console.log("triiii");
-                changePic();
+                pId++
+                image1.source=picSou[pId];
 
-                //afterJudge(id);
+                //changePic();
+
+                afterJudge(id);
             }
         }
         else if(pId==2)
         {
-            if(Math.abs(m.position.x- (8)) <= 0.8 && Math.abs(m.position.z- (-6)) <= 0.8)
+            if(Math.abs(m.position.x- (8)) <= 3 && Math.abs(m.position.z- (-6)) <= 3)
             {
 
                 console.log("cirrrr");
-                changePic();
+                pId=0
+                image1.source=picSou[pId];
 
-                //afterJudge(id);
+                
+                // changePic();
+
+                afterJudge(id);
 
                
             }
         }
         else
         {
-            alert("judge error")
+            console.log("judge error")
         }
 
     }
@@ -543,14 +550,31 @@
     function getAllmeshid()
     {
         
-        if(scene.meshes.length>10)
-        {
-            for (var i = 11; i < scene.meshes.length; i++) {
+        // if(scene.meshes.length>10)
+        // {
+        //     for (var i = 11; i < scene.meshes.length; i++) {
                         
+        //                 shapes.push(parseInt(scene.meshes[i].id));
+                        
+        //             } 
+        // }
+           //改进算法
+
+            for (var i = 0; i < scene.meshes.length; i++) {
+                
+                var m=scene.meshes[i];
+
+                
+                    if(m.state=="box"||m.state=="tri"||m.state=="cir")
+                    {  
                         shapes.push(parseInt(scene.meshes[i].id));
-                        
-                    } 
-        }
+                    }
+                    else
+                    {
+                        //console.log(m);
+                    }  
+                
+            } 
 
     }
 
