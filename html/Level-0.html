@@ -162,9 +162,9 @@
 
     //设置skybox
     var skybox = BABYLON.Mesh.CreateBox("skyBox", 100.0, scene);
-    var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
+    var skyboxMaterial = new BABYLON.StandardMaterial("../skyBox", scene);
     skyboxMaterial.backFaceCulling = false;
-    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("3", scene);
+    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("../skyBox/3", scene);
     skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
     skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
     skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
@@ -252,19 +252,19 @@
 
                 if(time==0)
                 {
-                    var box = BABYLON.MeshBuilder.ExtrudePolygon(i,{shape:shapeBox, depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE }, scene);
+                    var box = BABYLON.MeshBuilder.ExtrudePolygon(i,{shape:shapeBox, depth: 0.1,faceColors:redColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE }, scene);
                     box.state="box"
                     time=1;
                 }
                 else if(time==1)
                 {
-                    var tri = BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeTri,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+                    var tri = BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeTri,  depth: 0.1,faceColors:blueColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
                     tri.state="tri";
                     time=2;
                 }
                 else if(time==2)
                 {
-                    var cir = BABYLON.MeshBuilder.CreateCylinder(i, {height:0.1,diameterTop: 1, diameter:3,tessellation: 99, faceColors:faceColors}, scene);
+                    var cir = BABYLON.MeshBuilder.CreateCylinder(i, {height:0.1, diameter:3,tessellation: 99, faceColors:greenColors}, scene);
                                         
                     cir.state="cir";
                     time=0
@@ -351,21 +351,21 @@
          
         if(s=="box")
         {
-            m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeTri,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+            m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeTri,  depth: 0.1,faceColors:blueColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
             
             m.state="tri";
 
         }
         else if(s=="tri")
         {
-             m=BABYLON.MeshBuilder.CreateCylinder(i, {height:0.1,diameterTop: 1, tessellation: 99, faceColors:faceColors}, scene);
+             m=BABYLON.MeshBuilder.CreateCylinder(i, {height:0.1,diameterTop: 1, tessellation: 99, faceColors:greenColors}, scene);
 
              m.state="cir";
 
         }
         else if(s=="cir")
         {
-            m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeBox,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+            m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeBox,  depth: 0.1,faceColors:redColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
 
             m.state="box";
 
@@ -458,15 +458,17 @@
             for (var i = 0; i < scene.meshes.length; i++) {
                 
                 var m=scene.meshes[i];
+
                 
-                if(m.state=="box"||m.state=="box"||m.state=="box")
-                {  
-                    shapes.push(parseInt(scene.meshes[i].id));
-                }
-                else
-                {
-                    console.log(m);
-                }       
+                    if(m.state=="box"||m.state=="tri"||m.state=="cir")
+                    {  
+                        shapes.push(parseInt(scene.meshes[i].id));
+                    }
+                    else
+                    {
+                        console.log(m);
+                    }  
+                
             } 
         
 
