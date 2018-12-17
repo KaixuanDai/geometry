@@ -95,18 +95,34 @@
 
     var shapeTrueBox = [ 
                   new BABYLON.Vector3(0, 0, 0),
-                  new BABYLON.Vector3(5, 0, 0), 
-                  new BABYLON.Vector3(5, 0, 5), 
-                  new BABYLON.Vector3(0, 0, 5), 
+                  new BABYLON.Vector3(3, 0, 0), 
+                  new BABYLON.Vector3(3, 0, 3), 
+                  new BABYLON.Vector3(0, 0, 3), 
 
             ];
-    var shapeTrueTri = [ 
+    var shapeTrueTri1 = [ 
                   new BABYLON.Vector3(0, 0, 0),
-                  new BABYLON.Vector3(8, 0, 0), 
-                  new BABYLON.Vector3(4, 0, 7), 
+                  new BABYLON.Vector3(3, 0, 0), 
+                  new BABYLON.Vector3(1.5, 0, 2), 
 
             ];
+    var shapeTrueTri2 = [ 
+                  new BABYLON.Vector3(0, 0, 0),
+                  new BABYLON.Vector3(3, 0, 0), 
+                  new BABYLON.Vector3(1.5, 0, -2), 
+
+            ];
+
                 
+    var greenMaterial = new BABYLON.StandardMaterial('greenMat', scene);
+    greenMaterial.diffuseColor = BABYLON.Color3.FromInts(0, 255, 0);
+
+    var redMaterial = new BABYLON.StandardMaterial('redMat', scene);
+    redMaterial.diffuseColor = BABYLON.Color3.FromInts(255, 0, 0);
+    
+    var blueMaterial = new BABYLON.StandardMaterial('blueMat', scene);
+    blueMaterial.diffuseColor = BABYLON.Color3.FromInts(0, 0, 255);
+
     var faceColors = [];
         faceColors[0] = BABYLON.Color3.Red();
         faceColors[1] = BABYLON.Color3.Red();
@@ -145,20 +161,28 @@
             greenColors[4] = BABYLON.Color3.Green();
             greenColors[5] = BABYLON.Color3.Green();
 
+
     //Box的判定区域        
     var trueBox = BABYLON.MeshBuilder.ExtrudePolygon("trueBox",{shape:shapeTrueBox, depth: 0.01, faceColors:redColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:redColors }, scene);
     
-    trueBox.setAbsolutePosition(1,1,1);
+    trueBox.setAbsolutePosition(-8,0.2,-10);
 
-    // //Tri的判定区域s
-    // var trueTri = BABYLON.MeshBuilder.ExtrudePolygon("trueTri", {shape:shapeTrueTri, depth: 0.01,faceColors:blueColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-   
-    // trueTri.setAbsolutePosition(-4,0.2,-8);
+    //Tri1的判定区域s
+    var trueTri1 = BABYLON.MeshBuilder.ExtrudePolygon("trueTri1", {shape:shapeTrueTri1, depth: 0.01,faceColors:blueColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+    trueTri1.setAbsolutePosition(-2,0.2,-10);
 
-    // //Cir的判定区域
-    // var trueCir = BABYLON.MeshBuilder.CreateCylinder("trueCir", {height:0.01,diameter: 5.5, tessellation: 99, faceColors:greenColors}, scene);
+    //Tri2的判定区域s
+    var trueTri2 = BABYLON.MeshBuilder.ExtrudePolygon("trueTri2", {shape:shapeTrueTri2, depth: 0.01,faceColors:greenColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+    trueTri2.setAbsolutePosition(4,0.2,-7);
 
-    // trueCir.setAbsolutePosition(8,0.2,-6);
+    var trueAns1 = BABYLON.MeshBuilder.ExtrudePolygon("trueAns1", {shape:shapeBox, depth: 0.01,sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+    trueAns1.material=redMaterial;
+    trueAns1.setAbsolutePosition(-1.5,0.2,-3)
+
+    var trueAns2 = BABYLON.MeshBuilder.ExtrudePolygon("trueAns2", {shape:shapeTrueTri1, depth: 0.01, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+    trueAns2.material=redMaterial;
+    trueAns2.setAbsolutePosition(-1.5,0.2,0);
+
 
     
     
@@ -261,7 +285,7 @@
     var skybox = BABYLON.Mesh.CreateBox("skyBox", 100.0, scene);
     var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
     skyboxMaterial.backFaceCulling = false;
-    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("3", scene);
+    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("../skybox/3", scene);
     skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
     skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
     skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
@@ -333,42 +357,17 @@
 
     
     //创建新的mesh
-    var time=0;
     function createShape(id,pos)//创建新的mesh
             {
                 var i=id.toString();
                 
 
-                // box = BABYLON.MeshBuilder.CreateBox(i,scene);
-                // box.state="box";
-                // box.position = BABYLON.Vector3.TransformCoordinates(pos, matrix);
+                var cir = BABYLON.MeshBuilder.CreateCylinder(i, {height:0.1,diameterTop: 1, diameter:3,tessellation: 99, faceColors:faceColors}, scene);                        
+                cir.state="users";
 
-                if(time==0)
-                {
-                    var box = BABYLON.MeshBuilder.ExtrudePolygon(i,{shape:shapeBox, depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE }, scene);
-                    box.state="box"
-                    time=1;
-                }
-                else if(time==1)
-                {
-                    var tri = BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeTri,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-                    tri.state="tri";
-                    time=2;
-                }
-                else if(time==2)
-                {
-                    var cir = BABYLON.MeshBuilder.CreateCylinder(i, {height:0.1,diameterTop: 1, diameter:3,tessellation: 99, faceColors:faceColors}, scene);
-                                        
-                    cir.state="cir";
-                    time=0
-                }
-                else{
-                    alert("error in creating");
-                }
-                
                 console.log("Create");
             }
-    
+            
     //更新已有mesh的位置
     function changePos(id,pos)
             {
@@ -424,102 +423,116 @@
     }
    
             
-            
-    function afterJudge(id)
+    //选择图形的切换
+    function afterChange(id,s)
     {
         var i= id;
         var m = scene.getMeshByID(id);
-        var s=m.state;
         
-        //m.isVisible=false;
-       
-        m.dispose();
+        
 
-        var t = Date.now();
-        
-        function sleep(d){
-            while(Date.now - t <= d);
-        } 
-        sleep(1000);
-         
         if(s=="box")
         {
-            m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeTri,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-            
-            m.state="tri";
-
-        }
-        else if(s=="tri")
-        {
-             m=BABYLON.MeshBuilder.CreateCylinder(i, {height:0.1,diameterTop: 1, tessellation: 99, faceColors:faceColors}, scene);
-
-             m.state="cir";
-
-        }
-        else if(s=="cir")
-        {
             m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeBox,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-
             m.state="box";
 
+
+        }
+        else if(s=="tri1")
+        {
+            
+            m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeTrueTri1,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+            m.state="tri1";
+             
+        }
+        else if(s=="tri2")
+        {
+
+            m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeTrueTri2,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+            m.state="tri2";
         }
         else
         {
-            alert("judge after error")
+            alert("change after error")
+        }
+    }
+
+
+//图案选择函数
+    function change(id)
+    {
+        var m = scene.getMeshByID(id);
+        var pos = m.getAbsolutePosition();
+        var s=m.state;
+        
+
+        
+        
+        if(Math.abs(m.position.x- (-8)) <= 0.8 && Math.abs(m.position.z- (-10)) <= 0.8)
+            {
+                console.log("box1");
+                afterChange(id,"box");
+                
+            }
+
+        
+        else if(Math.abs(m.position.x- (-2)) <= 0.8 && Math.abs(m.position.z- (-10)) <= 0.8)
+            {
+
+                console.log("tri1");
+                afterChange(id,"tri1");
+                
+            }
+        
+        else if(Math.abs(m.position.x- (4)) <= 0.8 && Math.abs(m.position.z- (-7)) <= 0.8)
+            {
+
+                console.log("tri2");
+                afterChange(id,"tri2");
+               
+            }
+        else
+        {
+            alert("change error")
         }
 
+    }
+
+    function afterJudge()
+    {
 
 
 
     }
 
-
-
-    //判断函数，既要判断位置，还要判断形状
+    //组合正确答案判断函数
     function judge(id)
     {
         var m = scene.getMeshByID(id);
         var pos = m.getAbsolutePosition();
         var s=m.state;
-        var t=[];
 
-        if(pId==0)
-        {
-            if(Math.abs(m.position.x- (-10)) <= 0.8 && Math.abs(m.position.z- (-8)) <= 0.8)
+
+        
+        if(Math.abs(m.position.x- (-1.5)) <= 0.8 && Math.abs(m.position.z- (-3)) <= 0.8)
             {
-                console.log("boxxxx");
-                //afterJudge(id);
+                console.log("true1");
+                
                 
             }
-
-
-        }
-        else if(pId==1)
-        {
-            if(Math.abs(m.position.x- (-4)) <= 0.8 && Math.abs(m.position.z- (-8)) <= 0.8)
+        
+        else if(Math.abs(m.position.x- (1.5)) <= 0.8 && Math.abs(m.position.z- (0)) <= 0.8)
             {
 
-                console.log("triiii");
-                //afterJudge(id);
-            }
-        }
-        else if(pId==2)
-        {
-            if(Math.abs(m.position.x- (8)) <= 0.8 && Math.abs(m.position.z- (-6)) <= 0.8)
-            {
-
-                console.log("cirrrr");
-                //afterJudge(id);
-
+                console.log("true2");
                
             }
-        }
         else
         {
-            alert("judge error")
+            alert("Judge error")
         }
-
     }
+
 
 
     //获取当前场景中所有mesh的id 待改进
@@ -584,7 +597,7 @@
             {
                 changePos(id.toString(),local_pos);
                 
-                judge(id.toString());
+                change(id.toString());
                 
             }
 
