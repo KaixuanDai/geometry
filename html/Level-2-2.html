@@ -123,6 +123,9 @@
     var blueMaterial = new BABYLON.StandardMaterial('blueMat', scene);
     blueMaterial.diffuseColor = BABYLON.Color3.FromInts(0, 0, 255);
 
+    var whiteMaterial = new BABYLON.StandardMaterial('whiteMat', scene);
+    whiteMaterial.diffuseColor = BABYLON.Color3.FromInts(255, 255, 255);
+
     var faceColors = [];
         faceColors[0] = BABYLON.Color3.Red();
         faceColors[1] = BABYLON.Color3.Red();
@@ -162,27 +165,35 @@
             greenColors[5] = BABYLON.Color3.Green();
 
 
-    //Box的判定区域        
+    //Box的选择区域        
     var trueBox = BABYLON.MeshBuilder.ExtrudePolygon("trueBox",{shape:shapeTrueBox, depth: 0.01, faceColors:redColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:redColors }, scene);
     
     trueBox.setAbsolutePosition(-8,0.2,-10);
 
-    //Tri1的判定区域s
+    //Tri1的选择区域
     var trueTri1 = BABYLON.MeshBuilder.ExtrudePolygon("trueTri1", {shape:shapeTrueTri1, depth: 0.01,faceColors:blueColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
     trueTri1.setAbsolutePosition(-2,0.2,-10);
 
-    //Tri2的判定区域s
+    //Tri2的选择区域
     var trueTri2 = BABYLON.MeshBuilder.ExtrudePolygon("trueTri2", {shape:shapeTrueTri2, depth: 0.01,faceColors:greenColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
     trueTri2.setAbsolutePosition(4,0.2,-7);
 
-    var trueAns1 = BABYLON.MeshBuilder.ExtrudePolygon("trueAns1", {shape:shapeBox, depth: 0.01,sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-    trueAns1.material=redMaterial;
+
+    //判定区域
+    var trueAns1 = BABYLON.MeshBuilder.ExtrudePolygon("trueAns1", {shape:shapeTrueBox, depth: 0.2,sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+    trueAns1.material=whiteMaterial;
     trueAns1.setAbsolutePosition(-1.5,0.2,-3)
+    
+    // trueAns1.outlineWidth=0.2;
+    // trueAns1.outlineColor=BABYLON.Color3.Black();
+    // trueAns1.renderOutline = true;
 
-    var trueAns2 = BABYLON.MeshBuilder.ExtrudePolygon("trueAns2", {shape:shapeTrueTri1, depth: 0.01, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-    trueAns2.material=redMaterial;
+
+    var trueAns2 = BABYLON.MeshBuilder.ExtrudePolygon("trueAns2", {shape:shapeTrueTri1, depth: 0.2, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+    trueAns2.material=whiteMaterial;
     trueAns2.setAbsolutePosition(-1.5,0.2,0);
-
+   
+   
 
     
     
@@ -357,12 +368,12 @@
 
     
     //创建新的mesh
+    var time=0;
     function createShape(id,pos)//创建新的mesh
             {
                 var i=id.toString();
                 
-
-                var cir = BABYLON.MeshBuilder.CreateCylinder(i, {height:0.1,diameterTop: 1, diameter:3,tessellation: 99, faceColors:faceColors}, scene);                        
+                var cir = BABYLON.MeshBuilder.CreateCylinder(i, {height:0.1, diameter:3,tessellation: 99, faceColors:faceColors}, scene);                        
                 cir.state="users";
 
                 console.log("Create");
@@ -431,21 +442,21 @@
         
         
 
-        if(s=="box")
+        if(s=="trueBox")
         {
             m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeBox,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
             m.state="box";
 
 
         }
-        else if(s=="tri1")
+        else if(s=="trueTri1")
         {
             
             m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeTrueTri1,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
             m.state="tri1";
              
         }
-        else if(s=="tri2")
+        else if(s=="trueTri2")
         {
 
             m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeTrueTri2,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
@@ -464,31 +475,31 @@
         var m = scene.getMeshByID(id);
         var pos = m.getAbsolutePosition();
         var s=m.state;
-        
+        var tol=2;
 
         
         
-        if(Math.abs(m.position.x- (-8)) <= 0.8 && Math.abs(m.position.z- (-10)) <= 0.8)
+        if(Math.abs(m.position.x- trueBox.position.x) <= tol && Math.abs(m.position.z- trueBox.position.z) <= tol)
             {
-                console.log("box1");
-                afterChange(id,"box");
+                console.log("trueBoxxx");
+                afterChange(id,"trueBox");
                 
             }
 
         
-        else if(Math.abs(m.position.x- (-2)) <= 0.8 && Math.abs(m.position.z- (-10)) <= 0.8)
+        else if(Math.abs(m.position.x- trueTri1.position.x) <= tol && Math.abs(m.position.z- trueTri1.position.z) <= tol)
             {
 
-                console.log("tri1");
-                afterChange(id,"tri1");
+                console.log("trueTri1111");
+                afterChange(id,"trueTri1");
                 
             }
         
-        else if(Math.abs(m.position.x- (4)) <= 0.8 && Math.abs(m.position.z- (-7)) <= 0.8)
+        else if(Math.abs(m.position.x- trueTri2.position.x) <= tol && Math.abs(m.position.z- trueTri2.position.z) <= tol)
             {
 
-                console.log("tri2");
-                afterChange(id,"tri2");
+                console.log("trueTri2222");
+                afterChange(id,"trueTri2");
                
             }
         else
@@ -498,10 +509,37 @@
 
     }
 
-    function afterJudge()
+    function afterJudge(id,str)
     {
+        var m = scene.getMeshByID(id);
+        m.dispose();
 
+        if(str=="true1")
+        {
+            trueAns1.material=blueMaterial;
 
+            // trueAns1.outlineWidth=0.5;
+            // trueAns1.outlineColor=BABYLON.Color3.Red();
+
+            m = BABYLON.MeshBuilder.CreateCylinder(id, {height:0.1, diameter:3,tessellation: 99, faceColors:faceColors}, scene);                        
+            cir.state="users";
+
+        }
+        else if(str="true2")
+        {
+            trueAns2.material=blueMaterial;
+
+            // trueAns1.outlineWidth=0.5;
+            // trueAns1.outlineColor=BABYLON.Color3.Red();
+            
+            m = BABYLON.MeshBuilder.CreateCylinder(id, {height:0.1, diameter:3,tessellation: 99, faceColors:faceColors}, scene);                        
+            cir.state="users";
+
+        }
+        else
+        {
+            alert("after judge error");
+        }
 
     }
 
@@ -511,21 +549,20 @@
         var m = scene.getMeshByID(id);
         var pos = m.getAbsolutePosition();
         var s=m.state;
-
+        var tol=2;
 
         
-        if(Math.abs(m.position.x- (-1.5)) <= 0.8 && Math.abs(m.position.z- (-3)) <= 0.8)
+        if(Math.abs(m.position.x- trueAns1.position.x) <= tol && Math.abs(m.position.z- trueAns1.position.z) <= tol&&s=="box")
             {
+                afterJudge(id,"true1");
                 console.log("true1");
-                
                 
             }
         
-        else if(Math.abs(m.position.x- (1.5)) <= 0.8 && Math.abs(m.position.z- (0)) <= 0.8)
+        else if(Math.abs(m.position.x- trueAns2.position.x) <= tol && Math.abs(m.position.z- trueAns2.position.z) <= tol&&s=="tri1")
             {
-
+                afterJudge(id,"true2");
                 console.log("true2");
-               
             }
         else
         {
@@ -539,14 +576,28 @@
     function getAllmeshid()
     {
         
-        if(scene.meshes.length>10)
-        {
-            for (var i = 11; i < scene.meshes.length; i++) {
-                        
+
+         for (var i = 0; i < scene.meshes.length; i++) {
+                
+                var m=scene.meshes[i];
+                var d=m.isDisposed();
+                
+                if(d==false)
+                {
+                    if(m.state==""||m.state==""||m.state=="")
+                    {  
                         shapes.push(parseInt(scene.meshes[i].id));
-                        
-                    } 
-        }
+                    }
+                    else
+                    {
+                        console.log(m);
+                    }
+                }
+                else
+                {
+                    console.log("shpes array error");
+                }       
+            } 
 
     }
 
