@@ -386,7 +386,7 @@
                 
                 m.setAbsolutePosition(BABYLON.Vector3.TransformCoordinates(pos, matrix));
                 
-                console.log("Change");
+                console.log("Change position");
 
             }
     
@@ -439,9 +439,11 @@
     {
         var i= id;
         var m = scene.getMeshByID(id);
+       // m.update=true;
         
+        m.dispose();
         
-
+        //此处待改进
         if(s=="trueBox")
         {
             m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeBox,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
@@ -476,7 +478,6 @@
         var pos = m.getAbsolutePosition();
         var s=m.state;
         var tol=2;
-
         
         
         if(Math.abs(m.position.x- trueBox.position.x) <= tol && Math.abs(m.position.z- trueBox.position.z) <= tol)
@@ -504,7 +505,7 @@
             }
         else
         {
-            alert("change error")
+            //alert("change error")
         }
 
     }
@@ -521,7 +522,7 @@
             // trueAns1.outlineWidth=0.5;
             // trueAns1.outlineColor=BABYLON.Color3.Red();
 
-            m = BABYLON.MeshBuilder.CreateCylinder(id, {height:0.1, diameter:3,tessellation: 99, faceColors:faceColors}, scene);                        
+            m = BABYLON.MeshBuilder.CreateCylinder(id, {height:0.1, diameter:3,tessellation: 99, updatable:true,faceColors:faceColors}, scene);                        
             cir.state="users";
 
         }
@@ -566,7 +567,7 @@
             }
         else
         {
-            alert("Judge error")
+           // alert("Judge error")
         }
     }
 
@@ -584,13 +585,13 @@
                 
                 if(d==false)
                 {
-                    if(m.state==""||m.state==""||m.state=="")
+                    if(m.state=="users"||m.state=="box"||m.state=="tri1"||m.state=="tri2")
                     {  
                         shapes.push(parseInt(scene.meshes[i].id));
                     }
                     else
                     {
-                        console.log(m);
+                       // console.log(m);
                     }
                 }
                 else
@@ -646,9 +647,10 @@
 
             else//该id在现有场景数组中存在，更新其位置
             {
-                changePos(id.toString(),local_pos);
-                
                 change(id.toString());
+
+                changePos(id.toString(),local_pos); 
+                judge(id.toString()); 
                 
             }
 
