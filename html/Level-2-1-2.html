@@ -125,11 +125,11 @@
         blueMaterial.diffuseColor = BABYLON.Color3.FromInts(0, 0, 255);
         
         var whiteMaterial = new BABYLON.StandardMaterial('whiteMaterial', scene);
-        whiteMaterial.diffuseColor = BABYLON.Color3.FromInts(0, 0, 0);
+        whiteMaterial.diffuseColor = BABYLON.Color3.FromInts(255, 255, 255);
    
 
 
-    var donwLine = [
+    var downLine = [
             new BABYLON.Vector3(0, 0, 0), 
             new BABYLON.Vector3(16, 0, 0), 
             new BABYLON.Vector3(14.3, 0, 1),
@@ -148,9 +148,9 @@
             new BABYLON.Vector3(1.7, 0, -1), 
         ];
     
-    var truedonwLine = BABYLON.MeshBuilder.ExtrudePolygon("truedonwLine",{shape:donwLine,depth: 0.2,  sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-    truedonwLine.setAbsolutePosition(new BABYLON.Vector3(-8, 0.2, -5));
-    truedonwLine.material=redMaterial;
+    var truedownLine = BABYLON.MeshBuilder.ExtrudePolygon("truedownLine",{shape:downLine,depth: 0.2,  sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+    truedownLine.setAbsolutePosition(new BABYLON.Vector3(-8, 0.2, -5));
+    truedownLine.material=redMaterial;
 
     
     var truerightLine = BABYLON.MeshBuilder.ExtrudePolygon("truerightLine",{shape:rightLine,depth: 0.2, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
@@ -239,21 +239,43 @@
 
     function createShape(id,pos)//创建新的mesh
             {
+
+                
+                var downLine = [
+                        new BABYLON.Vector3(0, 0, 0), 
+                        new BABYLON.Vector3(16, 0, 0), 
+                        new BABYLON.Vector3(14.3, 0, 1),
+                        new BABYLON.Vector3(1.7, 0, 1), 
+                    ]; 
+                var rightLine = [
+                        new BABYLON.Vector3(0, 0, 0), 
+                        new BABYLON.Vector3(16, 0, 0), 
+                        new BABYLON.Vector3(14.3, 0, 1),
+                        new BABYLON.Vector3(1.7, 0, 1), 
+                    ]; 
+                var leftLine = [
+                        new BABYLON.Vector3(0, 0, 0), 
+                        new BABYLON.Vector3(16, 0, 0), 
+                        new BABYLON.Vector3(14.3, 0, -1),
+                        new BABYLON.Vector3(1.7, 0, -1), 
+                    ];
+
+
                 var i=id.toString();
 
                 if(time==0)
                 {
 
-                    var donwLine = BABYLON.MeshBuilder.ExtrudePolygon("donwLine",{shape:donwLine,depth: 0.2,  sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-                    donwLine.material=redMaterial;
+                    var downLine = BABYLON.MeshBuilder.ExtrudePolygon(i,{shape:downLine,depth: 0.2,  sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+                    downLine.material=redMaterial;
                     
-                    donwLine.state="donwLine"
+                    downLine.state="downLine"
                     time=1;
 
                 }
                 else if(time==1)
                 {
-                    var rightLine = BABYLON.MeshBuilder.ExtrudePolygon("rightLine",{shape:rightLine,depth: 0.2, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+                    var rightLine = BABYLON.MeshBuilder.ExtrudePolygon(i,{shape:rightLine,depth: 0.2, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
                     rightLine.rotate(BABYLON.Axis.Y, -2.09, BABYLON.Space.LOCAL);//旋转方向为顺时针
                     rightLine.material=blueMaterial;
                    
@@ -262,11 +284,12 @@
                 }
                 else if(time==2)
                 {
-                    var leftLine = BABYLON.MeshBuilder.ExtrudePolygon("leftLine",{shape:leftLine,depth: 0.2,  sideOrientation: BABYLON.Mesh.DOUBLESIDE }, scene);
+                    var leftLine = BABYLON.MeshBuilder.ExtrudePolygon(i,{shape:leftLine,depth: 0.2,  sideOrientation: BABYLON.Mesh.DOUBLESIDE }, scene);
                     leftLine.rotate(BABYLON.Axis.Y, -1.04, BABYLON.Space.LOCAL);//旋转方向为顺时针
                     leftLine.material=greenMaterial;
                                         
-                    cir.state="leftLine";
+                    leftLine.state="leftLine";
+                    
                     time=0
                 }
                 else{
@@ -293,14 +316,10 @@
         
         for(var i=0;i<ids.length;i++)
         {
-           var m = scene.getMeshByID(ids[i].toString());
-           
-           
-            
-            console.log("Dispose");
-
-            // m.isVisible=false;
+            var m = scene.getMeshByID(ids[i].toString());
+            console.log(m);
             m.dispose();
+            console.log("Dispose");
 
             var index = shapes.indexOf(ids[i]);
             if (index > -1) {
@@ -343,9 +362,9 @@
 
    
          
-        if(s=="donwLine")
+        if(s=="downLine")
         {
-           truedonwLine.material=whiteMaterial;
+           truedownLine.material=whiteMaterial;
 
         }
         else if(s=="rightLine")
@@ -380,12 +399,12 @@
 
 
         
-        if(s=="donwLine")
+        if(s=="downLine")
         {
-            if(Math.abs(m.position.x- donwLine.position.x) <= tol && Math.abs(m.position.z- donwLine.position.z) <= tol)
+            if(Math.abs(m.position.x- truedownLine.position.x) <= tol && Math.abs(m.position.z- truedownLine.position.z) <= tol)
             {
 
-                console.log("donwLineeeee");
+                console.log("downLineeeee");
                 afterJudge(id);
                 
 
@@ -396,7 +415,7 @@
         }
         else if(s=="rightLine")
         {
-            if(Math.abs(m.position.x- rightLine.position.x) <= tol && Math.abs(m.position.z- rightLine.position.z) <= tol)
+            if(Math.abs(m.position.x- truerightLine.position.x) <= tol && Math.abs(m.position.z- truerightLine.position.z) <= tol)
             {
 
                 console.log("rightLineeee");
@@ -408,7 +427,7 @@
         }
         else if(s=="leftLine")
         {
-            if(Math.abs(m.position.x- leftLine.position.x) <= tol && Math.abs(m.position.z- leftLine.position.z) <= tol)
+            if(Math.abs(m.position.x- trueleftLine.position.x) <= tol && Math.abs(m.position.z- trueleftLine.position.z) <= tol)
             {
 
                 console.log("leftLineeeee");
@@ -441,27 +460,19 @@
 
         //改进算法
 
-            for (var i = 0; i < scene.meshes.length; i++) {
+                for (var i = 0; i < scene.meshes.length; i++) {
                 
                 var m=scene.meshes[i];
-                var d=m.isDisposed();
                 
-                if(d==false)
-                {
-                    if(m.state=="downLine"||m.state=="leftLine"||m.state=="rightLine")
-                    {  
-                        shapes.push(parseInt(scene.meshes[i].id));
-                    }
-                    else
-                    {
-                        console.log(m);
-                    }
+                if(m.state=="downLine"||m.state=="leftLine"||m.state=="rightLine")
+                {  
+                    shapes.push(parseInt(scene.meshes[i].id));
                 }
                 else
                 {
-                    console.log("shpes array error");
+                   // console.log(m);
                 }       
-            } 
+            }
         
 
     }
