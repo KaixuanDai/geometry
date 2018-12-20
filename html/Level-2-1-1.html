@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Level-2-2-1</title>
+    <title>Level-2-1-1</title>
 
     <style>
         html,body{
@@ -461,11 +461,11 @@
         
         if(s=="testLine1")
         {
-            if(Math.abs(m.position.x-truedownLine.position.x) <= tol && Math.abs(m.position.z-truedownLine.position.z<= tol))
+            if(Math.abs(m.position.x-trueLine1.position.x) <= tol && Math.abs(m.position.z-trueLine1.position.z<= tol))
             {
 
                 console.log("testLine1");
-                afterJudge(id,"truedownLine");
+                afterJudge(id,"trueLine1");
                 
 
                 
@@ -475,11 +475,11 @@
         }
         else if(s=="testLine2")
         {
-            if(Math.abs(m.position.x-truerightLine.position.x ) <= tol && Math.abs(m.position.z-truerightLine.position.z) <= tol)
+            if(Math.abs(m.position.x-trueLine2.position.x ) <= tol && Math.abs(m.position.z-trueLine2.position.z) <= tol)
             {
 
                 console.log("testLine2");
-                afterJudge(id,"truerightLine");
+                afterJudge(id,"trueLine2");
 
                 
 
@@ -487,11 +487,11 @@
         }
         else if(s=="testLine3")
         {
-            if(Math.abs(m.position.x-trueleftLine.position.x ) <= tol && Math.abs(m.position.z-trueleftLine.position.z) <=tol)
+            if(Math.abs(m.position.x-trueLine3.position.x ) <= tol && Math.abs(m.position.z-trueLine3.position.z) <=tol)
             {
 
                 console.log("testLine3");
-                afterJudge(id,"trueleftLine");
+                afterJudge(id,"trueLine3");
 
                
             }
@@ -533,16 +533,18 @@
             for (var i = 0; i < scene.meshes.length; i++) {
                 
                 var m=scene.meshes[i];
-                
-                if(m.state=="testLine1"||m.state=="testLine2"||m.state=="testLine3"||m.state=="testLine4")
-                {  
-                    shapes.push(parseInt(scene.meshes[i].id));
+                var d=m.isDisposed();
+                if(d==false){
+                    if(m.state=="testLine1"||m.state=="testLine2"||m.state=="testLine3"||m.state=="testLine4")
+                    {  
+                        shapes.push(parseInt(scene.meshes[i].id));
+                    }
+                    else
+                    {
+                    // console.log(m);
+                    }       
+                    } 
                 }
-                else
-                {
-                   // console.log(m);
-                }       
-            } 
         
 
     }
