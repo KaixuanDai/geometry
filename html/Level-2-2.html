@@ -523,7 +523,7 @@
             // trueAns1.outlineColor=BABYLON.Color3.Red();
 
             m = BABYLON.MeshBuilder.CreateCylinder(id, {height:0.1, diameter:3,tessellation: 99, updatable:true,faceColors:faceColors}, scene);                        
-            cir.state="users";
+            m.state="users";
 
         }
         else if(str="true2")
@@ -534,7 +534,8 @@
             // trueAns1.outlineColor=BABYLON.Color3.Red();
             
             m = BABYLON.MeshBuilder.CreateCylinder(id, {height:0.1, diameter:3,tessellation: 99, faceColors:faceColors}, scene);                        
-            cir.state="users";
+            
+            m.state="users";
 
         }
         else
@@ -557,6 +558,7 @@
             {
                 afterJudge(id,"true1");
                 console.log("true1");
+                
                 
             }
         
@@ -647,11 +649,12 @@
 
             else//该id在现有场景数组中存在，更新其位置
             {
-                change(id.toString());
 
+                change(id.toString());
                 changePos(id.toString(),local_pos); 
+
                 judge(id.toString()); 
-                
+
             }
 
             shapes=[];
