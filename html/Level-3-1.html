@@ -106,6 +106,32 @@
                   new BABYLON.Vector3(4, 0, 7), 
 
             ];
+            var nextBut = [ 
+                  new BABYLON.Vector3(0, 0, 0),
+                  new BABYLON.Vector3(3, 0, 0), 
+                  new BABYLON.Vector3(3, 0, -1), 
+
+                  new BABYLON.Vector3(6, 0, 1), 
+                  new BABYLON.Vector3(3, 0, 3), 
+
+                  new BABYLON.Vector3(3, 0, 2), 
+                  new BABYLON.Vector3(0, 0, 2), 
+                  new BABYLON.Vector3(0, 0, 0),
+
+                ];
+                var upBut = [ 
+                  new BABYLON.Vector3(0, 0, 0),
+                  new BABYLON.Vector3(3, 0, 0), 
+                  new BABYLON.Vector3(3, 0, -1), 
+
+                  new BABYLON.Vector3(6, 0, 1), 
+                  new BABYLON.Vector3(3, 0, 3), 
+
+                  new BABYLON.Vector3(3, 0, 2), 
+                  new BABYLON.Vector3(0, 0, 2), 
+                  new BABYLON.Vector3(0, 0, 0),
+
+                ];
                 
     var faceColors = [];
         faceColors[0] = BABYLON.Color3.Red();
@@ -145,6 +171,22 @@
         greenColors[4] = BABYLON.Color3.Green();
         greenColors[5] = BABYLON.Color3.Green();
         
+        var randomColors = [];
+        randomColors[0] = BABYLON.Color3.Random();
+        randomColors[1] = BABYLON.Color3.Random();
+        randomColors[2] = BABYLON.Color3.Random();
+        randomColors[3] = BABYLON.Color3.Random();
+        randomColors[4] = BABYLON.Color3.Random();
+        randomColors[5] = BABYLON.Color3.Random();
+
+//跳转到下一关卡
+var nextBut = BABYLON.MeshBuilder.ExtrudePolygon("nextBut",{shape:nextBut, depth: 0.2, faceColors:randomColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,}, scene);
+    nextBut.setAbsolutePosition(8,0.2,8);
+    //返回上一关卡
+    var upBut = BABYLON.MeshBuilder.ExtrudePolygon("upBut",{shape:upBut, depth: 0.2,  sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:randomColors }, scene);
+    upBut.setAbsolutePosition(-8,0.2,10);
+    upBut.rotate(BABYLON.Axis.Y,3.14, BABYLON.Space.LOCAL);//旋转方向为顺时针
+
     var greenMaterial = new BABYLON.StandardMaterial('greenMat', scene);
     greenMaterial.diffuseColor = BABYLON.Color3.FromInts(0, 255, 0);
 
@@ -156,18 +198,19 @@
 
     var whiteMaterial = new BABYLON.StandardMaterial('whiteMat', scene);
     whiteMaterial.diffuseColor = BABYLON.Color3.FromInts(255, 255, 255);
+    
     //Box的判定区域        
-    var trueBox = BABYLON.MeshBuilder.ExtrudePolygon("trueBox",{shape:shapeTrueBox, depth: 0.01, faceColors:redColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:redColors }, scene);
+    var trueBox = BABYLON.MeshBuilder.ExtrudePolygon("trueBox",{shape:shapeTrueBox, depth: 0.2, faceColors:redColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:redColors }, scene);
     
     trueBox.setAbsolutePosition(-10,0.2,-8);
 
     //Tri的判定区域
-    var trueTri = BABYLON.MeshBuilder.ExtrudePolygon("trueTri", {shape:shapeTrueTri, depth: 0.01,faceColors:blueColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+    var trueTri = BABYLON.MeshBuilder.ExtrudePolygon("trueTri", {shape:shapeTrueTri, depth: 0.2,faceColors:blueColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
    
     trueTri.setAbsolutePosition(-4,0.2,-8);
 
     //Cir的判定区域
-    var trueCir = BABYLON.MeshBuilder.CreateCylinder("trueCir", {height:0.01,diameter: 5.5, tessellation: 99, faceColors:greenColors}, scene);
+    var trueCir = BABYLON.MeshBuilder.CreateCylinder("trueCir", {height:0.2,diameter: 5.5, tessellation: 99, faceColors:greenColors}, scene);
 
     trueCir.setAbsolutePosition(8,0.2,-6);
 
@@ -507,6 +550,19 @@
         else
         {
             console.log("judge error")
+        }
+
+        //返回及下一关
+        if(Math.abs(m.position.x- nextBut.position.x) <=tol && Math.abs(m.position.z- nextBut.position.z) <=tol)
+        {
+            window.location.href='Level-2-2.html';
+            console.log("link to next")
+        }
+        
+        if(Math.abs(m.position.x- upBut.position.x) <=tol && Math.abs(m.position.z- upBut.position.z) <=tol)
+        {
+            window.location.href='Level-3.html';
+            console.log("link to up")
         }
 
     }

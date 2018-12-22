@@ -112,6 +112,32 @@
                   new BABYLON.Vector3(1.5, 0, -2), 
 
             ];
+            var nextBut = [ 
+                  new BABYLON.Vector3(0, 0, 0),
+                  new BABYLON.Vector3(3, 0, 0), 
+                  new BABYLON.Vector3(3, 0, -1), 
+
+                  new BABYLON.Vector3(6, 0, 1), 
+                  new BABYLON.Vector3(3, 0, 3), 
+
+                  new BABYLON.Vector3(3, 0, 2), 
+                  new BABYLON.Vector3(0, 0, 2), 
+                  new BABYLON.Vector3(0, 0, 0),
+
+                ];
+                var upBut = [ 
+                  new BABYLON.Vector3(0, 0, 0),
+                  new BABYLON.Vector3(3, 0, 0), 
+                  new BABYLON.Vector3(3, 0, -1), 
+
+                  new BABYLON.Vector3(6, 0, 1), 
+                  new BABYLON.Vector3(3, 0, 3), 
+
+                  new BABYLON.Vector3(3, 0, 2), 
+                  new BABYLON.Vector3(0, 0, 2), 
+                  new BABYLON.Vector3(0, 0, 0),
+
+                ];
 
                 
     var greenMaterial = new BABYLON.StandardMaterial('greenMat', scene);
@@ -164,19 +190,34 @@
             greenColors[4] = BABYLON.Color3.Green();
             greenColors[5] = BABYLON.Color3.Green();
 
+            var randomColors = [];
+        randomColors[0] = BABYLON.Color3.Random();
+        randomColors[1] = BABYLON.Color3.Random();
+        randomColors[2] = BABYLON.Color3.Random();
+        randomColors[3] = BABYLON.Color3.Random();
+        randomColors[4] = BABYLON.Color3.Random();
+        randomColors[5] = BABYLON.Color3.Random();
+
+//跳转到下一关卡
+var nextBut = BABYLON.MeshBuilder.ExtrudePolygon("nextBut",{shape:nextBut, depth: 0.2, faceColors:randomColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,}, scene);
+    nextBut.setAbsolutePosition(8,0.2,8);
+    //返回上一关卡
+    var upBut = BABYLON.MeshBuilder.ExtrudePolygon("upBut",{shape:upBut, depth: 0.2,  sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:randomColors }, scene);
+    upBut.setAbsolutePosition(-8,0.2,10);
+    upBut.rotate(BABYLON.Axis.Y,3.14, BABYLON.Space.LOCAL);//旋转方向为顺时针
 
     //Box的选择区域        
-    var trueBox = BABYLON.MeshBuilder.ExtrudePolygon("trueBox",{shape:shapeTrueBox, depth: 0.01, faceColors:redColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:redColors }, scene);
+    var trueBox = BABYLON.MeshBuilder.ExtrudePolygon("trueBox",{shape:shapeTrueBox, depth: 0.2, faceColors:redColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:redColors }, scene);
     
-    trueBox.setAbsolutePosition(-8,0.2,-10);
+    trueBox.setAbsolutePosition(-9,0.2,-9);
 
     //Tri1的选择区域
-    var trueTri1 = BABYLON.MeshBuilder.ExtrudePolygon("trueTri1", {shape:shapeTrueTri1, depth: 0.01,faceColors:blueColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-    trueTri1.setAbsolutePosition(-2,0.2,-10);
+    var trueTri1 = BABYLON.MeshBuilder.ExtrudePolygon("trueTri1", {shape:shapeTrueTri1, depth: 0.2,faceColors:blueColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+    trueTri1.setAbsolutePosition(6,0.2,-8);
 
     //Tri2的选择区域
-    var trueTri2 = BABYLON.MeshBuilder.ExtrudePolygon("trueTri2", {shape:shapeTrueTri2, depth: 0.01,faceColors:greenColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-    trueTri2.setAbsolutePosition(4,0.2,-7);
+    var trueTri2 = BABYLON.MeshBuilder.ExtrudePolygon("trueTri2", {shape:shapeTrueTri2, depth: 0.2,faceColors:greenColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+    trueTri2.setAbsolutePosition(-1,0.2,-7);
 
 
     //判定区域
@@ -193,18 +234,14 @@
     trueAns2.material=whiteMaterial;
     trueAns2.setAbsolutePosition(-1.5,0.2,0);
    
-   
-
-    
-    
 
 
     var imagePlane = BABYLON.Mesh.CreatePlane("imagePlane", 5.0, scene, false, BABYLON.Mesh.DEFAULTSIDE);//创建一个平面
-    imagePlane.setAbsolutePosition(-10,0,35);
+    imagePlane.setAbsolutePosition(-10,0,44);
     imagePlane.isVisible=false;
     
     var lablePlane = BABYLON.Mesh.CreatePlane("lablePlane", 5.0, scene, false, BABYLON.Mesh.DEFAULTSIDE);//创建一个平面
-    lablePlane.setAbsolutePosition(1,0,50);
+    lablePlane.setAbsolutePosition(1,0,65);
     lablePlane.isVisible=false;
 
 
@@ -272,20 +309,20 @@
 
 
         //button change pic
-        var button1 = BABYLON.GUI.Button.CreateSimpleButton("but1", "下一张");
+        // var button1 = BABYLON.GUI.Button.CreateSimpleButton("but1", "下一张");
             
-            button1.width = 0.2;
-            button1.height = "40px";
-            button1.color = "black";
-            button1.background = "white";
-            button1.top="20px";
-            button1.left="200px";
-            button1.onPointerUpObservable.add(function()
-            {
-                changePic();
-            }
-        );
-        label.addControl(button1); 
+        //     button1.width = 0.2;
+        //     button1.height = "40px";
+        //     button1.color = "black";
+        //     button1.background = "white";
+        //     button1.top="20px";
+        //     button1.left="200px";
+        //     button1.onPointerUpObservable.add(function()
+        //     {
+        //         changePic();
+        //     }
+        // );
+        // label.addControl(button1); 
 
 
 
@@ -514,10 +551,17 @@
     {
         var m = scene.getMeshByID(id);
         m.dispose();
+       
+        //判断成功之后随机变换颜色，表示反馈
+        var RandomMaterial = new BABYLON.StandardMaterial('greenMat', scene);
+        
+        RandomMaterial.diffuseColor = BABYLON.Color3.Random();
+
+
 
         if(str=="true1")
         {
-            trueAns1.material=blueMaterial;
+            trueAns1.material=RandomMaterial;
 
             // trueAns1.outlineWidth=0.5;
             // trueAns1.outlineColor=BABYLON.Color3.Red();
@@ -528,7 +572,7 @@
         }
         else if(str="true2")
         {
-            trueAns2.material=blueMaterial;
+            trueAns2.material=RandomMaterial;
 
             // trueAns1.outlineWidth=0.5;
             // trueAns1.outlineColor=BABYLON.Color3.Red();
@@ -571,6 +615,25 @@
         {
            // alert("Judge error")
         }
+
+
+        
+        if(Math.abs(m.position.x- nextBut.position.x) <=tol && Math.abs(m.position.z- nextBut.position.z) <=tol)
+        {
+            window.location.href='Level-3-1.html';
+            console.log("link to next")
+        }
+        
+        if(Math.abs(m.position.x- upBut.position.x) <=tol && Math.abs(m.position.z- upBut.position.z) <=tol)
+        {
+            window.location.href='Level-2-1-2.html';
+            console.log("link to up")
+        }
+
+
+
+
+
     }
 
 

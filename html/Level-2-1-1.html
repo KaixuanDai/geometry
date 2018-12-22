@@ -106,6 +106,32 @@
                   new BABYLON.Vector3(4, 0, 7), 
 
             ];
+            var nextBut = [ 
+                  new BABYLON.Vector3(0, 0, 0),
+                  new BABYLON.Vector3(3, 0, 0), 
+                  new BABYLON.Vector3(3, 0, -1), 
+
+                  new BABYLON.Vector3(6, 0, 1), 
+                  new BABYLON.Vector3(3, 0, 3), 
+
+                  new BABYLON.Vector3(3, 0, 2), 
+                  new BABYLON.Vector3(0, 0, 2), 
+                  new BABYLON.Vector3(0, 0, 0),
+
+                ];
+                var upBut = [ 
+                  new BABYLON.Vector3(0, 0, 0),
+                  new BABYLON.Vector3(3, 0, 0), 
+                  new BABYLON.Vector3(3, 0, -1), 
+
+                  new BABYLON.Vector3(6, 0, 1), 
+                  new BABYLON.Vector3(3, 0, 3), 
+
+                  new BABYLON.Vector3(3, 0, 2), 
+                  new BABYLON.Vector3(0, 0, 2), 
+                  new BABYLON.Vector3(0, 0, 0),
+
+                ];
                 
     var faceColors = [];
         faceColors[0] = BABYLON.Color3.Red();
@@ -145,11 +171,29 @@
         greenColors[4] = BABYLON.Color3.Green();
         greenColors[5] = BABYLON.Color3.Green();
 
+        var randomColors = [];
+        randomColors[0] = BABYLON.Color3.Random();
+        randomColors[1] = BABYLON.Color3.Random();
+        randomColors[2] = BABYLON.Color3.Random();
+        randomColors[3] = BABYLON.Color3.Random();
+        randomColors[4] = BABYLON.Color3.Random();
+        randomColors[5] = BABYLON.Color3.Random();
+
     //Box的判定区域        
     // var trueBox = BABYLON.MeshBuilder.ExtrudePolygon("trueBox",{shape:shapeTrueBox, depth: 0.2, faceColors:greenColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
     
     // trueBox.setAbsolutePosition(-7,0.2,-7);
     // trueBox.isVisible=false;
+   
+    //跳转到下一关卡
+   var nextBut = BABYLON.MeshBuilder.ExtrudePolygon("nextBut",{shape:nextBut, depth: 0.2, faceColors:randomColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,}, scene);
+    nextBut.setAbsolutePosition(8,0.2,8);
+    //返回上一关卡
+    var upBut = BABYLON.MeshBuilder.ExtrudePolygon("upBut",{shape:upBut, depth: 0.2,  sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:randomColors }, scene);
+    upBut.setAbsolutePosition(-8,0.2,10);
+    upBut.rotate(BABYLON.Axis.Y,3.14, BABYLON.Space.LOCAL);//旋转方向为顺时针
+
+
 
 
     //左
@@ -433,13 +477,18 @@
     {
         var i= id;
         var m = scene.getMeshByID(id);
+        
         var t = scene.getMeshByID(trueLine);
 
             
 
         m.dispose();
-
-        t.material=greenMaterial;
+       //判断成功之后随机变换颜色，表示反馈
+        var RandomMaterial = new BABYLON.StandardMaterial('greenMat', scene);
+        
+        RandomMaterial.diffuseColor = BABYLON.Color3.Random();
+        
+        t.material=RandomMaterial;
 
 }
 // afterJudge("testLine1","trueLine1");
@@ -510,6 +559,20 @@
         {
             console.log("judge error")
         }
+
+
+        if(Math.abs(m.position.x- nextBut.position.x) <=tol && Math.abs(m.position.z- nextBut.position.z) <=tol)
+        {
+            window.location.href='Level-2-1-2.html';
+            console.log("link to next")
+        }
+        
+        if(Math.abs(m.position.x- upBut.position.x) <=tol && Math.abs(m.position.z- upBut.position.z) <=tol)
+        {
+            window.location.href='Level-1.html';
+            console.log("link to up")
+        }
+
 
     }
 

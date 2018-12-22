@@ -20,6 +20,8 @@
             touch-action: none;
         }
     </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
     <script src="/node_modules/_earcut@2.1.3@earcut/dist/earcut.min.js"></script>
     <script src="/node_modules/babylonjs/babylon.js"></script>
     <script src="/node_modules/babylonjs/Oimo.js"></script>
@@ -56,8 +58,9 @@
 
         light.intensity = 0.9;
         
- 
+       
 
+        
         //创建地面
         var ground = BABYLON.Mesh.CreateGround("ground1",30,25,2,scene);
         var materialGround = new BABYLON.StandardMaterial("texture1", scene);
@@ -106,7 +109,22 @@
                   new BABYLON.Vector3(4, 0, 7), 
 
             ];
+
+    var nextBut = [ 
+                  new BABYLON.Vector3(0, 0, 0),
+                  new BABYLON.Vector3(3, 0, 0), 
+                  new BABYLON.Vector3(3, 0, -1), 
+
+                  new BABYLON.Vector3(6, 0, 1), 
+                  new BABYLON.Vector3(3, 0, 3), 
+
+                  new BABYLON.Vector3(3, 0, 2), 
+                  new BABYLON.Vector3(0, 0, 2), 
+                  new BABYLON.Vector3(0, 0, 0),
+
+                ];
                 
+
     var faceColors = [];
         faceColors[0] = BABYLON.Color3.Red();
         faceColors[1] = BABYLON.Color3.Red();
@@ -145,21 +163,31 @@
             greenColors[4] = BABYLON.Color3.Green();
             greenColors[5] = BABYLON.Color3.Green();
 
+
+
+
+    //跳转到下一关卡
+    var nextBut = BABYLON.MeshBuilder.ExtrudePolygon("nextBut",{shape:nextBut, depth: 0.2, faceColors:redColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:redColors }, scene);
+    nextBut.setAbsolutePosition(8,0.2,8);
+
+
+
+
     //Box的判定区域        
-    var trueBox = BABYLON.MeshBuilder.ExtrudePolygon("trueBox",{shape:shapeTrueBox, depth: 0.01, faceColors:redColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:redColors }, scene);
+    var trueBox = BABYLON.MeshBuilder.ExtrudePolygon("trueBox",{shape:shapeTrueBox, depth: 0.2, faceColors:redColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:redColors }, scene);
     
     trueBox.setAbsolutePosition(-10,0.2,-8);
 
     //Tri的判定区域
-    var trueTri = BABYLON.MeshBuilder.ExtrudePolygon("trueTri", {shape:shapeTrueTri, depth: 0.01,faceColors:blueColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+    var trueTri = BABYLON.MeshBuilder.ExtrudePolygon("trueTri", {shape:shapeTrueTri, depth: 0.2,faceColors:blueColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
    
-    trueTri.setAbsolutePosition(-4,0.2,-1);
+    trueTri.setAbsolutePosition(3,0.2,-8);
 
     //Cir的判定区域
-    var trueCir = BABYLON.MeshBuilder.CreateCylinder("trueCir", {height:0.01,diameter: 5.5, tessellation: 99, faceColors:greenColors}, scene);
+    var trueCir = BABYLON.MeshBuilder.CreateCylinder("trueCir", {height:0.2,diameter: 6.5, tessellation: 99, faceColors:greenColors}, scene);
 
-    trueCir.setAbsolutePosition(8,0.2,-6);
-
+    trueCir.setAbsolutePosition(0.1,0.2,4);
+    
     //设置skybox
     var skybox = BABYLON.Mesh.CreateBox("skyBox", 100.0, scene);
     var skyboxMaterial = new BABYLON.StandardMaterial("../skyBox", scene);
@@ -181,7 +209,7 @@
         label.background = "white"
         label.height = "30px";
         label.alpha = 0.5;
-        label.width = "70px";
+        label.width = "100px";
         label.height = "30px";
 
         label.cornerRadius = 20;
@@ -189,7 +217,7 @@
         label.linkOffsetY = 30;
         
         advancedTexture.addControl(label); 
-    label.linkWithMesh(mesh);
+        label.linkWithMesh(mesh);
 
         var text1 = new BABYLON.GUI.TextBlock();
         text1.text = mesh.id;
@@ -200,6 +228,8 @@
     createLabel(trueBox);
     createLabel(trueTri);
     createLabel(trueCir);
+    createLabel(nextBut);
+
 
 
 
@@ -390,17 +420,16 @@
         var pos = m.getAbsolutePosition();
         var s=m.state;
         var t=[];
-
+        var tol=1;
 
 
         
         if(s=="box")
         {
-            if(Math.abs(m.position.x- (-10)) <= 0.8 && Math.abs(m.position.z- (-8)) <= 0.8)
+            if(Math.abs(m.position.x- trueBox.position.x) <=tol && Math.abs(m.position.z- trueBox.position.z) <= tol)
             {
 
                 console.log("boxxxx");
-                window.location.href='Level-1.html';
                 afterJudge(id);
                 
 
@@ -411,7 +440,7 @@
         }
         else if(s=="tri")
         {
-            if(Math.abs(m.position.x- (-4)) <= 0.8 && Math.abs(m.position.z- (-1)) <= 0.8)
+            if(Math.abs(m.position.x- trueTri.position.x) <=tol && Math.abs(m.position.z- trueTri.position.z) <= tol)
             {
 
                 console.log("triiii");
@@ -423,7 +452,7 @@
         }
         else if(s=="cir")
         {
-            if(Math.abs(m.position.x- (8)) <= 0.8 && Math.abs(m.position.z- (-6)) <= 0.8)
+            if(Math.abs(m.position.x- trueCir.position.x) <=tol && Math.abs(m.position.z- trueCir.position.z) <=tol)
             {
 
                 console.log("cirrrr");
@@ -436,9 +465,15 @@
         {
             alert("judge error")
         }
-
+        
+        //跳转到下一页面
+        if(Math.abs(m.position.x- nextBut.position.x) <=tol && Math.abs(m.position.z- nextBut.position.z) <=tol)
+        {
+            window.location.href='Level-1.html';
+            console.log("link to next")
+        }
+      
     }
-
 
     //获取当前场景中所有mesh的id
     function getAllmeshid()

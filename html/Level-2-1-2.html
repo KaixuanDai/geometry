@@ -75,6 +75,32 @@
                   new BABYLON.Vector3(0, 0, 3), 
 
             ];
+            var nextBut = [ 
+                  new BABYLON.Vector3(0, 0, 0),
+                  new BABYLON.Vector3(3, 0, 0), 
+                  new BABYLON.Vector3(3, 0, -1), 
+
+                  new BABYLON.Vector3(6, 0, 1), 
+                  new BABYLON.Vector3(3, 0, 3), 
+
+                  new BABYLON.Vector3(3, 0, 2), 
+                  new BABYLON.Vector3(0, 0, 2), 
+                  new BABYLON.Vector3(0, 0, 0),
+
+                ];
+                var upBut = [ 
+                  new BABYLON.Vector3(0, 0, 0),
+                  new BABYLON.Vector3(3, 0, 0), 
+                  new BABYLON.Vector3(3, 0, -1), 
+
+                  new BABYLON.Vector3(6, 0, 1), 
+                  new BABYLON.Vector3(3, 0, 3), 
+
+                  new BABYLON.Vector3(3, 0, 2), 
+                  new BABYLON.Vector3(0, 0, 2), 
+                  new BABYLON.Vector3(0, 0, 0),
+
+                ];
 
                 
     var faceColors = [];
@@ -84,6 +110,14 @@
         faceColors[3] = BABYLON.Color3.Red();
         faceColors[4] = BABYLON.Color3.Red();
         faceColors[5] = BABYLON.Color3.Red();
+    var randomColors = [];
+        randomColors[0] = BABYLON.Color3.Random();
+        randomColors[1] = BABYLON.Color3.Random();
+        randomColors[2] = BABYLON.Color3.Random();
+        randomColors[3] = BABYLON.Color3.Random();
+        randomColors[4] = BABYLON.Color3.Random();
+        randomColors[5] = BABYLON.Color3.Random();
+
    
     var trueFaceColors = [];
         trueFaceColors[0] = BABYLON.Color3.Green();
@@ -127,7 +161,13 @@
         var whiteMaterial = new BABYLON.StandardMaterial('whiteMaterial', scene);
         whiteMaterial.diffuseColor = BABYLON.Color3.FromInts(255, 255, 255);
    
-
+ //跳转到下一关卡
+ var nextBut = BABYLON.MeshBuilder.ExtrudePolygon("nextBut",{shape:nextBut, depth: 0.2, faceColors:randomColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,}, scene);
+    nextBut.setAbsolutePosition(8,0.2,8);
+    //返回上一关卡
+    var upBut = BABYLON.MeshBuilder.ExtrudePolygon("upBut",{shape:upBut, depth: 0.2,  sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:randomColors }, scene);
+    upBut.setAbsolutePosition(-8,0.2,10);
+    upBut.rotate(BABYLON.Axis.Y,3.14, BABYLON.Space.LOCAL);//旋转方向为顺时针
 
     var downLine = [
             new BABYLON.Vector3(0, 0, 0), 
@@ -359,21 +399,25 @@
         
        
         m.dispose();
-
+        
+        //判断成功之后随机变换颜色，表示反馈
+        var RandomMaterial = new BABYLON.StandardMaterial('greenMat', scene);
+        
+        RandomMaterial.diffuseColor = BABYLON.Color3.Random();
    
          
         if(s=="downLine")
         {
-           truedownLine.material=whiteMaterial;
+           truedownLine.material=RandomMaterial;
 
         }
         else if(s=="rightLine")
         {
-            truerightLine.material=whiteMaterial;
+            truerightLine.material=RandomMaterial;
         }
         else if(s=="leftLine")
         {
-            trueleftLine.material=whiteMaterial;
+            trueleftLine.material=RandomMaterial;
         }
         else
         {
@@ -440,6 +484,19 @@
         {
             alert("judge error")
         }
+
+        if(Math.abs(m.position.x- nextBut.position.x) <=tol && Math.abs(m.position.z- nextBut.position.z) <=tol)
+        {
+            window.location.href='Level-2-2.html';
+            console.log("link to next")
+        }
+        
+        if(Math.abs(m.position.x- upBut.position.x) <=tol && Math.abs(m.position.z- upBut.position.z) <=tol)
+        {
+            window.location.href='Level-2-1-1.html';
+            console.log("link to up")
+        }
+
 
     }
 
