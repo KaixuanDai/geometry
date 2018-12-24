@@ -246,8 +246,8 @@
 
     
     //实际场地长宽
-    var realWidth=4.1;
-    var realHeihgt=4.1;
+    var realWidth=2.5;
+    var realHeihgt=3;
     //长宽缩放的尺度
     var scaleW=30/realWidth;
     var scaleH=25/realHeihgt;
@@ -411,6 +411,17 @@
     }
 
 
+//计算图形中心
+    var tbx=trueBox.position.x+(trueBox.geometry.extend.maximum.x-trueBox.geometry.extend.minimum.x)/2;
+    var tbz=trueBox.position.z+(trueBox.geometry.extend.maximum.z-trueBox.geometry.extend.minimum.z)/2;
+    
+    var ttx=trueTri.position.x+(trueTri.geometry.extend.maximum.x-trueTri.geometry.extend.minimum.x)/2;
+    var ttz=trueTri.position.z+(trueTri.geometry.extend.maximum.z-trueTri.geometry.extend.minimum.z)/2;
+
+   
+
+
+
 
 
     //判断函数，既要判断位置，还要判断形状
@@ -420,13 +431,15 @@
         var pos = m.getAbsolutePosition();
         var s=m.state;
         var t=[];
-        var tol=1;
+        var tol=2;
 
-
+    
+            
+        //console.log(by);
         
         if(s=="box")
         {
-            if(Math.abs(m.position.x- trueBox.position.x) <=tol && Math.abs(m.position.z- trueBox.position.z) <= tol)
+            if(Math.abs(m.position.x+1.5- tbx) <=tol && Math.abs(m.position.z+1.5- tbz) <= tol)
             {
 
                 console.log("boxxxx");
@@ -440,7 +453,7 @@
         }
         else if(s=="tri")
         {
-            if(Math.abs(m.position.x- trueTri.position.x) <=tol && Math.abs(m.position.z- trueTri.position.z) <= tol)
+            if(Math.abs(m.position.x+3- ttx) <=tol && Math.abs(m.position.z+2.5- ttz) <= tol)
             {
 
                 console.log("triiii");
@@ -494,17 +507,18 @@
             for (var i = 0; i < scene.meshes.length; i++) {
                 
                 var m=scene.meshes[i];
-
-                
+                var v=m.isVisible;
+                if(v==true)
+                {
                     if(m.state=="box"||m.state=="tri"||m.state=="cir")
                     {  
                         shapes.push(parseInt(scene.meshes[i].id));
                     }
                     else
                     {
-                        console.log(m);
+                       // console.log(m);
                     }  
-                
+                }
             } 
         
 
@@ -530,11 +544,10 @@
       for (i in memuse.tracks) {
         
 
-        if (memuse.tracks[i].x >= -2 && memuse.tracks[i].x <= 2 && memuse.tracks[i].y >= -2 && memuse.tracks[i]
-          .y <= 2) {
+        if (memuse.tracks[i].x >= -1.2 && memuse.tracks[i].x <= 1.2 && memuse.tracks[i].y >= -1.2 && memuse.tracks[i].y <= 1.2) {
 
-            var z = memuse.tracks[i]["x"];
-            var x = memuse.tracks[i]["y"];
+            var x = -memuse.tracks[i]["x"];
+            var z = memuse.tracks[i]["y"];
             var h = memuse.tracks[i]["height"];
             var color = memuse.tracks[i]["confidence"];
             var id = memuse.tracks[i]["id"];

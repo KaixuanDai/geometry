@@ -497,6 +497,18 @@
 // afterJudge("testLine4","trueLine4");
 
 
+var tx1=trueLine1.position.x+(trueLine1.geometry.extend.maximum.x-trueLine1.geometry.extend.minimum.x)/2;
+var tz1=trueLine1.position.z+(trueLine1.geometry.extend.maximum.z-trueLine1.geometry.extend.minimum.z)/2;
+
+var tx2=trueLine2.position.x+(trueLine2.geometry.extend.maximum.x-trueLine2.geometry.extend.minimum.x)/2;
+var tz2=trueLine2.position.x+(trueLine2.geometry.extend.maximum.z-trueLine2.geometry.extend.minimum.z)/2;
+
+console.log(tx1);
+console.log(tz1);
+
+console.log(tx2);
+console.log(tz2);
+
 
     //判断函数，既要判断位置，还要判断形状是否符合要求
     //test匹配true
@@ -510,7 +522,7 @@
         
         if(s=="testLine1")
         {
-            if(Math.abs(m.position.x-trueLine1.position.x) <= tol && Math.abs(m.position.z-trueLine1.position.z<= tol))
+            if(Math.abs(m.position.x-tx1) <= tol && Math.abs(m.position.z-tz1)<= tol)
             {
 
                 console.log("testLine1");
@@ -524,7 +536,7 @@
         }
         else if(s=="testLine2")
         {
-            if(Math.abs(m.position.x-trueLine2.position.x ) <= tol && Math.abs(m.position.z-trueLine2.position.z) <= tol)
+            if(Math.abs(m.position.x+7.5-tx2 ) <= tol && Math.abs(m.position.z+0.5-tz2) <= tol)
             {
 
                 console.log("testLine2");
@@ -635,8 +647,8 @@
         if (memuse.tracks[i].x >= -2 && memuse.tracks[i].x <= 2 && memuse.tracks[i].y >= -2 && memuse.tracks[i]
           .y <= 2) {
 
-            var z = memuse.tracks[i]["x"];
-            var x = memuse.tracks[i]["y"];
+            var x = -memuse.tracks[i]["x"];
+            var z = memuse.tracks[i]["y"];
             var h = memuse.tracks[i]["height"];
             var color = memuse.tracks[i]["confidence"];
             var id = memuse.tracks[i]["id"];

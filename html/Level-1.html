@@ -498,7 +498,7 @@
         }
         else if(pId==2)
         {
-             m=BABYLON.MeshBuilder.CreateCylinder(i, {height:0.1, tessellation: 99, faceColors:faceColors}, scene);
+             m=BABYLON.MeshBuilder.CreateCylinder(i, {height:0.2,diameter: 3, tessellation: 99, faceColors:faceColors}, scene);
 
              m.state="cir";
 
@@ -521,6 +521,15 @@
 
     }
 
+  //计算图形中心
+    var tbx=trueBox.position.x+(trueBox.geometry.extend.maximum.x-trueBox.geometry.extend.minimum.x)/2;
+    var tbz=trueBox.position.z+(trueBox.geometry.extend.maximum.z-trueBox.geometry.extend.minimum.z)/2;
+    
+    var ttx=trueTri.position.x+(trueTri.geometry.extend.maximum.x-trueTri.geometry.extend.minimum.x)/2;
+    var ttz=trueTri.position.z+(trueTri.geometry.extend.maximum.z-trueTri.geometry.extend.minimum.z)/2;
+
+
+
 
 
     //判断函数，既要判断位置，还要判断形状
@@ -529,11 +538,17 @@
         var m = scene.getMeshByID(id);
         var pos = m.getAbsolutePosition();
         var s=m.state;
-        var t=[];
+        var tol=2;
+      
+
+
+
+
+
 
         if(pId==0)
         {
-            if(Math.abs(m.position.x- (-10)) <= 3 && Math.abs(m.position.z- (-8)) <= 3)
+            if(Math.abs(m.position.x+1.5- tbx) <=tol && Math.abs(m.position.z+1.5- tbz) <= tol)
             {
                 console.log("boxxxx");
                 pId++
@@ -548,7 +563,7 @@
         }
         else if(pId==1)
         {
-            if(Math.abs(m.position.x- (-4)) <= 3 && Math.abs(m.position.z- (-8)) <= 3)
+            if(Math.abs(m.position.x+3- ttx) <=tol && Math.abs(m.position.z+2.5- ttz) <= tol)
             {
 
                 console.log("triiii");
@@ -562,7 +577,7 @@
         }
         else if(pId==2)
         {
-            if(Math.abs(m.position.x- (8)) <= 3 && Math.abs(m.position.z- (-6)) <= 3)
+            if(Math.abs(m.position.x- trueCir.position.x) <= tol && Math.abs(m.position.z- trueCir.position.z) <= tol)
             {
 
                 console.log("cirrrr");
@@ -582,17 +597,17 @@
             console.log("judge error")
         }
 
-
+        var tol=2;
 
         if(Math.abs(m.position.x- nextBut.position.x) <=tol && Math.abs(m.position.z- nextBut.position.z) <=tol)
         {
-            window.location.href='Level-0.html';
+            window.location.href='Level-2-1-1.html';
             console.log("link to next")
         }
         
         if(Math.abs(m.position.x- upBut.position.x) <=tol && Math.abs(m.position.z- upBut.position.z) <=tol)
         {
-            window.location.href='Level-2-1-1.html';
+            window.location.href='Level-0.html';
             console.log("link to up")
         }
 
@@ -616,8 +631,9 @@
             for (var i = 0; i < scene.meshes.length; i++) {
                 
                 var m=scene.meshes[i];
-
-                
+                var v=m.isVisible;
+                if(v==true)
+                {
                     if(m.state=="box"||m.state=="tri"||m.state=="cir")
                     {  
                         shapes.push(parseInt(scene.meshes[i].id));
@@ -626,15 +642,18 @@
                     {
                         //console.log(m);
                     }  
-                
+                }
             } 
 
     }
 
 
+   
 
 
-    
+
+
+       
     
 
     var shapes=[];//存储当前的场景中的mesh的id
@@ -650,12 +669,13 @@
 
       for (i in memuse.tracks) {
         
-
+     
+       
         if (memuse.tracks[i].x >= -2 && memuse.tracks[i].x <= 2 && memuse.tracks[i].y >= -2 && memuse.tracks[i]
           .y <= 2) {
 
-            var z = memuse.tracks[i]["x"];
-            var x = memuse.tracks[i]["y"];
+            var x = -memuse.tracks[i]["x"];
+            var z = memuse.tracks[i]["y"];
             var h = memuse.tracks[i]["height"];
             var color = memuse.tracks[i]["confidence"];
             var id = memuse.tracks[i]["id"];

@@ -557,8 +557,8 @@
         if (memuse.tracks[i].x >= -2 && memuse.tracks[i].x <= 2 && memuse.tracks[i].y >= -2 && memuse.tracks[i]
           .y <= 2) {
 
-            var z = memuse.tracks[i]["x"];
-            var x = memuse.tracks[i]["y"];
+            var x = -memuse.tracks[i]["x"];
+            var z = memuse.tracks[i]["y"];
             var h = memuse.tracks[i]["height"];
             var color = memuse.tracks[i]["confidence"];
             var id = memuse.tracks[i]["id"];
