@@ -66,17 +66,6 @@
         materialGround.diffuseColor = new BABYLON.Color3(1.0, 1.0, 1.0);
         materialGround.diffuseTexture = new BABYLON.Texture("../pic/ground.jpg", scene);
         ground.material = materialGround;
-
-    
-    
-    var holes = [];
-    holes[0] = [ 
-                  new BABYLON.Vector3(0, 0, 0), 
-                  new BABYLON.Vector3(1.5, 0, 0), 
-                  new BABYLON.Vector3(1.5, 0, 1.5), 
-                  new BABYLON.Vector3(0, 0, 1.5), 
-                ];
-    
     
     var shapeBox = [ 
                   new BABYLON.Vector3(0, 0, 0),
@@ -178,13 +167,14 @@
         randomColors[3] = BABYLON.Color3.Random();
         randomColors[4] = BABYLON.Color3.Random();
         randomColors[5] = BABYLON.Color3.Random();
-
-    //Box的判定区域        
-    // var trueBox = BABYLON.MeshBuilder.ExtrudePolygon("trueBox",{shape:shapeTrueBox, depth: 0.2, faceColors:greenColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+        
     
-    // trueBox.setAbsolutePosition(-7,0.2,-7);
-    // trueBox.isVisible=false;
-   
+
+
+
+
+
+
     //跳转到下一关卡
    var nextBut = BABYLON.MeshBuilder.ExtrudePolygon("nextBut",{shape:nextBut, depth: 0.2, faceColors:randomColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,}, scene);
     nextBut.setAbsolutePosition(8,0.2,8);
@@ -203,7 +193,7 @@
         new BABYLON.Vector3(1, 0, 15), 
         new BABYLON.Vector3(0, 0, 15),
     ]; 
-    //下
+    //上
     var trueLine2 = [
         new BABYLON.Vector3(0, 0, 0), 
         new BABYLON.Vector3(15, 0, 0), 
@@ -217,7 +207,7 @@
         new BABYLON.Vector3(1, 0, 15), 
         new BABYLON.Vector3(0, 0, 15),
     ]; 
-    //上
+    //下
     var trueLine4 = [
         new BABYLON.Vector3(0, 0, 0), 
         new BABYLON.Vector3(15, 0, 0), 
@@ -233,23 +223,25 @@
     
     var blueMaterial = new BABYLON.StandardMaterial('blueMat', scene);
     blueMaterial.diffuseColor = BABYLON.Color3.FromInts(0, 0, 255);
-   
-    
-    var trueLine1 = BABYLON.MeshBuilder.ExtrudePolygon("trueLine1",{shape:trueLine1,   depth: 0.2,  sideOrientation: BABYLON.Mesh.DOUBLESIDE,}, scene);
-    trueLine1.material=redMaterial;
-    trueLine1.setAbsolutePosition(new BABYLON.Vector3(-8, 0.2, -8));
+    var whiteMaterial = new BABYLON.StandardMaterial('whiteMaterial', scene);
+        whiteMaterial.diffuseColor = BABYLON.Color3.FromInts(255, 255, 255);
 
+    //left side
+    var trueLine1 = BABYLON.MeshBuilder.ExtrudePolygon("trueLine1",{shape:trueLine1,   depth: 0.2,  sideOrientation: BABYLON.Mesh.DOUBLESIDE,}, scene);
+    trueLine1.material=greenMaterial;
+    trueLine1.setAbsolutePosition(new BABYLON.Vector3(-8, 0.2, -10));
+    //up side
     var trueLine2 = BABYLON.MeshBuilder.ExtrudePolygon("trueLine2",{shape:trueLine2,   depth: 0.2, sideOrientation: BABYLON.Mesh.DOUBLESIDE }, scene);
     trueLine2.material=redMaterial;
-    trueLine2.setAbsolutePosition(new BABYLON.Vector3(-8, 0.2, -8));
-
+    trueLine2.setAbsolutePosition(new BABYLON.Vector3(-8, 0.2, 4));
+    //right side
     var trueLine3 = BABYLON.MeshBuilder.ExtrudePolygon("trueLine3",{shape:trueLine3,   depth: 0.2,  sideOrientation: BABYLON.Mesh.DOUBLESIDE }, scene);
-    trueLine3.material=redMaterial;
-    trueLine3.setAbsolutePosition(new BABYLON.Vector3(6, 0.2, -8));
-
+    trueLine3.material=blueMaterial;
+    trueLine3.setAbsolutePosition(new BABYLON.Vector3(6, 0.2, -10));
+    //down side
     var trueLine4 = BABYLON.MeshBuilder.ExtrudePolygon("trueLine4",{shape:trueLine4,   depth: 0.2,  sideOrientation: BABYLON.Mesh.DOUBLESIDE }, scene);
-    trueLine4.material=redMaterial;
-    trueLine4.setAbsolutePosition(new BABYLON.Vector3(-8, 0.2, 6));
+    trueLine4.material=whiteMaterial;
+    trueLine4.setAbsolutePosition(new BABYLON.Vector3(-8, 0.2, -10));
 
 
 
@@ -304,7 +296,7 @@
     //设置GUI
     var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("ui1");
 
-    var createLabel = function(mesh) {
+    var createLabel = function(mesh,str) {
         
         var label = new BABYLON.GUI.Rectangle("label for " + mesh.name);
         
@@ -322,7 +314,7 @@
         label.linkWithMesh(mesh);
 
         var text1 = new BABYLON.GUI.TextBlock();
-        text1.text = mesh.id;
+        text1.text = str;
         text1.color = "black";
         label.addControl(text1);  
     }  
@@ -359,25 +351,28 @@
     function createShape(id,pos)//循环创建新的mesh
             {
                 var i=id.toString();
-                
+                //left
                 var testLine1 = [
                     new BABYLON.Vector3(0, 0, 0), 
                     new BABYLON.Vector3(1, 0, 0), 
                     new BABYLON.Vector3(1, 0, 15), 
                     new BABYLON.Vector3(0, 0, 15),
                 ]; 
+                //up
                 var testLine2 = [
                     new BABYLON.Vector3(0, 0, 0), 
                     new BABYLON.Vector3(15, 0, 0), 
                     new BABYLON.Vector3(15, 0, 1), 
                     new BABYLON.Vector3(0, 0, 1),
                 ]; 
+                //right
                 var testLine3 = [
                     new BABYLON.Vector3(0, 0, 0), 
                     new BABYLON.Vector3(1, 0, 0), 
                     new BABYLON.Vector3(1, 0, 15), 
                     new BABYLON.Vector3(0, 0, 15),
                 ]; 
+                //down
                 var testLine4 = [
                     new BABYLON.Vector3(0, 0, 0), 
                     new BABYLON.Vector3(15, 0, 0), 
@@ -387,29 +382,41 @@
 
 
 
-                if(time==1)
+                if(time==4)
                 {
-                    var testLine1 = BABYLON.MeshBuilder.ExtrudePolygon(i,{shape:testLine1, depth: 0.3, faceColors:greenColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:redColors }, scene);
+                    var testLine1 = BABYLON.MeshBuilder.ExtrudePolygon(i,{shape:testLine1, depth: 0.3,  sideOrientation: BABYLON.Mesh.DOUBLESIDE,}, scene);
+                    testLine1.material=greenMaterial;
+
                     testLine1.state="testLine1";
-                    time=2;
+                    
+                    time=1;
                 }
-                else if(time==2)
+                else if(time==1)
                 {
-                    var testLine2 = BABYLON.MeshBuilder.ExtrudePolygon(i,{shape:testLine2, depth: 0.3, faceColors:greenColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:redColors }, scene);
-                    testLine2.state="testLine2";                    
-                    time=3;
+                    var testLine2 = BABYLON.MeshBuilder.ExtrudePolygon(i,{shape:testLine2, depth: 0.3,  sideOrientation: BABYLON.Mesh.DOUBLESIDE,}, scene);
+                    testLine2.material=redMaterial;
+
+                    testLine2.state="testLine2";    
+                    
+                    time=2;
                 }
                 else if(time==3)
                 {
-                    var testLine3 = BABYLON.MeshBuilder.ExtrudePolygon(i,{shape:testLine3, depth: 0.3, faceColors:greenColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:redColors }, scene);
+                    var testLine3 = BABYLON.MeshBuilder.ExtrudePolygon(i,{shape:testLine3, depth: 0.3, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+                    
+                    testLine3.material=blueMaterial;
+
                     testLine3.state="testLine3";
                     time=4;
                 }
-                else if(time==4)
+                else if(time==2)
                 {
-                    var testLine4 = BABYLON.MeshBuilder.ExtrudePolygon(i,{shape:testLine4, depth: 0.3, faceColors:greenColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:redColors }, scene);
+                    var testLine4 = BABYLON.MeshBuilder.ExtrudePolygon(i,{shape:testLine4, depth: 0.3,  sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+                    
+                    testLine4.material=whiteMaterial;
+
                     testLine4.state="testLine4";                    
-                    time=1;
+                    time=3;
                 }
                 else{
                     alert("error in creating");
@@ -475,17 +482,16 @@
             
     function afterJudge(id,trueLine)
     {
-        var i= id;
-        var m = scene.getMeshByID(id);
+        var i= id.toString();
+        var m = scene.getMeshByID(i);
         
         var t = scene.getMeshByID(trueLine);
 
             
-
+        m.isVisible=false;
         m.dispose();
        //判断成功之后随机变换颜色，表示反馈
-        var RandomMaterial = new BABYLON.StandardMaterial('greenMat', scene);
-        
+        var RandomMaterial = new BABYLON.StandardMaterial('RandomMat', scene);
         RandomMaterial.diffuseColor = BABYLON.Color3.Random();
         
         t.material=RandomMaterial;
@@ -501,13 +507,16 @@ var tx1=trueLine1.position.x+(trueLine1.geometry.extend.maximum.x-trueLine1.geom
 var tz1=trueLine1.position.z+(trueLine1.geometry.extend.maximum.z-trueLine1.geometry.extend.minimum.z)/2;
 
 var tx2=trueLine2.position.x+(trueLine2.geometry.extend.maximum.x-trueLine2.geometry.extend.minimum.x)/2;
-var tz2=trueLine2.position.x+(trueLine2.geometry.extend.maximum.z-trueLine2.geometry.extend.minimum.z)/2;
+var tz2=trueLine2.position.z+(trueLine2.geometry.extend.maximum.z-trueLine2.geometry.extend.minimum.z)/2;
 
-console.log(tx1);
-console.log(tz1);
 
-console.log(tx2);
-console.log(tz2);
+var tx3=trueLine3.position.x+(trueLine3.geometry.extend.maximum.x-trueLine3.geometry.extend.minimum.x)/2;
+var tz3=trueLine3.position.z+(trueLine3.geometry.extend.maximum.z-trueLine3.geometry.extend.minimum.z)/2;
+
+
+var tx4=trueLine4.position.x+(trueLine4.geometry.extend.maximum.x-trueLine4.geometry.extend.minimum.x)/2;
+var tz4=trueLine4.position.z+(trueLine4.geometry.extend.maximum.z-trueLine4.geometry.extend.minimum.z)/2;
+
 
 
     //判断函数，既要判断位置，还要判断形状是否符合要求
@@ -522,13 +531,11 @@ console.log(tz2);
         
         if(s=="testLine1")
         {
-            if(Math.abs(m.position.x-tx1) <= tol && Math.abs(m.position.z-tz1)<= tol)
+            if(Math.abs(m.position.x+0.5-tx1) <= tol && Math.abs(m.position.z+7.5-tz1)<= tol)
             {
 
                 console.log("testLine1");
                 afterJudge(id,"trueLine1");
-                
-
                 
             }
 
@@ -548,7 +555,7 @@ console.log(tz2);
         }
         else if(s=="testLine3")
         {
-            if(Math.abs(m.position.x-trueLine3.position.x ) <= tol && Math.abs(m.position.z-trueLine3.position.z) <=tol)
+            if(Math.abs(m.position.x+0.5-tx3) <= tol && Math.abs(m.position.z+7.5-tz3)<= tol)
             {
 
                 console.log("testLine3");
@@ -559,7 +566,8 @@ console.log(tz2);
         }
         else if(s=="testLine4")
         {
-            if(Math.abs(m.position.x-trueLine4.position.x) <= tol && Math.abs(m.position.z-trueLine4.position.z<= tol))
+            if(Math.abs(Math.abs(m.position.x+7.5-tx4 ) <= tol && Math.abs(m.position.z+0.5-tz4) <= tol)
+            )
             {
 
                 console.log("testLine4");
@@ -572,7 +580,7 @@ console.log(tz2);
             console.log("judge error")
         }
 
-
+        //网页跳转
         if(Math.abs(m.position.x- nextBut.position.x) <=tol && Math.abs(m.position.z- nextBut.position.z) <=tol)
         {
             window.location.href='Level-2-1-2.html';
@@ -792,7 +800,7 @@ console.log(tz2);
 
     }
 
-    showAxis(4);
+    //showAxis(4);
     
     
     return scene;
@@ -817,7 +825,7 @@ console.log(tz2);
 <script>
     
     //websocket 传输数据
-    var ws = new WebSocket('ws://' + '192.168.1.5' + ':3030');
+    var ws = new WebSocket('ws://' + '192.168.1.12' + ':3030');
     ws.onopen = function () {
       //alert("open WebSocket on server");
     };

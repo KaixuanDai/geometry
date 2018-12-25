@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Level-2-2</title>
+    <title>Level-2-1-2</title>
 
     <style>
         html,body{
@@ -184,25 +184,25 @@
     var leftLine = [
             new BABYLON.Vector3(0, 0, 0), 
             new BABYLON.Vector3(16, 0, 0), 
-            new BABYLON.Vector3(14.3, 0, -1),
-            new BABYLON.Vector3(1.7, 0, -1), 
+            new BABYLON.Vector3(14.3, 0, 1),
+            new BABYLON.Vector3(1.7, 0, 1), 
         ];
     
     var truedownLine = BABYLON.MeshBuilder.ExtrudePolygon("truedownLine",{shape:downLine,depth: 0.2,  sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-    truedownLine.setAbsolutePosition(new BABYLON.Vector3(-8, 0.2, -5));
+    truedownLine.setAbsolutePosition(new BABYLON.Vector3(-8, 0.2, -7));
     truedownLine.material=redMaterial;
 
     
     var truerightLine = BABYLON.MeshBuilder.ExtrudePolygon("truerightLine",{shape:rightLine,depth: 0.2, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-    truerightLine.setAbsolutePosition(new BABYLON.Vector3(8, 0.2, -5));
+    truerightLine.setAbsolutePosition(new BABYLON.Vector3(8, 0.2, -7));
     truerightLine.rotate(BABYLON.Axis.Y, -2.09, BABYLON.Space.LOCAL);//旋转方向为顺时针
     truerightLine.material=blueMaterial;
 
     
     
     var trueleftLine = BABYLON.MeshBuilder.ExtrudePolygon("trueleftLine",{shape:leftLine,depth: 0.2,  sideOrientation: BABYLON.Mesh.DOUBLESIDE }, scene);
-    trueleftLine.rotate(BABYLON.Axis.Y, -1.045, BABYLON.Space.LOCAL);//旋转方向为顺时针
-    trueleftLine.setAbsolutePosition(new BABYLON.Vector3(-8, 0.2, -5));
+    trueleftLine.rotate(BABYLON.Axis.Y, 2.09, BABYLON.Space.LOCAL);//旋转方向为顺时针
+    trueleftLine.setAbsolutePosition(new BABYLON.Vector3(0, 0.2, 6.9));
     trueleftLine.material=greenMaterial;
 
 
@@ -296,36 +296,36 @@
                 var leftLine = [
                         new BABYLON.Vector3(0, 0, 0), 
                         new BABYLON.Vector3(16, 0, 0), 
-                        new BABYLON.Vector3(14.3, 0, -1),
-                        new BABYLON.Vector3(1.7, 0, -1), 
+                        new BABYLON.Vector3(14.3, 0, 1),
+                        new BABYLON.Vector3(1.7, 0, 1), 
                     ];
 
 
                 var i=id.toString();
 
-                if(time==0)
+                if(time==1)
                 {
 
                     var downLine = BABYLON.MeshBuilder.ExtrudePolygon(i,{shape:downLine,depth: 0.2,  sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
                     downLine.material=redMaterial;
                     
                     downLine.state="downLine"
-                    time=1;
+                    time=2;
 
                 }
-                else if(time==1)
+                else if(time==0)
                 {
                     var rightLine = BABYLON.MeshBuilder.ExtrudePolygon(i,{shape:rightLine,depth: 0.2, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
                     rightLine.rotate(BABYLON.Axis.Y, -2.09, BABYLON.Space.LOCAL);//旋转方向为顺时针
                     rightLine.material=blueMaterial;
                    
                     rightLine.state="rightLine";
-                    time=2;
+                    time=1;
                 }
                 else if(time==2)
                 {
                     var leftLine = BABYLON.MeshBuilder.ExtrudePolygon(i,{shape:leftLine,depth: 0.2,  sideOrientation: BABYLON.Mesh.DOUBLESIDE }, scene);
-                    leftLine.rotate(BABYLON.Axis.Y, -1.04, BABYLON.Space.LOCAL);//旋转方向为顺时针
+                    leftLine.rotate(BABYLON.Axis.Y, 2.09, BABYLON.Space.LOCAL);//旋转方向为顺时针
                     leftLine.material=greenMaterial;
                                         
                     leftLine.state="leftLine";
@@ -429,6 +429,24 @@
     }
 
 
+// var tx1=truedownLine.position.x+(truedownLine.geometry.extend.maximum.x-truedownLine.geometry.extend.minimum.x)/2;
+// var tz1=truedownLine.position.z+(truedownLine.geometry.extend.maximum.z-truedownLine.geometry.extend.minimum.z)/2;
+
+// var tx2=truerightLine.position.x+(truerightLine.geometry.extend.maximum.x-truerightLine.geometry.extend.minimum.x)/2;
+// var tz2=truerightLine.position.z+(truerightLine.geometry.extend.maximum.z-truerightLine.geometry.extend.minimum.z)/2;
+
+
+// var tx3=trueleftLine.position.x+(trueleftLine.geometry.extend.maximum.x-trueleftLine.geometry.extend.minimum.x)/2;
+// var tz3=trueleftLine.position.z+(trueleftLine.geometry.extend.maximum.z-trueleftLine.geometry.extend.minimum.z)/2;
+
+
+
+
+
+
+
+
+
 
 
     //判断函数，既要判断位置，还要判断形状
@@ -484,10 +502,10 @@
         {
             alert("judge error")
         }
-
+        //页面跳转
         if(Math.abs(m.position.x- nextBut.position.x) <=tol && Math.abs(m.position.z- nextBut.position.z) <=tol)
         {
-            window.location.href='Level-2-2.html';
+            window.location.href='Level-2-2-1.html';
             console.log("link to next")
         }
         
@@ -702,7 +720,7 @@
 
     }
 
-    showAxis(4);
+   // showAxis(4);
     
     
     return scene;
@@ -727,7 +745,7 @@
 <script>
     
     //websocket 传输数据
-    var ws = new WebSocket('ws://' + '192.168.1.5' + ':3030');
+    var ws = new WebSocket('ws://' + '192.168.1.12' + ':3030');
     ws.onopen = function () {
       //alert("open WebSocket on server");
     };

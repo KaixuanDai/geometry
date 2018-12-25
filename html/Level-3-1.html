@@ -385,7 +385,7 @@ var nextBut = BABYLON.MeshBuilder.ExtrudePolygon("nextBut",{shape:nextBut, depth
             {
                 var i=id.toString();
                 
-                var cir = BABYLON.MeshBuilder.CreateCylinder(i, {height:0.1, diameter:3,tessellation: 99}, scene); 
+                var cir = BABYLON.MeshBuilder.CreateCylinder(i, {height:0.2, diameter:3,tessellation: 6}, scene); 
                 cir.state="cir";
                 cir.material=whiteMaterial;    
                 
@@ -458,7 +458,7 @@ var nextBut = BABYLON.MeshBuilder.ExtrudePolygon("nextBut",{shape:nextBut, depth
         
         //m.isVisible=false;
      
-        m.material=blueMaterial;   
+        m.material=whiteMaterial;   
        
 
 
@@ -496,6 +496,22 @@ var nextBut = BABYLON.MeshBuilder.ExtrudePolygon("nextBut",{shape:nextBut, depth
 
 
 
+
+  //计算图形中心
+    var tx1=trueBox.position.x+(trueBox.geometry.extend.maximum.x-trueBox.geometry.extend.minimum.x)/2;
+    var tz1=trueBox.position.z+(trueBox.geometry.extend.maximum.z-trueBox.geometry.extend.minimum.z)/2;
+
+    var tx2=trueTri.position.x+(trueTri.geometry.extend.maximum.x-trueTri.geometry.extend.minimum.x)/2;
+    var tz2=trueTri.position.z+(trueTri.geometry.extend.maximum.z-trueTri.geometry.extend.minimum.z)/2;
+
+    var tx3=trueCir.position.x+(trueCir.geometry.extend.maximum.x-trueCir.geometry.extend.minimum.x)/2;
+    var tz3=trueCir.position.z+(trueCir.geometry.extend.maximum.z-trueCir.geometry.extend.minimum.z)/2;
+
+
+
+
+
+
     //判断函数，既要判断位置，还要判断形状
     function judge(id)
     {
@@ -506,7 +522,7 @@ var nextBut = BABYLON.MeshBuilder.ExtrudePolygon("nextBut",{shape:nextBut, depth
 
         if(vId==0)
         {
-            if(Math.abs(m.position.x- trueBox.position.x) <= tol && Math.abs(m.position.z-trueBox.position.z) <= tol)
+            if(Math.abs(m.position.x- tx1) <= tol && Math.abs(m.position.z-tz1) <= tol)
             {
                 console.log("boxxxx");
                 afterJudge(id);
@@ -521,7 +537,7 @@ var nextBut = BABYLON.MeshBuilder.ExtrudePolygon("nextBut",{shape:nextBut, depth
         }
         else if(vId==1)
         {
-            if(Math.abs(m.position.x- trueTri.position.x) <= tol && Math.abs(m.position.z-trueTri.position.z) <= tol)
+            if(Math.abs(m.position.x- tx2) <= tol && Math.abs(m.position.z- tz2) <= tol)
             {
 
                 console.log("triiii");
@@ -743,7 +759,7 @@ var nextBut = BABYLON.MeshBuilder.ExtrudePolygon("nextBut",{shape:nextBut, depth
 
     }
 
-    showAxis(4);
+    //showAxis(4);
     
     
     return scene;
@@ -768,7 +784,7 @@ var nextBut = BABYLON.MeshBuilder.ExtrudePolygon("nextBut",{shape:nextBut, depth
 <script>
     
     //websocket 传输数据
-    var ws = new WebSocket('ws://' + '192.168.1.5' + ':3030');
+    var ws = new WebSocket('ws://' + '192.168.1.12' + ':3030');
     ws.onopen = function () {
       //alert("open WebSocket on server");
     };
