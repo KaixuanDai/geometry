@@ -158,7 +158,16 @@
                   new BABYLON.Vector3(0, 0, 0),
 
                 ];
-                
+                var greenMaterial = new BABYLON.StandardMaterial('greenMat', scene);
+    greenMaterial.diffuseColor = BABYLON.Color3.FromInts(0, 255, 0);
+
+    var redMaterial = new BABYLON.StandardMaterial('redMat', scene);
+    redMaterial.diffuseColor = BABYLON.Color3.FromInts(255, 0, 0);
+    
+    var blueMaterial = new BABYLON.StandardMaterial('blueMat', scene);
+    blueMaterial.diffuseColor = BABYLON.Color3.FromInts(0, 0, 255);
+    var whiteMaterial = new BABYLON.StandardMaterial('whiteMaterial', scene);
+        whiteMaterial.diffuseColor = BABYLON.Color3.FromInts(255, 255, 255);
     var faceColors = [];
         faceColors[0] = BABYLON.Color3.Red();
         faceColors[1] = BABYLON.Color3.Red();
@@ -423,29 +432,33 @@
     function createShape(id,pos)//创建新的mesh
             {
                 var i=id.toString();
-
-                if(pId==0)
-                {
-                    var box = BABYLON.MeshBuilder.ExtrudePolygon(i,{shape:shapeBox, depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE }, scene);
-                    box.state="box"
-                }
-                else if(pId==1)
-                {
-                    var tri = BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeTri,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-                    tri.state="tri";
-                }
-                else if(pId==2)
-                {
-                    var cir = BABYLON.MeshBuilder.CreateCylinder(i, {height:0.1,diameter:3,tessellation: 99, faceColors:faceColors}, scene);
-                                        
-                    cir.state="cir";
-                }
-                else{
-                    //alert("error in creating");
-                    console.log("error in creating");
-                }
                 
-                console.log("Create");
+                var cir = BABYLON.MeshBuilder.CreateCylinder(i, {height:0.1,diameter:3,tessellation: 6}, scene);
+               // cir.material=blueMaterial;
+                                        
+                cir.state="cir";
+                // if(pId==0)
+                // {
+                //     var box = BABYLON.MeshBuilder.ExtrudePolygon(i,{shape:shapeBox, depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE }, scene);
+                //     box.state="box"
+                // }
+                // else if(pId==1)
+                // {
+                //     var tri = BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeTri,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+                //     tri.state="tri";
+                // }
+                // else if(pId==2)
+                // {
+                //     var cir = BABYLON.MeshBuilder.CreateCylinder(i, {height:0.1,diameter:3,tessellation: 99, faceColors:faceColors}, scene);
+                                        
+                //     cir.state="cir";
+                // }
+                // else{
+                //     //alert("error in creating");
+                //     console.log("error in creating");
+                // }
+                
+                // console.log("Create");
             }
     
     //更新已有mesh的位置
@@ -517,24 +530,33 @@
         
         if(pId==1)
         {
-            m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeTri,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+            // m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeTri,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
             
-            m.state="tri";
+            // m.state="tri";
+
+            m=BABYLON.MeshBuilder.CreateCylinder(i, {height:0.2,diameter: 3, tessellation: 6}, scene);
+            m.material=blueMaterial;
+            m.state="cir";
 
         }
         else if(pId==2)
         {
-             m=BABYLON.MeshBuilder.CreateCylinder(i, {height:0.2,diameter: 3, tessellation: 99, faceColors:faceColors}, scene);
+             m=BABYLON.MeshBuilder.CreateCylinder(i, {height:0.2,diameter: 3, tessellation: 6}, scene);
+             m.material=greenMaterial;
 
              m.state="cir";
 
         }
         else if(pId==0)
         {
-            m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeBox,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+            // m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeBox,  depth: 0.1,faceColors:faceColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
 
-            m.state="box";
+            // m.state="box";
 
+            m=BABYLON.MeshBuilder.CreateCylinder(i, {height:0.2,diameter: 3, tessellation: 6}, scene);
+            m.material=redMaterial;
+
+            m.state="cir";
         }
         else
         {
