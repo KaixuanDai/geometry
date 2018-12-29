@@ -483,6 +483,8 @@
             {
 
                 console.log("boxxxx");
+                var music = new BABYLON.Sound("music", "../audio/win1.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
+
                 afterJudge(id);
                 
 
@@ -497,6 +499,8 @@
             {
 
                 console.log("triiii");
+                var music = new BABYLON.Sound("music", "../audio/win2.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
+
                 afterJudge(id);
 
                 
@@ -509,6 +513,8 @@
             {
 
                 console.log("cirrrr");
+                var music = new BABYLON.Sound("music", "../audio/win3.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
+
                 afterJudge(id);
 
                
@@ -520,13 +526,37 @@
         }
         
         //跳转到下一页面
-        if(Math.abs(m.position.x- nextBut.position.x) <=tol && Math.abs(m.position.z- nextBut.position.z) <=tol)
+        // if(Math.abs(m.position.x- nextBut.position.x) <=tol && Math.abs(m.position.z- nextBut.position.z) <=tol)
+        // {
+        //     window.location.href='Level-1.html';
+        //     console.log("link to next")
+        // }
+        //延迟跳转 待验证
+        var t1 = window.setInterval(function()
         {
-            window.location.href='Level-1.html';
-            console.log("link to next")
-        }
-      
+            
+            if(Math.abs(m.position.x- nextBut.position.x) <=tol && Math.abs(m.position.z- nextBut.position.z) <=tol)
+            {
+                window.location.href='Level-1.html';
+                console.log("link to next")
+                var music = new BABYLON.Sound("music", "../audio/win.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
+
+            }   
+                   
+        },10000); 
+
     }
+   
+
+
+   
+    var t1 = window.setInterval(function()
+        {
+            
+             
+        },10000); 
+
+
 
     //获取当前场景中所有mesh的id
     function getAllmeshid()

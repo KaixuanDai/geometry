@@ -557,6 +557,7 @@ var tz4=trueLine4.position.z+(trueLine4.geometry.extend.maximum.z-trueLine4.geom
             {
 
                 console.log("testLine1");
+                var music = new BABYLON.Sound("music", "../audio/win1.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
                 afterJudge(id,"trueLine1");
                 
             }
@@ -567,7 +568,7 @@ var tz4=trueLine4.position.z+(trueLine4.geometry.extend.maximum.z-trueLine4.geom
         {
             if(Math.abs(m.position.x+7.5-tx2 ) <= tol && Math.abs(m.position.z+0.5-tz2) <= tol)
             {
-
+                var music = new BABYLON.Sound("music", "../audio/win2.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
                 console.log("testLine2");
                 afterJudge(id,"trueLine2");
 
@@ -579,7 +580,7 @@ var tz4=trueLine4.position.z+(trueLine4.geometry.extend.maximum.z-trueLine4.geom
         {
             if(Math.abs(m.position.x+0.5-tx3) <= tol && Math.abs(m.position.z+7.5-tz3)<= tol)
             {
-
+                var music = new BABYLON.Sound("music", "../audio/win3.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
                 console.log("testLine3");
                 afterJudge(id,"trueLine3");
 
@@ -591,6 +592,8 @@ var tz4=trueLine4.position.z+(trueLine4.geometry.extend.maximum.z-trueLine4.geom
             if(Math.abs(Math.abs(m.position.x+7.5-tx4 ) <= tol && Math.abs(m.position.z+0.5-tz4) <= tol)
             )
             {
+            var music = new BABYLON.Sound("music", "../audio/win1.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
+
 
                 console.log("testLine4");
                 afterJudge(id,"trueLine4");
@@ -603,17 +606,29 @@ var tz4=trueLine4.position.z+(trueLine4.geometry.extend.maximum.z-trueLine4.geom
         }
 
         //网页跳转
-        if(Math.abs(m.position.x- nextBut.position.x) <=tol && Math.abs(m.position.z- nextBut.position.z) <=tol)
+
+           
+    var t1 = window.setInterval(function()
         {
-            window.location.href='Level-2-1-2.html';
-            console.log("link to next")
-        }
+            
+             
+            if(Math.abs(m.position.x- nextBut.position.x) <=tol && Math.abs(m.position.z- nextBut.position.z) <=tol)
+            {
+                var music = new BABYLON.Sound("music", "../audio/win.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
+                window.location.href='Level-2-1-2.html';
+                console.log("link to next")
+            }
+            
+            if(Math.abs(m.position.x- upBut.position.x) <=tol && Math.abs(m.position.z- upBut.position.z) <=tol)
+            {
+                var music = new BABYLON.Sound("music", "../audio/win.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
+                window.location.href='Level-1.html';
+                console.log("link to up")
+            }
+
+        },10000); 
+
         
-        if(Math.abs(m.position.x- upBut.position.x) <=tol && Math.abs(m.position.z- upBut.position.z) <=tol)
-        {
-            window.location.href='Level-1.html';
-            console.log("link to up")
-        }
 
 
     }

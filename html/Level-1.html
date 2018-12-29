@@ -598,6 +598,8 @@
         {
             if(Math.abs(m.position.x+1.5- tbx) <=tol && Math.abs(m.position.z+1.5- tbz) <= tol)
             {
+                var music = new BABYLON.Sound("music", "../audio/win1.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
+
                 console.log("boxxxx");
                 pId++
                 image1.source=picSou[pId];
@@ -613,6 +615,7 @@
         {
             if(Math.abs(m.position.x+3- ttx) <=tol && Math.abs(m.position.z+2.5- ttz) <= tol)
             {
+                var music = new BABYLON.Sound("music", "../audio/win2.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
 
                 console.log("triiii");
                 pId++
@@ -627,6 +630,7 @@
         {
             if(Math.abs(m.position.x- trueCir.position.x) <= tol && Math.abs(m.position.z- trueCir.position.z) <= tol)
             {
+                var music = new BABYLON.Sound("music", "../audio/win3.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
 
                 console.log("cirrrr");
                 pId=0
@@ -645,19 +649,26 @@
             console.log("judge error")
         }
 
-        var tol=2;
-
-        if(Math.abs(m.position.x- nextBut.position.x) <=tol && Math.abs(m.position.z- nextBut.position.z) <=tol)
+        var t1 = window.setInterval(function()
         {
+            if(Math.abs(m.position.x- nextBut.position.x) <=tol && Math.abs(m.position.z- nextBut.position.z) <=tol)
+        {  
+            var music = new BABYLON.Sound("music", "../audio/win.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
             window.location.href='Level-2-1-1.html';
             console.log("link to next")
+          
+
         }
         
         if(Math.abs(m.position.x- upBut.position.x) <=tol && Math.abs(m.position.z- upBut.position.z) <=tol)
-        {            
+        {         
+            var music = new BABYLON.Sound("music", "../audio/win.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
             window.location.href='Level-0.html';
             console.log("link to up")
         }
+                   
+        },10000); 
+       
 
     }
 

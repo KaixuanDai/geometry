@@ -645,7 +645,7 @@
 
 
     var ax1=trueAns1.position.x+(trueAns1.geometry.extend.maximum.x-trueAns1.geometry.extend.minimum.x)/2;
-    var az1=trueAns1.position.z+(trueAns1.geometry.extend.maximum.z-trueAns1.geometry.extend.minimum.z)/2;
+    var az1=trueAns1.position.z-(trueAns1.geometry.extend.maximum.z-trueAns1.geometry.extend.minimum.z)/2;
 
 
     var ax2=trueAns2.position.x+(trueAns2.geometry.extend.maximum.x-trueAns2.geometry.extend.minimum.x)/2;
@@ -659,11 +659,13 @@
         var m = scene.getMeshByID(id);
         var pos = m.getAbsolutePosition();
         var s=m.state;
-        var tol=2;
+        var tol=3;
 
         
         if(Math.abs(m.position.x- ax1) <= tol && Math.abs(m.position.z- az1) <= tol&&s=="tri2")
             {
+            var music = new BABYLON.Sound("music", "../audio/win1.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
+
                 afterJudge(id,"true1");
                 console.log("true1");
                 
@@ -672,6 +674,8 @@
         
         else if(Math.abs(m.position.x- ax2) <= tol && Math.abs(m.position.z- az2) <= tol&&s=="tri1")
             {
+            var music = new BABYLON.Sound("music", "../audio/win2.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
+
                 afterJudge(id,"true2");
                 console.log("true2");
             }
@@ -682,8 +686,12 @@
 
 
         //  页面跳转
+           
+    var t1 = window.setInterval(function()
+        {
         if(Math.abs(m.position.x- nextBut.position.x) <=tol && Math.abs(m.position.z- nextBut.position.z) <=tol)
         {
+            var music = new BABYLON.Sound("music", "../audio/win.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
             
             window.location.href='Level-3-1.html';
             console.log("link to next")
@@ -691,10 +699,13 @@
         
         if(Math.abs(m.position.x- upBut.position.x) <=tol && Math.abs(m.position.z- upBut.position.z) <=tol)
         {
+            var music = new BABYLON.Sound("music", "../audio/win.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
+
             window.location.href='Level-2-2-1.html';
             console.log("link to up")
         }
 
+    },10000); 
 
 
 

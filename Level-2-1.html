@@ -236,7 +236,7 @@
     var skybox = BABYLON.Mesh.CreateBox("skyBox", 100.0, scene);
     var skyboxMaterial = new BABYLON.StandardMaterial("../skyBox", scene);
     skyboxMaterial.backFaceCulling = false;
-    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("3", scene);
+    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("../skyBox/3", scene);
     skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
     skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
     skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
@@ -510,6 +510,21 @@
 
     }
 
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //获取当前场景中所有mesh的id
     function getAllmeshid()
@@ -617,8 +632,10 @@
 
     }
 
+ //   var music = new BABYLON.Sound("Music", "../audio/win.mp3", scene, null, { loop: true, autoplay: true });
 
 
+   var music = new BABYLON.Sound("music", "../audio/win.mp3",scene, null, { loop: true, autoplay: true, spatialSound: true });
 
 
 

@@ -549,6 +549,8 @@ var nextBut = BABYLON.MeshBuilder.ExtrudePolygon("nextBut",{shape:nextBut, depth
         {
             if(Math.abs(m.position.x- tx1) <= tol && Math.abs(m.position.z-tz1) <= tol)
             {
+            var music = new BABYLON.Sound("music", "../audio/win1.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
+
                 console.log("boxxxx");
                 afterJudge(id);
 
@@ -564,6 +566,8 @@ var nextBut = BABYLON.MeshBuilder.ExtrudePolygon("nextBut",{shape:nextBut, depth
         {
             if(Math.abs(m.position.x- tx2) <= tol && Math.abs(m.position.z- tz2) <= tol)
             {
+            var music = new BABYLON.Sound("music", "../audio/win2.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
+
 
                 console.log("triiii");
                 afterJudge(id);
@@ -577,6 +581,8 @@ var nextBut = BABYLON.MeshBuilder.ExtrudePolygon("nextBut",{shape:nextBut, depth
         {
             if(Math.abs(m.position.x- trueCir.position.x) <= tol && Math.abs(m.position.z-trueCir.position.z) <= tol)
             {
+            var music = new BABYLON.Sound("music", "../audio/win3.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
+
 
                 console.log("cirrrr");
                 afterJudge(id);
@@ -594,18 +600,26 @@ var nextBut = BABYLON.MeshBuilder.ExtrudePolygon("nextBut",{shape:nextBut, depth
         }
 
         //返回及下一关
-        if(Math.abs(m.position.x- nextBut.position.x) <=tol && Math.abs(m.position.z- nextBut.position.z) <=tol)
+           
+    var t1 = window.setInterval(function()
         {
-            window.location.href='Level-2-2.html';
-            console.log("link to next")
-        }
-        
-        if(Math.abs(m.position.x- upBut.position.x) <=tol && Math.abs(m.position.z- upBut.position.z) <=tol)
-        {
-            window.location.href='Level-3.html';
-            console.log("link to up")
-        }
+            if(Math.abs(m.position.x- nextBut.position.x) <=tol && Math.abs(m.position.z- nextBut.position.z) <=tol)
+            {
+            var music = new BABYLON.Sound("music", "../audio/win.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
 
+                window.location.href='Level-0.html';
+                console.log("link to next")
+            }
+            
+            if(Math.abs(m.position.x- upBut.position.x) <=tol && Math.abs(m.position.z- upBut.position.z) <=tol)
+            {
+            var music = new BABYLON.Sound("music", "../audio/win.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
+
+                window.location.href='Level-2-2-2.html';
+                console.log("link to up")
+            }
+    },10000); 
+    
     }
 
 

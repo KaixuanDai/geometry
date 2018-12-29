@@ -490,7 +490,7 @@
         {
             if(Math.abs(m.position.x- truedownLine.position.x) <= tol && Math.abs(m.position.z- truedownLine.position.z) <= tol)
             {
-
+                var music = new BABYLON.Sound("music", "../audio/win1.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
                 console.log("downLineeeee");
                 afterJudge(id);
                 
@@ -505,6 +505,7 @@
             if(Math.abs(m.position.x- truerightLine.position.x) <= tol && Math.abs(m.position.z- truerightLine.position.z) <= tol)
             {
 
+                var music = new BABYLON.Sound("music", "../audio/win2.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
                 console.log("rightLineeee");
                 afterJudge(id);
 
@@ -517,6 +518,7 @@
             if(Math.abs(m.position.x- trueleftLine.position.x) <= tol && Math.abs(m.position.z- trueleftLine.position.z) <= tol)
             {
 
+                var music = new BABYLON.Sound("music", "../audio/win3.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
                 console.log("leftLineeeee");
                 afterJudge(id);
 
@@ -528,18 +530,29 @@
             alert("judge error")
         }
         //页面跳转
+
+      
+    var t1 = window.setInterval(function()
+        {
+            
+             
+        
         if(Math.abs(m.position.x- nextBut.position.x) <=tol && Math.abs(m.position.z- nextBut.position.z) <=tol)
         {
+          
+            var music = new BABYLON.Sound("music", "../audio/win.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
             window.location.href='Level-2-2-1.html';
             console.log("link to next")
         }
         
         if(Math.abs(m.position.x- upBut.position.x) <=tol && Math.abs(m.position.z- upBut.position.z) <=tol)
         {
+            var music = new BABYLON.Sound("music", "../audio/win.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
             window.location.href='Level-2-1-1.html';
             console.log("link to up")
         }
-
+    },10000); 
+  
 
     }
 
