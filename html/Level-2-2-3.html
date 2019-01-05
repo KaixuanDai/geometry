@@ -79,56 +79,15 @@
         var light = new BABYLON.HemisphericLight("light2", new BABYLON.Vector3(10, 10, 0), scene);
 
         light.intensity = 0.9;
-        
+        var randomColors = [];
+        randomColors[0] = BABYLON.Color3.Random();
+        randomColors[1] = BABYLON.Color3.Random();
+        randomColors[2] = BABYLON.Color3.Random();
+        randomColors[3] = BABYLON.Color3.Random();
+        randomColors[4] = BABYLON.Color3.Random();
+        randomColors[5] = BABYLON.Color3.Random();
  
-
-        //创建地面
-        var ground = BABYLON.Mesh.CreateGround("ground1",30,25,2,scene);
-        var materialGround = new BABYLON.StandardMaterial("texture1", scene);
-        materialGround.material = materialGround;
-        materialGround.alpha = 1;
-        materialGround.diffuseColor = new BABYLON.Color3(1.0, 1.0, 1.0);
-        materialGround.diffuseTexture = new BABYLON.Texture("../pic/ground.jpg", scene);
-        ground.material = materialGround;
-
-
-    
-    
-    var shapeBox = [ 
-                  new BABYLON.Vector3(0, 0, 0),
-                  new BABYLON.Vector3(3.5, 0, 0), 
-                  new BABYLON.Vector3(3.5, 0, 3.5), 
-                  new BABYLON.Vector3(0, 0, 3.5), 
-
-            ];
-    var shapeTri = [ 
-                  new BABYLON.Vector3(0, 0, 0),
-                  new BABYLON.Vector3(5, 0, 0), 
-                  new BABYLON.Vector3(2.5, 0, 4), 
-
-            ];
-
-
-    var shapeTrueBox = [ 
-                  new BABYLON.Vector3(0, 0, 0),
-                  new BABYLON.Vector3(6, 0, 0), 
-                  new BABYLON.Vector3(6, 0, 6), 
-                  new BABYLON.Vector3(0, 0, 6), 
-
-            ];
-    var shapeTrueTri1 = [ 
-                  new BABYLON.Vector3(0, 0, 0),
-                  new BABYLON.Vector3(8, 0, 0), 
-                  new BABYLON.Vector3(4, 0, 6), 
-
-            ];
-    var shapeTrueTri2 = [ 
-                  new BABYLON.Vector3(0, 0, 0),
-                  new BABYLON.Vector3(8, 0, 0), 
-                  new BABYLON.Vector3(4, 0, -6), 
-
-            ];
-    var nextBut = [ 
+        var nextBut = [ 
                   new BABYLON.Vector3(0, 0, 0),
                   new BABYLON.Vector3(3, 0, 0), 
                   new BABYLON.Vector3(3, 0, -1), 
@@ -155,202 +114,89 @@
 
                 ];
 
-                
-    var greenMaterial = new BABYLON.StandardMaterial('greenMat', scene);
-    greenMaterial.diffuseColor = BABYLON.Color3.FromInts(0, 255, 0);
 
-    var redMaterial = new BABYLON.StandardMaterial('redMat', scene);
-    redMaterial.diffuseColor = BABYLON.Color3.FromInts(255, 0, 0);
-    
-    var blueMaterial = new BABYLON.StandardMaterial('blueMat', scene);
-    blueMaterial.diffuseColor = BABYLON.Color3.FromInts(0, 0, 255);
+        //创建地面
+        var ground = BABYLON.Mesh.CreateGround("ground1",30,25,2,scene);
+        var materialGround = new BABYLON.StandardMaterial("texture1", scene);
+        materialGround.material = materialGround;
+        materialGround.alpha = 1;
+        materialGround.diffuseColor = new BABYLON.Color3(1.0, 1.0, 1.0);
+        materialGround.diffuseTexture = new BABYLON.Texture("../pic/ground.jpg", scene);
+        ground.material = materialGround;
 
-    var whiteMaterial = new BABYLON.StandardMaterial('whiteMat', scene);
-    whiteMaterial.diffuseColor = BABYLON.Color3.FromInts(255, 255, 255);
-
-    var faceColors = [];
-        faceColors[0] = BABYLON.Color3.Red();
-        faceColors[1] = BABYLON.Color3.Red();
-        faceColors[2] = BABYLON.Color3.Red();
-        faceColors[3] = BABYLON.Color3.Red();
-        faceColors[4] = BABYLON.Color3.Red();
-        faceColors[5] = BABYLON.Color3.Red();
-   
-    var trueFaceColors = [];
-        trueFaceColors[0] = BABYLON.Color3.Green();
-        trueFaceColors[1] = BABYLON.Color3.Green();
-        trueFaceColors[2] = BABYLON.Color3.Green();
-        trueFaceColors[3] = BABYLON.Color3.Green();
-        trueFaceColors[4] = BABYLON.Color3.Green();
-        trueFaceColors[5] = BABYLON.Color3.Green();
-        
-    var redColors = [];
-            redColors[0] = BABYLON.Color3.Red();
-            redColors[1] = BABYLON.Color3.Red();
-            redColors[2] = BABYLON.Color3.Red();
-            redColors[3] = BABYLON.Color3.Red();
-            redColors[4] = BABYLON.Color3.Red();
-            redColors[5] = BABYLON.Color3.Red();
-    var blueColors = [];
-            blueColors[0] = BABYLON.Color3.Blue();
-            blueColors[1] = BABYLON.Color3.Blue();
-            blueColors[2] = BABYLON.Color3.Blue();
-            blueColors[3] = BABYLON.Color3.Blue();
-            blueColors[4] = BABYLON.Color3.Blue();
-            blueColors[5] = BABYLON.Color3.Blue();  
-    var greenColors = [];
-            greenColors[0] = BABYLON.Color3.Green();
-            greenColors[1] = BABYLON.Color3.Green();
-            greenColors[2] = BABYLON.Color3.Green();
-            greenColors[3] = BABYLON.Color3.Green();
-            greenColors[4] = BABYLON.Color3.Green();
-            greenColors[5] = BABYLON.Color3.Green();
-
-            var randomColors = [];
-        randomColors[0] = BABYLON.Color3.Random();
-        randomColors[1] = BABYLON.Color3.Random();
-        randomColors[2] = BABYLON.Color3.Random();
-        randomColors[3] = BABYLON.Color3.Random();
-        randomColors[4] = BABYLON.Color3.Random();
-        randomColors[5] = BABYLON.Color3.Random();
-
-    //跳转到下一关卡
-    var nextBut = BABYLON.MeshBuilder.ExtrudePolygon("nextBut",{shape:nextBut, depth: 0.2, faceColors:randomColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,}, scene);
+        //跳转到下一关卡
+        var nextBut = BABYLON.MeshBuilder.ExtrudePolygon("nextBut",{shape:nextBut, depth: 0.2, faceColors:randomColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,}, scene);
     nextBut.setAbsolutePosition(8,0.2,8);
-    //返回上一关卡
-    var upBut = BABYLON.MeshBuilder.ExtrudePolygon("upBut",{shape:upBut, depth: 0.2,  sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:randomColors }, scene);
-    upBut.setAbsolutePosition(-8,0.2,10);
-    upBut.rotate(BABYLON.Axis.Y,3.14, BABYLON.Space.LOCAL);//旋转方向为顺时针
+        //返回上一关卡
+        var upBut = BABYLON.MeshBuilder.ExtrudePolygon("upBut",{shape:upBut, depth: 0.2,  sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:randomColors }, scene);
+        upBut.setAbsolutePosition(-8,0.2,10);
+        upBut.rotate(BABYLON.Axis.Y,3.14, BABYLON.Space.LOCAL);//旋转方向为顺时针
 
-    //Box的选择区域        
-    var trueBox = BABYLON.MeshBuilder.ExtrudePolygon("trueBox",{shape:shapeBox, depth: 0.2, faceColors:redColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:redColors }, scene);
+    // var imagePlane = BABYLON.Mesh.CreatePlane("imagePlane", 5.0, scene, false, BABYLON.Mesh.DEFAULTSIDE);//创建一个平面
+    // imagePlane.setAbsolutePosition(-10,0,44);
+    // imagePlane.isVisible=false;
     
-    trueBox.setAbsolutePosition(-9,0.2,-10);
+    // var lablePlane = BABYLON.Mesh.CreatePlane("lablePlane", 5.0, scene, false, BABYLON.Mesh.DEFAULTSIDE);//创建一个平面
+    // lablePlane.setAbsolutePosition(1,0,65);
+    // lablePlane.isVisible=false;
 
-    //Tri1的选择区域
-    var trueTri1 = BABYLON.MeshBuilder.ExtrudePolygon("trueTri1", {shape:shapeTri, depth: 0.2,faceColors:blueColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-    trueTri1.setAbsolutePosition(6,0.2,-9);
-
-    //Tri2的选择区域
-    var trueTri2 = BABYLON.MeshBuilder.ExtrudePolygon("trueTri2", {shape:shapeTri, depth: 0.2,faceColors:greenColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-    trueTri2.rotate(BABYLON.Axis.Y,3.14, BABYLON.Space.LOCAL);//旋转方向为顺时针
-
-    trueTri2.setAbsolutePosition(3,0.2,-6);
-
-
-    //判定区域
-    // var trueAns1 = BABYLON.MeshBuilder.ExtrudePolygon("trueAns1", {shape:shapeTrueBox, depth: 0.2,sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-    // trueAns1.material=whiteMaterial;
-    // trueAns1.setAbsolutePosition(-2,0.2,-2)
-    
-    // trueAns1.outlineWidth=0.2;
-    // trueAns1.outlineColor=BABYLON.Color3.Black();
-    // trueAns1.renderOutline = true;
-
-
-    var trueAns1 = BABYLON.MeshBuilder.ExtrudePolygon("trueAns1", {shape:shapeTrueTri2, depth: 0.2, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-    trueAns1.material=whiteMaterial;
-    trueAns1.setAbsolutePosition(-4,0.2,4);
-   
-
-    var trueAns2 = BABYLON.MeshBuilder.ExtrudePolygon("trueAns2", {shape:shapeTrueTri1, depth: 0.2, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-    trueAns2.material=whiteMaterial;
-    trueAns2.setAbsolutePosition(-4,0.2,4);
-   
-
-
-
-    var imagePlane = BABYLON.Mesh.CreatePlane("imagePlane", 5.0, scene, false, BABYLON.Mesh.DEFAULTSIDE);//创建一个平面
-    imagePlane.setAbsolutePosition(-10,0,44);
-    imagePlane.isVisible=false;
-    
-    var lablePlane = BABYLON.Mesh.CreatePlane("lablePlane", 5.0, scene, false, BABYLON.Mesh.DEFAULTSIDE);//创建一个平面
-    lablePlane.setAbsolutePosition(1,0,65);
-    lablePlane.isVisible=false;
-
-
-
-
-    
-
-
-
-
-    var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("ui1");
+    // var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("ui1");
 
    
-        var label = new BABYLON.GUI.Rectangle("label for " + lablePlane.id);
+    //     var label = new BABYLON.GUI.Rectangle("label for " + lablePlane.id);
         
-        label.background = "white"
-        label.alpha = 0.9;
-        label.width = "730px";
-        label.height = "240px";
-        label.autoscale=true;
-        label.cornerRadius = 10;
-        label.thickness = 1;
-        label.linkOffsetY = 30;
-        advancedTexture.addControl(label); 
-        label.linkWithMesh(lablePlane);
+    //     label.background = "white"
+    //     label.alpha = 0.9;
+    //     label.width = "730px";
+    //     label.height = "240px";
+    //     label.autoscale=true;
+    //     label.cornerRadius = 10;
+    //     label.thickness = 1;
+    //     label.linkOffsetY = 30;
+    //     advancedTexture.addControl(label); 
+    //     label.linkWithMesh(lablePlane);
 
 
-        var text1 = new BABYLON.GUI.TextBlock();
-        text1.text = "请根据图片提示组成形状";
-        text1.color = "red";
-        text1.fontSize="25px";
-        text1.left="200px";
-        text1.top="-50px";
+    //     var text1 = new BABYLON.GUI.TextBlock();
+    //     text1.text = "请根据图片提示组成形状";
+    //     text1.color = "red";
+    //     text1.fontSize="25px";
+    //     text1.left="200px";
+    //     text1.top="-50px";
 
-        label.addControl(text1);  
+    //     label.addControl(text1);  
 
 
-        var image1 = new BABYLON.GUI.Image("test","../pic/geo2.jpg");
-        image1.autoscale=true;
-        image1.height = "200px";
-        image1.width = "300px";
-        advancedTexture.addControl(image1);   
-        image1.linkWithMesh(imagePlane);
+    //     var image1 = new BABYLON.GUI.Image("test","../pic/geo2.jpg");
+    //     image1.autoscale=true;
+    //     image1.height = "200px";
+    //     image1.width = "300px";
+    //     advancedTexture.addControl(image1);   
+    //     image1.linkWithMesh(imagePlane);
 
-        //path of pictures
-        var picSou=["../pic/geo1.jpg","../pic/geo2.jpg"]
-        var pId=0;
-        var pName="";
-        function changePic(){
+    //     //path of pictures
+    //     var picSou=["../pic/geo1.jpg","../pic/geo2.jpg"]
+    //     var pId=0;
+    //     var pName="";
+    //     function changePic(){
             
-            if(pId<picSou.length)
-            {
-                image1.source=picSou[pId];
+    //         if(pId<picSou.length)
+    //         {
+    //             image1.source=picSou[pId];
 
-                pId++;
-            }
-            else
-            {
-                pId=0;
-                image1.source=picSou[pId];
-                pId++;
+    //             pId++;
+    //         }
+    //         else
+    //         {
+    //             pId=0;
+    //             image1.source=picSou[pId];
+    //             pId++;
 
-            }
-        }
-
-
-        //button change pic
-        // var button1 = BABYLON.GUI.Button.CreateSimpleButton("but1", "下一张");
-            
-        //     button1.width = 0.2;
-        //     button1.height = "40px";
-        //     button1.color = "black";
-        //     button1.background = "white";
-        //     button1.top="20px";
-        //     button1.left="200px";
-        //     button1.onPointerUpObservable.add(function()
-        //     {
-        //         changePic();
-        //     }
-        // );
-        // label.addControl(button1); 
+    //         }
+    //     }
 
 
-
-
+    
 
 
     //设置skybox
@@ -390,6 +236,126 @@
         label.addControl(text1);  
     }  
 
+        //building house
+        var wallmat = new BABYLON.StandardMaterial("wallmaterial", scene);
+        wallmat.diffuseTexture = new BABYLON.Texture("../pic/2b1C7UH.jpg", scene);
+        	
+        var frontmat = new BABYLON.StandardMaterial("frontmat", scene);
+        frontmat.diffuseTexture = new BABYLON.Texture("../pic/front.jpg", scene);
+        
+
+
+
+            //前墙面
+            var frontWallData = [ 
+        				new BABYLON.Vector3(0, 0, 0), 
+                        new BABYLON.Vector3(10, 0, 0), 
+                        new BABYLON.Vector3(10, 0, 5), 
+                        new BABYLON.Vector3(0, 0, 5), 
+                      ];
+            var faceUV = new Array(3);
+        	faceUV[0] = new BABYLON.Vector4(0, 0, 7/15, 1);
+        	faceUV[1] = new BABYLON.Vector4(14/15, 0, 1, 1);
+        	faceUV[2] = new BABYLON.Vector4(7/15, 0, 14/15, 1);
+            var frontWall = BABYLON.MeshBuilder.ExtrudePolygon("wall", {shape:frontWallData, depth: 0.15,  faceUV: faceUV}, scene);
+        	frontWall.rotation.x = -Math.PI/2;
+        	frontWall.material = frontmat;
+
+            //后墙面
+            var rearWallnb1Data = [ 
+                        new BABYLON.Vector3(0, 0, 0), 
+                        new BABYLON.Vector3(10, 0, 0), 
+                        new BABYLON.Vector3(10, 0, 5), 
+                        new BABYLON.Vector3(0, 0, 5), 
+                      ];     
+        	var rearFaceUV = [];
+        	rearFaceUV[0] = new BABYLON.Vector4(7/15, 0, 14/15, 1);
+        	rearFaceUV[1] = new BABYLON.Vector4(14/15, 0, 1, 1);
+        	rearFaceUV[2] = new BABYLON.Vector4(0, 0, 7/15, 1);
+            var rearWallnb1 = BABYLON.MeshBuilder.ExtrudePolygon("rearWallnb1", {shape:rearWallnb1Data, depth: 0.1,faceUV: rearFaceUV}, scene);
+        	rearWallnb1.rotation.x = -Math.PI/2;
+        	rearWallnb1.position.z = 6.15;	
+        	rearWallnb1.material = wallmat;
+            rearWallnb1.setAbsolutePosition(new BABYLON.Vector3(0,0,5));
+
+            
+
+            //右墙面
+            var sideWallnb1Data = [ 
+                        new BABYLON.Vector3(0, 0, 0), 
+                        new BABYLON.Vector3(5, 0, 0), 
+                        new BABYLON.Vector3(5, 0, 5),
+                        new BABYLON.Vector3(2.5, 0, 8), 
+                        new BABYLON.Vector3(0, 0, 5), 
+                ]; 
+        	var side1FaceUV = new Array(3);
+        	side1FaceUV[0] = new BABYLON.Vector4(0, 0, 7/15, 1);
+        	side1FaceUV[1] = new BABYLON.Vector4(14/15, 0, 1, 1);
+        	side1FaceUV[2] = new BABYLON.Vector4(7/15, 0, 14/15, 1);
+        	var sideWallnb1 = BABYLON.MeshBuilder.ExtrudePolygon("sideWallnb1", {shape:sideWallnb1Data, depth: 0.1, faceUV: side1FaceUV}, scene);
+        	sideWallnb1.rotation.z = -Math.PI/2;
+        	sideWallnb1.rotation.x = -Math.PI/2;
+        	sideWallnb1.position.x = 5.6;
+        	sideWallnb1.position.z = 3.15;
+        	sideWallnb1.material = wallmat;
+            sideWallnb1.setAbsolutePosition(new BABYLON.Vector3(10,0,0));
+
+            //左墙面
+            var sideWallnb2Data = [ 
+                        new BABYLON.Vector3(0, 0, 0), 
+                        new BABYLON.Vector3(5, 0, 0), 
+                        new BABYLON.Vector3(5, 0, 5),
+                        new BABYLON.Vector3(2.5, 0, 8), 
+                        new BABYLON.Vector3(0, 0, 5), 
+                ];
+        	var side2FaceUV = new Array(3);
+        	side2FaceUV[0] = new BABYLON.Vector4(7/15, 0, 14/15, 1);
+        	side2FaceUV[1] = new BABYLON.Vector4(14/15, 0, 1, 1);
+        	side2FaceUV[2] = new BABYLON.Vector4(0, 0, 7/15, 1)											 
+        	var sideWallnb2 = BABYLON.MeshBuilder.ExtrudePolygon("sideWallnb2", {shape:sideWallnb2Data, depth: 0.1, faceUV: side2FaceUV}, scene);
+        	sideWallnb2.rotation.z = -Math.PI/2;
+        	sideWallnb2.rotation.x = -Math.PI/2;
+        	sideWallnb2.position.x = -5.5;
+        	sideWallnb2.position.z = 3.15;
+        	sideWallnb2.material = wallmat;
+            sideWallnb2.setAbsolutePosition(new BABYLON.Vector3(0,0, 0));
+
+            //屋顶
+            var roofmat = new BABYLON.StandardMaterial("roofmat", scene);
+        	roofmat.diffuseTexture = new BABYLON.Texture("../pic/Vw4fzwq.jpg", scene);
+        	var roof1Data = [
+        		new BABYLON.Vector3(0, 0, 0),
+        		new BABYLON.Vector3(0.1, 0, 0),
+        		new BABYLON.Vector3(2.5, 0, 3),
+        		new BABYLON.Vector3(5, 0, 0),
+        		new BABYLON.Vector3(5.1, 0, 0),
+        		new BABYLON.Vector3(2.5, 0, 3.1)
+        	];
+        	var roof1 = BABYLON.MeshBuilder.ExtrudePolygon("roof1", {shape:roof1Data, depth: 11}, scene);
+        	roof1.rotation.z = -Math.PI/2;
+        	roof1.rotation.x = -Math.PI/2;
+        	roof1.material = roofmat;
+            
+            roof1.setAbsolutePosition(new BABYLON.Vector3(10.5, 5, 0));
+
+
+            //地板
+            var floormat = new BABYLON.StandardMaterial("floormaterial", scene);
+            floormat.diffuseTexture = new BABYLON.Texture("../pic/DRSozlo.jpg", scene);
+            var groundFloorData = [ 
+                        new BABYLON.Vector3(0, 0, 0), 
+                        new BABYLON.Vector3(10, 0, 0), 
+                        new BABYLON.Vector3(10, 0, 5), 
+                        new BABYLON.Vector3(0, 0, 5), 
+                      ];	  
+        	var groundFloorFaceUV = new Array(3);
+        	groundFloorFaceUV[0] = new BABYLON.Vector4(0, 0, 0.5, 1);
+        	groundFloorFaceUV[2] = new BABYLON.Vector4(0.5, 0, 1, 1);
+        	var groundFloor = BABYLON.MeshBuilder.ExtrudePolygon("groundFloor", {shape:groundFloorData, depth: 0.04, faceUV: groundFloorFaceUV}, scene);
+        	groundFloor.material = floormat;
+
+        	
+            // var combine = BABYLON.Mesh.MergeMeshes([frontWall, rearWallnb1, sideWallnb1,sideWallnb2,roof1,groundFloor], true);
 
 
 
@@ -538,17 +504,17 @@
     }
 
 
-    var tx1=trueBox.position.x+(trueBox.geometry.extend.maximum.x-trueBox.geometry.extend.minimum.x)/2;
-    var tz1=trueBox.position.z+(trueBox.geometry.extend.maximum.z-trueBox.geometry.extend.minimum.z)/2;
+    // var tx1=trueBox.position.x+(trueBox.geometry.extend.maximum.x-trueBox.geometry.extend.minimum.x)/2;
+    // var tz1=trueBox.position.z+(trueBox.geometry.extend.maximum.z-trueBox.geometry.extend.minimum.z)/2;
 
-    var tx2=trueTri1.position.x+(trueTri1.geometry.extend.maximum.x-trueTri1.geometry.extend.minimum.x)/2;
-    var tz2=trueTri1.position.z+(trueTri1.geometry.extend.maximum.z-trueTri1.geometry.extend.minimum.z)/2;
+    // var tx2=trueTri1.position.x+(trueTri1.geometry.extend.maximum.x-trueTri1.geometry.extend.minimum.x)/2;
+    // var tz2=trueTri1.position.z+(trueTri1.geometry.extend.maximum.z-trueTri1.geometry.extend.minimum.z)/2;
  
     
 
 
-    var tx3=trueTri2.position.x-(trueTri2.geometry.extend.maximum.x-trueTri2.geometry.extend.minimum.x)/2;
-    var tz3=trueTri2.position.z-(trueTri2.geometry.extend.maximum.z-trueTri2.geometry.extend.minimum.z)/2;
+    // var tx3=trueTri2.position.x-(trueTri2.geometry.extend.maximum.x-trueTri2.geometry.extend.minimum.x)/2;
+    // var tz3=trueTri2.position.z-(trueTri2.geometry.extend.maximum.z-trueTri2.geometry.extend.minimum.z)/2;
 
 
 
@@ -611,7 +577,7 @@
 
         if(str=="true1")
         {
-            trueAns1.material=RandomMaterial;
+            // trueAns1.material=RandomMaterial;
 
             // trueAns1.outlineWidth=0.5;
             // trueAns1.outlineColor=BABYLON.Color3.Red();
@@ -623,7 +589,7 @@
         }
         else if(str="true2")
         {
-            trueAns2.material=RandomMaterial;
+            // trueAns2.material=RandomMaterial;
 
             // trueAns1.outlineWidth=0.5;
             // trueAns1.outlineColor=BABYLON.Color3.Red();
@@ -644,12 +610,12 @@
 
 
 
-    var ax1=trueAns1.position.x+(trueAns1.geometry.extend.maximum.x-trueAns1.geometry.extend.minimum.x)/2;
-    var az1=trueAns1.position.z-(trueAns1.geometry.extend.maximum.z-trueAns1.geometry.extend.minimum.z)/2;
+    // var ax1=trueAns1.position.x+(trueAns1.geometry.extend.maximum.x-trueAns1.geometry.extend.minimum.x)/2;
+    // var az1=trueAns1.position.z-(trueAns1.geometry.extend.maximum.z-trueAns1.geometry.extend.minimum.z)/2;
 
 
-    var ax2=trueAns2.position.x+(trueAns2.geometry.extend.maximum.x-trueAns2.geometry.extend.minimum.x)/2;
-    var az2=trueAns2.position.z+(trueAns2.geometry.extend.maximum.z-trueAns2.geometry.extend.minimum.z)/2;
+    // var ax2=trueAns2.position.x+(trueAns2.geometry.extend.maximum.x-trueAns2.geometry.extend.minimum.x)/2;
+    // var az2=trueAns2.position.z+(trueAns2.geometry.extend.maximum.z-trueAns2.geometry.extend.minimum.z)/2;
 
 
 

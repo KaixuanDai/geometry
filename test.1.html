@@ -59,24 +59,138 @@
  
 
         //创建地面
-        var ground = BABYLON.Mesh.CreateGround("ground1",30,25,2,scene);
-        var materialGround = new BABYLON.StandardMaterial("texture1", scene);
-        materialGround.material = materialGround;
-        materialGround.alpha = 1;
-        materialGround.diffuseColor = new BABYLON.Color3(1.0, 1.0, 1.0);
-        materialGround.diffuseTexture = new BABYLON.Texture("../pic/ground.jpg", scene);
-        ground.material = materialGround;
+        // var ground = BABYLON.Mesh.CreateGround("ground1",30,25,2,scene);
+        // var materialGround = new BABYLON.StandardMaterial("texture1", scene);
+        // materialGround.material = materialGround;
+        // materialGround.alpha = 1;
+        // materialGround.diffuseColor = new BABYLON.Color3(1.0, 1.0, 1.0);
+        // materialGround.diffuseTexture = new BABYLON.Texture("../pic/ground.jpg", scene);
+        // ground.material = materialGround;
+
+
+
+        //building house
+       
+        var wallmat = new BABYLON.StandardMaterial("wallmaterial", scene);
+        wallmat.diffuseTexture = new BABYLON.Texture("../pic/2b1C7UH.jpg", scene);
+        	
+        var frontmat = new BABYLON.StandardMaterial("frontmat", scene);
+        frontmat.diffuseTexture = new BABYLON.Texture("../pic/front.jpg", scene);
+        
+
+
+
+            //前墙面
+            var frontWallData = [ 
+        				new BABYLON.Vector3(0, 0, 0), 
+                        new BABYLON.Vector3(15, 0, 0), 
+                        new BABYLON.Vector3(15, 0, 8), 
+                        new BABYLON.Vector3(0, 0, 8), 
+                      ];
+            var faceUV = new Array(3);
+        	faceUV[0] = new BABYLON.Vector4(0, 0, 7/15, 1);
+        	faceUV[1] = new BABYLON.Vector4(14/15, 0, 1, 1);
+        	faceUV[2] = new BABYLON.Vector4(7/15, 0, 14/15, 1);
+            var frontWall = BABYLON.MeshBuilder.ExtrudePolygon("wall", {shape:frontWallData, depth: 0.15,  faceUV: faceUV}, scene);
+        	frontWall.rotation.x = -Math.PI/2;
+        	frontWall.material = frontmat;
+
+            //后墙面
+            var rearWallnb1Data = [ 
+                        new BABYLON.Vector3(0, 0, 0), 
+                        new BABYLON.Vector3(15, 0, 0), 
+                        new BABYLON.Vector3(15, 0, 8), 
+                        new BABYLON.Vector3(0, 0, 8), 
+                      ];     
+        	var rearFaceUV = [];
+        	rearFaceUV[0] = new BABYLON.Vector4(7/15, 0, 14/15, 1);
+        	rearFaceUV[1] = new BABYLON.Vector4(14/15, 0, 1, 1);
+        	rearFaceUV[2] = new BABYLON.Vector4(0, 0, 7/15, 1);
+            var rearWallnb1 = BABYLON.MeshBuilder.ExtrudePolygon("rearWallnb1", {shape:rearWallnb1Data, depth: 0.1,faceUV: rearFaceUV}, scene);
+        	rearWallnb1.rotation.x = -Math.PI/2;
+        	rearWallnb1.position.z = 6.15;	
+        	rearWallnb1.material = wallmat;
+            rearWallnb1.setAbsolutePosition(new BABYLON.Vector3(0,0,10));
+
+            
+
+            //右墙面
+            var sideWallnb1Data = [ 
+                        new BABYLON.Vector3(0, 0, 0), 
+                        new BABYLON.Vector3(10, 0, 0), 
+                        new BABYLON.Vector3(10, 0, 8),
+                        new BABYLON.Vector3(5, 0, 15), 
+                        new BABYLON.Vector3(0, 0, 8), 
+                ]; 
+        	var side1FaceUV = new Array(3);
+        	side1FaceUV[0] = new BABYLON.Vector4(0, 0, 7/15, 1);
+        	side1FaceUV[1] = new BABYLON.Vector4(14/15, 0, 1, 1);
+        	side1FaceUV[2] = new BABYLON.Vector4(7/15, 0, 14/15, 1);
+        	var sideWallnb1 = BABYLON.MeshBuilder.ExtrudePolygon("sideWallnb1", {shape:sideWallnb1Data, depth: 0.1, faceUV: side1FaceUV}, scene);
+        	sideWallnb1.rotation.z = -Math.PI/2;
+        	sideWallnb1.rotation.x = -Math.PI/2;
+        	sideWallnb1.position.x = 5.6;
+        	sideWallnb1.position.z = 3.15;
+        	sideWallnb1.material = wallmat;
+            sideWallnb1.setAbsolutePosition(new BABYLON.Vector3(15,0,0));
+
+            //左墙面
+            var sideWallnb2Data = [ 
+                        new BABYLON.Vector3(0, 0, 0), 
+                        new BABYLON.Vector3(10, 0, 0), 
+                        new BABYLON.Vector3(10, 0, 8),
+                        new BABYLON.Vector3(5, 0, 15), 
+                        new BABYLON.Vector3(0, 0, 8), 
+                ];
+        	var side2FaceUV = new Array(3);
+        	side2FaceUV[0] = new BABYLON.Vector4(7/15, 0, 14/15, 1);
+        	side2FaceUV[1] = new BABYLON.Vector4(14/15, 0, 1, 1);
+        	side2FaceUV[2] = new BABYLON.Vector4(0, 0, 7/15, 1)											 
+        	var sideWallnb2 = BABYLON.MeshBuilder.ExtrudePolygon("sideWallnb2", {shape:sideWallnb2Data, depth: 0.1, faceUV: side2FaceUV}, scene);
+        	sideWallnb2.rotation.z = -Math.PI/2;
+        	sideWallnb2.rotation.x = -Math.PI/2;
+        	sideWallnb2.position.x = -5.5;
+        	sideWallnb2.position.z = 3.15;
+        	sideWallnb2.material = wallmat;
+            sideWallnb2.setAbsolutePosition(new BABYLON.Vector3(0,0, 0));
+
+            //屋顶
+            var roofmat = new BABYLON.StandardMaterial("roofmat", scene);
+        	roofmat.diffuseTexture = new BABYLON.Texture("../pic/Vw4fzwq.jpg", scene);
+        	var roof1Data = [
+        		new BABYLON.Vector3(0, 0, 0),
+        		new BABYLON.Vector3(0.1, 0, 0),
+        		new BABYLON.Vector3(5, 0, 7),
+        		new BABYLON.Vector3(10, 0, 0),
+        		new BABYLON.Vector3(10.1, 0, 0),
+        		new BABYLON.Vector3(5, 0, 7.1)
+        	];
+        	var roof1 = BABYLON.MeshBuilder.ExtrudePolygon("roof1", {shape:roof1Data, depth: 16}, scene);
+        	roof1.rotation.z = -Math.PI/2;
+        	roof1.rotation.x = -Math.PI/2;
+        	roof1.material = roofmat;
+            
+            roof1.setAbsolutePosition(new BABYLON.Vector3(15.5, 8, 0));
+
+
+            //地板
+            var floormat = new BABYLON.StandardMaterial("floormaterial", scene);
+            floormat.diffuseTexture = new BABYLON.Texture("../pic/DRSozlo.jpg", scene);
+            var groundFloorData = [ 
+        					new BABYLON.Vector3(0, 0, 0),					
+                            new BABYLON.Vector3(15, 0, 0),
+                            new BABYLON.Vector3(15, 0, 10),
+        					new BABYLON.Vector3(0, 0, 10),		
+                      ];	  
+        	var groundFloorFaceUV = new Array(3);
+        	groundFloorFaceUV[0] = new BABYLON.Vector4(0, 0, 0.5, 1);
+        	groundFloorFaceUV[2] = new BABYLON.Vector4(0.5, 0, 1, 1);
+        	var groundFloor = BABYLON.MeshBuilder.ExtrudePolygon("groundFloor", {shape:groundFloorData, depth: 0.04, faceUV: groundFloorFaceUV}, scene);
+        	groundFloor.material = floormat;
 
     
-    
-    var holes = [];
-    holes[0] = [ 
-                  new BABYLON.Vector3(0, 0, 0), 
-                  new BABYLON.Vector3(1.5, 0, 0), 
-                  new BABYLON.Vector3(1.5, 0, 1.5), 
-                  new BABYLON.Vector3(0, 0, 1.5), 
-                ];
-    
+           
+
     
     var shapeBox = [ 
                   new BABYLON.Vector3(0, 0, 0),
@@ -227,21 +341,32 @@
         new BABYLON.Vector3(11, 0, 11),           
         ];
 
+    var leftSide=[
+        new BABYLON.Vector3(0, 0, 0),
+        new BABYLON.Vector3(4, 0, 0),
+        new BABYLON.Vector3(4, 0, 4),
+        new BABYLON.Vector3(0, 0, 4),
+        new BABYLON.Vector3(2, 5, 2),
+        
+    ];
+
    
     
-    var trueLine1 = BABYLON.MeshBuilder.ExtrudePolygon("trueLine1",{shape:trueLine, holes:trueLineHoles,  depth: 0.2, faceColors:redColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:redColors }, scene);
-    trueLine1.setAbsolutePosition(new BABYLON.Vector3(-6, 0.1, -6));
+    // var trueLine1 = BABYLON.MeshBuilder.ExtrudePolygon("trueLine1",{shape:trueLine, holes:trueLineHoles,  depth: 0.2, faceColors:redColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:redColors }, scene);
+    // trueLine1.setAbsolutePosition(new BABYLON.Vector3(-6, 0.1, -6));
+
+    // var leftSide = BABYLON.MeshBuilder.ExtrudePolygon("leftSide",{shape:leftSide,sideOrientation: BABYLON.Mesh.DOUBLESIDE,depth:2,faceColors:redColors }, scene);
 
     //设置skybox
-    var skybox = BABYLON.Mesh.CreateBox("skyBox", 100.0, scene);
-    var skyboxMaterial = new BABYLON.StandardMaterial("../skyBox", scene);
-    skyboxMaterial.backFaceCulling = false;
-    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("../skyBox/3", scene);
-    skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
-    skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
-    skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
-    skyboxMaterial.disableLighting = true;
-    skybox.material = skyboxMaterial;
+    // var skybox = BABYLON.Mesh.CreateBox("skyBox", 100.0, scene);
+    // var skyboxMaterial = new BABYLON.StandardMaterial("../skyBox", scene);
+    // skyboxMaterial.backFaceCulling = false;
+    // skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("../skyBox/3", scene);
+    // skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+    // skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+    // skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+    // skyboxMaterial.disableLighting = true;
+    // skybox.material = skyboxMaterial;
 
 
     var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("ui1");
@@ -635,7 +760,7 @@
  //   var music = new BABYLON.Sound("Music", "../audio/win.mp3", scene, null, { loop: true, autoplay: true });
 
 
-   var music = new BABYLON.Sound("music", "../audio/win.mp3",scene, null, { loop: true, autoplay: true, spatialSound: true });
+//    var music = new BABYLON.Sound("music", "../audio/win.mp3",scene, null, { loop: true, autoplay: true, spatialSound: true });
 
 
 
