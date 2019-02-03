@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Level-2-2-4</title>
+
+    <style>
+        html,body{
+            overflow: hidden;
+            width:100%;
+            height: 100%;
+            margin:0;
+            padding: 0;
+        }
+        #renderCanvas{
+            width:100%;
+            height: 100%;
+            touch-action: none;
+        }
+    </style>
+    <script src="/node_modules/_earcut@2.1.3@earcut/dist/earcut.min.js"></script>
+    <script src="/node_modules/babylonjs/babylon.js"></script>
+    <script src="/node_modules/babylonjs/Oimo.js"></script>
+    <script src="/node_modules/_babylonjs-gui@3.3.0@babylonjs-gui/babylon.gui.min.js"></script>
+   
+    <link rel="stylesheet" href="../css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="../css/default.css">
+    <link rel="stylesheet" href="../dist/jquery.fatNav.min.css">
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+
+    <div>
+    
+        <div class="fat-nav">
+            <div class="fat-nav__wrapper">
+                <ul>
+                    <li><a href="Level-0.html">Level-0</a></li>
+                    <li><a href="Level-1.html">Level-1</a></li>
+                    <li><a href="Level-2-1-1.html">Level-2-1-1</a></li>
+                    <li><a href="Level-2-1-2.html">Level-2-1-2</a></li>
+                    <li><a href="Level-2-2-1.html">Level-2-2-1</a></li>
+                    <li><a href="Level-2-2-2.html">Level-2-2-2</a></li>
+                    <li><a href="Level-3-1.html">Level-3-1</a></li>
+                </ul>
+            </div>
+        </div>
+       
+        <canvas id="renderCanvas"></canvas>
+  
+        <script src="../js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="../dist/jquery.fatNav.min.js"></script>
+        <script type="text/javascript" src="../js/main.js"></script>
+
+    <script>
+       
+
+        var canvas=document.getElementById("renderCanvas");
+        var engine =new BABYLON.Engine(canvas,true);
+        var up;
+        var getAllmeshid;
+        var createScene = function () {
+
+        var scene = new BABYLON.Scene(engine); 
+        scene.clearColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+
+        // camera
+        var camera = new BABYLON.ArcRotateCamera("camera1", 0, 0, 0, new BABYLON.Vector3(0, 0, 0), scene);
+        
+        camera.setPosition(new BABYLON.Vector3(0, 10, -21.5));
+        // var camera=new BABYLON.FreeCamera("camera1",new BABYLON.Vector3(0,5,-10),scene);//创建和放置自由相机
+
+        camera.attachControl(canvas, true);
+        // lights
+        
+        var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(10, -10, 0), scene);
+        var light = new BABYLON.HemisphericLight("light2", new BABYLON.Vector3(10, 10, 0), scene);
+
+        light.intensity = 0.9;
+        
+ 
+
+        //创建地面
+        var ground = BABYLON.Mesh.CreateGround("ground1",30,25,2,scene);
+        var materialGround = new BABYLON.StandardMaterial("texture1", scene);
+        materialGround.material = materialGround;
+        materialGround.alpha = 1;
+        materialGround.diffuseColor = new BABYLON.Color3(1.0, 1.0, 1.0);
+        materialGround.diffuseTexture = new BABYLON.Texture("../pic/ground.jpg", scene);
+        ground.material = materialGround;
+
+
+    
+    
+    var shapeBox = [ 
+                  new BABYLON.Vector3(0, 0, 0),
+                  new BABYLON.Vector3(3.5, 0, 0), 
+                  new BABYLON.Vector3(3.5, 0, 3.5), 
+                  new BABYLON.Vector3(0, 0, 3.5), 
+
+            ];
+    var shapeTri = [ 
+                  new BABYLON.Vector3(0, 0, 0),
+                  new BABYLON.Vector3(5, 0, 0), 
+                  new BABYLON.Vector3(2.5, 0, 4), 
+
+            ];
+
+
+    var shapeTrueBox = [ 
+                  new BABYLON.Vector3(0, 0, 0),
+                  new BABYLON.Vector3(6, 0, 0), 
+                  new BABYLON.Vector3(6, 0, 6), 
+                  new BABYLON.Vector3(0, 0, 6), 
+
+            ];
+    var shapeTrueTri1 = [ 
+                  new BABYLON.Vector3(0, 0, 0),
+                  new BABYLON.Vector3(8, 0, 0), 
+                  new BABYLON.Vector3(4, 0, 6), 
+
+            ];
+    var shapeTrueTri2 = [ 
+                  new BABYLON.Vector3(0, 0, 0),
+                  new BABYLON.Vector3(8, 0, 0), 
+                  new BABYLON.Vector3(4, 0, -6), 
+
+            ];
+    var nextBut = [ 
+                  new BABYLON.Vector3(0, 0, 0),
+                  new BABYLON.Vector3(3, 0, 0), 
+                  new BABYLON.Vector3(3, 0, -1), 
+
+                  new BABYLON.Vector3(6, 0, 1), 
+                  new BABYLON.Vector3(3, 0, 3), 
+
+                  new BABYLON.Vector3(3, 0, 2), 
+                  new BABYLON.Vector3(0, 0, 2), 
+                  new BABYLON.Vector3(0, 0, 0),
+
+                ];
+    var upBut = [ 
+                  new BABYLON.Vector3(0, 0, 0),
+                  new BABYLON.Vector3(3, 0, 0), 
+                  new BABYLON.Vector3(3, 0, -1), 
+
+                  new BABYLON.Vector3(6, 0, 1), 
+                  new BABYLON.Vector3(3, 0, 3), 
+
+                  new BABYLON.Vector3(3, 0, 2), 
+                  new BABYLON.Vector3(0, 0, 2), 
+                  new BABYLON.Vector3(0, 0, 0),
+
+                ];
+
+                
+    var greenMaterial = new BABYLON.StandardMaterial('greenMat', scene);
+    greenMaterial.diffuseColor = BABYLON.Color3.FromInts(0, 255, 0);
+
+    var redMaterial = new BABYLON.StandardMaterial('redMat', scene);
+    redMaterial.diffuseColor = BABYLON.Color3.FromInts(255, 0, 0);
+    
+    var blueMaterial = new BABYLON.StandardMaterial('blueMat', scene);
+    blueMaterial.diffuseColor = BABYLON.Color3.FromInts(0, 0, 255);
+
+    var whiteMaterial = new BABYLON.StandardMaterial('whiteMat', scene);
+    whiteMaterial.diffuseColor = BABYLON.Color3.FromInts(255, 255, 255);
+
+    var faceColors = [];
+        faceColors[0] = BABYLON.Color3.Red();
+        faceColors[1] = BABYLON.Color3.Red();
+        faceColors[2] = BABYLON.Color3.Red();
+        faceColors[3] = BABYLON.Color3.Red();
+        faceColors[4] = BABYLON.Color3.Red();
+        faceColors[5] = BABYLON.Color3.Red();
+   
+    var trueFaceColors = [];
+        trueFaceColors[0] = BABYLON.Color3.Green();
+        trueFaceColors[1] = BABYLON.Color3.Green();
+        trueFaceColors[2] = BABYLON.Color3.Green();
+        trueFaceColors[3] = BABYLON.Color3.Green();
+        trueFaceColors[4] = BABYLON.Color3.Green();
+        trueFaceColors[5] = BABYLON.Color3.Green();
+        
+    var redColors = [];
+            redColors[0] = BABYLON.Color3.Red();
+            redColors[1] = BABYLON.Color3.Red();
+            redColors[2] = BABYLON.Color3.Red();
+            redColors[3] = BABYLON.Color3.Red();
+            redColors[4] = BABYLON.Color3.Red();
+            redColors[5] = BABYLON.Color3.Red();
+    var blueColors = [];
+            blueColors[0] = BABYLON.Color3.Blue();
+            blueColors[1] = BABYLON.Color3.Blue();
+            blueColors[2] = BABYLON.Color3.Blue();
+            blueColors[3] = BABYLON.Color3.Blue();
+            blueColors[4] = BABYLON.Color3.Blue();
+            blueColors[5] = BABYLON.Color3.Blue();  
+    var greenColors = [];
+            greenColors[0] = BABYLON.Color3.Green();
+            greenColors[1] = BABYLON.Color3.Green();
+            greenColors[2] = BABYLON.Color3.Green();
+            greenColors[3] = BABYLON.Color3.Green();
+            greenColors[4] = BABYLON.Color3.Green();
+            greenColors[5] = BABYLON.Color3.Green();
+
+            var randomColors = [];
+        randomColors[0] = BABYLON.Color3.Random();
+        randomColors[1] = BABYLON.Color3.Random();
+        randomColors[2] = BABYLON.Color3.Random();
+        randomColors[3] = BABYLON.Color3.Random();
+        randomColors[4] = BABYLON.Color3.Random();
+        randomColors[5] = BABYLON.Color3.Random();
+
+    //跳转到下一关卡
+    var nextBut = BABYLON.MeshBuilder.ExtrudePolygon("nextBut",{shape:nextBut, depth: 0.2, faceColors:randomColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE,}, scene);
+    nextBut.setAbsolutePosition(8,0.2,8);
+    //返回上一关卡
+    var upBut = BABYLON.MeshBuilder.ExtrudePolygon("upBut",{shape:upBut, depth: 0.2,  sideOrientation: BABYLON.Mesh.DOUBLESIDE,faceColors:randomColors }, scene);
+    upBut.setAbsolutePosition(-8,0.2,10);
+    upBut.rotate(BABYLON.Axis.Y,3.14, BABYLON.Space.LOCAL);//旋转方向为顺时针
+
+    //Box的选择区域        
+    var trueBox = BABYLON.MeshBuilder.ExtrudePolygon("trueBox",{shape:shapeBox,faceColors:redColors, depth: 1.5, sideOrientation: BABYLON.Mesh.DOUBLESIDE }, scene);
+    
+    trueBox.setAbsolutePosition(-9,1.5,-10);
+
+    //Tri1的选择区域
+    var trueTri1 = BABYLON.MeshBuilder.ExtrudePolygon("trueTri1", {shape:shapeTri, depth: 1.5,faceColors:blueColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+    trueTri1.setAbsolutePosition(6,2.2,-10);
+
+    //cir的选择区域
+    var trueCir = BABYLON.MeshBuilder.CreateCylinder("trueCir", {height:1.5,diameter: 5, tessellation: 99, faceColors:greenColors}, scene);
+    trueCir.setAbsolutePosition(0.1,0.8,-8);
+
+
+    var trueTri2 = BABYLON.MeshBuilder.ExtrudePolygon("trueTri2", {shape:shapeTri, depth: 0.2,faceColors:greenColors, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+    trueTri2.rotate(BABYLON.Axis.Y,3.14, BABYLON.Space.LOCAL);//旋转方向为顺时针
+    trueTri2.setAbsolutePosition(3,0.2,-6);
+    trueTri2.isVisible=false;
+
+
+    trueTri2.setAbsolutePosition(trueCir.getAbsolutePosition());
+
+   
+    //判定区域
+    // var trueAns1 = BABYLON.MeshBuilder.ExtrudePolygon("trueAns1", {shape:shapeTrueBox, depth: 0.2,sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+    // trueAns1.material=whiteMaterial;
+    // trueAns1.setAbsolutePosition(-2,0.2,-2)
+    
+    // trueAns1.outlineWidth=0.2;
+    // trueAns1.outlineColor=BABYLON.Color3.Black();
+    // trueAns1.renderOutline = true;
+
+
+    var trueAns1 = BABYLON.MeshBuilder.ExtrudePolygon("trueAns1", {shape:shapeTrueTri2, depth: 0.2, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+    trueAns1.material=whiteMaterial;
+    trueAns1.setAbsolutePosition(-4,0.2,4);
+   
+
+    var trueAns2 = BABYLON.MeshBuilder.ExtrudePolygon("trueAns2", {shape:shapeTrueTri1, depth: 0.2, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+    trueAns2.material=whiteMaterial;
+    trueAns2.setAbsolutePosition(-4,0.2,4);
+   
+
+
+
+
+
+
+    var imagePlane = BABYLON.Mesh.CreatePlane("imagePlane", 5.0, scene, false, BABYLON.Mesh.DEFAULTSIDE);//创建一个平面
+    imagePlane.setAbsolutePosition(-10,0,44);
+    imagePlane.isVisible=false;
+    
+    var lablePlane = BABYLON.Mesh.CreatePlane("lablePlane", 5.0, scene, false, BABYLON.Mesh.DEFAULTSIDE);//创建一个平面
+    lablePlane.setAbsolutePosition(1,0,65);
+    lablePlane.isVisible=false;
+
+
+
+
+    
+
+
+
+
+    var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("ui1");
+
+   
+        var label = new BABYLON.GUI.Rectangle("label for " + lablePlane.id);
+        
+        label.background = "white"
+        label.alpha = 0.9;
+        label.width = "730px";
+        label.height = "240px";
+        label.autoscale=true;
+        label.cornerRadius = 10;
+        label.thickness = 1;
+        label.linkOffsetY = 30;
+        advancedTexture.addControl(label); 
+        label.linkWithMesh(lablePlane);
+
+
+        var text1 = new BABYLON.GUI.TextBlock();
+        text1.text = "请根据图片提示组成形状";
+        text1.color = "red";
+        text1.fontSize="25px";
+        text1.left="200px";
+        text1.top="-50px";
+
+        label.addControl(text1);  
+
+
+        var image1 = new BABYLON.GUI.Image("test","../pic/geo2.jpg");
+        image1.autoscale=true;
+        image1.height = "200px";
+        image1.width = "300px";
+        advancedTexture.addControl(image1);   
+        image1.linkWithMesh(imagePlane);
+
+        //path of pictures
+        var picSou=["../pic/geo1.jpg","../pic/geo2.jpg"]
+        var pId=0;
+        var pName="";
+        function changePic(){
+            
+            if(pId<picSou.length)
+            {
+                image1.source=picSou[pId];
+
+                pId++;
+            }
+            else
+            {
+                pId=0;
+                image1.source=picSou[pId];
+                pId++;
+
+            }
+        }
+
+
+        //button change pic
+        // var button1 = BABYLON.GUI.Button.CreateSimpleButton("but1", "下一张");
+            
+        //     button1.width = 0.2;
+        //     button1.height = "40px";
+        //     button1.color = "black";
+        //     button1.background = "white";
+        //     button1.top="20px";
+        //     button1.left="200px";
+        //     button1.onPointerUpObservable.add(function()
+        //     {
+        //         changePic();
+        //     }
+        // );
+        // label.addControl(button1); 
+
+
+
+
+
+
+    //设置skybox
+    var skybox = BABYLON.Mesh.CreateBox("skyBox", 100.0, scene);
+    var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
+    skyboxMaterial.backFaceCulling = false;
+    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("../skybox/3", scene);
+    skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+    skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+    skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+    skyboxMaterial.disableLighting = true;
+    skybox.material = skyboxMaterial;
+
+
+    var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("ui1");
+
+    var createLabel = function(mesh) {
+        
+        var label = new BABYLON.GUI.Rectangle("label for " + mesh.name);
+        
+        label.background = "white"
+        label.height = "30px";
+        label.alpha = 0.5;
+        label.width = "70px";
+        label.height = "30px";
+
+        label.cornerRadius = 20;
+        label.thickness = 1;
+        label.linkOffsetY = 30;
+        
+        advancedTexture.addControl(label); 
+    label.linkWithMesh(mesh);
+
+        var text1 = new BABYLON.GUI.TextBlock();
+        text1.text = mesh.id;
+        text1.color = "black";
+        label.addControl(text1);  
+    }  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    //实际场地长宽
+    var realWidth=4.1;
+    var realHeihgt=4.1;
+    //长宽缩放的尺度
+    var scaleW=40/realWidth;
+    var scaleH=35/realHeihgt;
+    
+    var box;
+
+
+    //计算转换矩阵
+    var matrix = BABYLON.Matrix.Compose(
+      
+        new BABYLON.Vector3(scaleW,1,scaleH),//需要变动的就是x z 轴的比例，要根据 交互区域 与平面的大小决定每个方向上的缩放比例
+        
+        BABYLON.Quaternion.Identity(),//旋转矩阵，暂不考虑，为单位阵
+        
+        new BABYLON.Vector3(0,0,0),//平移向量，构建平移矩阵
+    
+    );
+
+ 
+
+    
+    //创建新的mesh
+    var time=0;
+    function createShape(id,pos)//创建新的mesh
+            {
+                var i=id.toString();
+                
+                var cir = BABYLON.MeshBuilder.CreateCylinder(i, {height:0.2, diameter:3,tessellation: 6}, scene);         
+                cir.material=whiteMaterial;           
+                cir.state="users";
+
+                console.log("Create");
+            }
+            
+    //更新已有mesh的位置
+    function changePos(id,pos)
+            {
+                var m = scene.getMeshByID(id.toString());
+                
+                m.setAbsolutePosition(BABYLON.Vector3.TransformCoordinates(pos, matrix));
+                
+                console.log("Change position");
+
+            }
+    
+    //删除不再更新的mesh
+    function disposePos(ids)
+    {
+        
+        for(var i=0;i<ids.length;i++)
+        {
+           var m = scene.getMeshByID(ids[i].toString());
+           
+           
+            
+            console.log("Dispose");
+
+            // m.isVisible=false;
+            m.dispose();
+
+            var index = shapes.indexOf(ids[i]);
+            if (index > -1) {
+                    shapes.splice(index, 1);
+                }
+            
+        }
+        
+    }
+
+
+    //比较两个数组的不同
+    function getArrDifference(arr1, arr2) {
+        
+        if(arr1.length!=0&&arr2.length!=0)
+        {
+            return arr1.concat(arr2).filter(function(v, i, arr) {
+        
+                return arr.indexOf(v) === arr.lastIndexOf(v);
+
+        
+            });
+        }
+        else{
+            var a=[];
+            return a;
+        }
+    }
+   
+            
+    //选择图形的切换
+    function afterChange(id,s)
+    {
+        var i= id;
+        var m = scene.getMeshByID(id);
+       // m.update=true;
+        
+        m.dispose();
+        
+        //此处待改进
+        if(s=="trueBox")
+        {
+            m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeBox,  depth: 0.2, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+            m.material=redMaterial;
+            m.state="box";
+
+        }
+        else if(s=="trueTri1")
+        {
+            
+            m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeTri, depth: 0.2, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+            m.material=blueMaterial;
+
+            m.state="tri1";
+             
+        }
+        else if(s=="trueTri2")
+        {
+            m=BABYLON.MeshBuilder.ExtrudePolygon(i, {shape:shapeTri,  depth: 0.2, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+            
+            m.rotate(BABYLON.Axis.Y,3.14, BABYLON.Space.LOCAL);//旋转方向为顺时针
+            m.material=greenMaterial;
+
+            m.state="tri2";
+        }
+        else
+        {
+            alert("change after error")
+        }
+    }
+
+
+    var tx1=trueBox.position.x+(trueBox.geometry.extend.maximum.x-trueBox.geometry.extend.minimum.x)/2;
+    var tz1=trueBox.position.z+(trueBox.geometry.extend.maximum.z-trueBox.geometry.extend.minimum.z)/2;
+
+    var tx2=trueTri1.position.x+(trueTri1.geometry.extend.maximum.x-trueTri1.geometry.extend.minimum.x)/2;
+    var tz2=trueTri1.position.z+(trueTri1.geometry.extend.maximum.z-trueTri1.geometry.extend.minimum.z)/2;
+ 
+    
+
+
+    var tx3=trueTri2.position.x-(trueTri2.geometry.extend.maximum.x-trueTri2.geometry.extend.minimum.x)/2;
+    var tz3=trueTri2.position.z-(trueTri2.geometry.extend.maximum.z-trueTri2.geometry.extend.minimum.z)/2;
+
+
+
+
+
+
+
+
+
+    //图案选择函数
+    function change(id)
+    {
+        var m = scene.getMeshByID(id);
+        var pos = m.getAbsolutePosition();
+        var s=m.state;
+        var tol=2;
+        
+        
+        if(Math.abs(m.position.x- tx1) <= tol && Math.abs(m.position.z- tz1) <= tol)
+            {
+                console.log("trueBoxxx");
+                afterChange(id,"trueBox");
+                
+            }
+
+        
+        else if(Math.abs(m.position.x- tx2) <= tol && Math.abs(m.position.z- tz2) <= tol)
+            {
+
+                console.log("trueTri1111");
+                afterChange(id,"trueTri1");
+                
+            }
+        
+        else if(Math.abs(m.position.x- tx3) <= tol && Math.abs(m.position.z- tz3) <= tol)
+            {
+
+                console.log("trueTri2222");
+                afterChange(id,"trueTri2");
+               
+            }
+        else
+        {
+            //alert("change error")
+        }
+
+    }
+
+    function afterJudge(id,str)
+    {
+        var m = scene.getMeshByID(id);
+        m.dispose();
+       
+        //判断成功之后随机变换颜色，表示反馈
+        var RandomMaterial = new BABYLON.StandardMaterial('RandomMat', scene);
+        
+        RandomMaterial.diffuseColor = BABYLON.Color3.Random();
+
+
+
+        if(str=="true1")
+        {
+            trueAns1.material=RandomMaterial;
+
+            // trueAns1.outlineWidth=0.5;
+            // trueAns1.outlineColor=BABYLON.Color3.Red();
+
+            m = BABYLON.MeshBuilder.CreateCylinder(id, {height:0.2, diameter:3,tessellation: 6, updatable:true}, scene);   
+            m.material=whiteMaterial;                     
+            m.state="users";
+
+        }
+        else if(str="true2")
+        {
+            trueAns2.material=RandomMaterial;
+
+            // trueAns1.outlineWidth=0.5;
+            // trueAns1.outlineColor=BABYLON.Color3.Red();
+            
+            m = BABYLON.MeshBuilder.CreateCylinder(id, {height:0.2, diameter:3,tessellation: 6}, scene);  
+            m.material=whiteMaterial;                     
+
+            
+            m.state="users";
+
+        }
+        else
+        {
+            alert("after judge error");
+        }
+
+    }
+
+
+
+    var ax1=trueAns1.position.x+(trueAns1.geometry.extend.maximum.x-trueAns1.geometry.extend.minimum.x)/2;
+    var az1=trueAns1.position.z-(trueAns1.geometry.extend.maximum.z-trueAns1.geometry.extend.minimum.z)/2;
+
+
+    var ax2=trueAns2.position.x+(trueAns2.geometry.extend.maximum.x-trueAns2.geometry.extend.minimum.x)/2;
+    var az2=trueAns2.position.z+(trueAns2.geometry.extend.maximum.z-trueAns2.geometry.extend.minimum.z)/2;
+
+
+
+    //组合正确答案判断函数
+    function judge(id)
+    {
+        var m = scene.getMeshByID(id);
+        var pos = m.getAbsolutePosition();
+        var s=m.state;
+        var tol=3;
+
+        
+        if(Math.abs(m.position.x- ax1) <= tol && Math.abs(m.position.z- az1) <= tol&&s=="tri2")
+            {
+            var music = new BABYLON.Sound("music", "../audio/win1.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
+
+                afterJudge(id,"true1");
+                console.log("true1");
+                
+                
+            }
+        
+        else if(Math.abs(m.position.x- ax2) <= tol && Math.abs(m.position.z- az2) <= tol&&s=="tri1")
+            {
+            var music = new BABYLON.Sound("music", "../audio/win2.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
+
+                afterJudge(id,"true2");
+                console.log("true2");
+            }
+        else
+        {
+           // alert("Judge error")
+        }
+
+
+        //  页面跳转
+           
+    var t1 = window.setInterval(function()
+        {
+        if(Math.abs(m.position.x- nextBut.position.x) <=tol && Math.abs(m.position.z- nextBut.position.z) <=tol)
+        {
+            var music = new BABYLON.Sound("music", "../audio/win.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
+            
+            window.location.href='Level-3-1.html';
+            console.log("link to next")
+        }
+        
+        if(Math.abs(m.position.x- upBut.position.x) <=tol && Math.abs(m.position.z- upBut.position.z) <=tol)
+        {
+            var music = new BABYLON.Sound("music", "../audio/win.mp3",scene, null, { loop: false, autoplay: true, spatialSound: true });
+
+            window.location.href='Level-2-2-1.html';
+            console.log("link to up")
+        }
+
+    },10000); 
+
+
+
+
+    }
+
+
+
+    //获取当前场景中所有mesh的id 待改进
+    function getAllmeshid()
+    {
+        
+
+         for (var i = 0; i < scene.meshes.length; i++) {
+                
+                var m=scene.meshes[i];
+                var d=m.isDisposed();
+                
+                if(d==false)
+                {
+                    if(m.state=="users"||m.state=="box"||m.state=="tri1"||m.state=="tri2")
+                    {  
+                        shapes.push(parseInt(scene.meshes[i].id));
+                    }
+                    else
+                    {
+                       // console.log(m);
+                    }
+                }
+                else
+                {
+                    console.log("shpes array error");
+                }       
+            } 
+
+    }
+
+
+
+
+    
+    
+
+    var shapes=[];//存储当前的场景中的mesh的id
+    
+    var s=[];//存储本次输入的id
+
+    var diff =[];//比较二者的不同
+
+    up = function updateStats(memuse) {
+        
+      var i;
+
+
+      for (i in memuse.tracks) {
+        
+
+        if (memuse.tracks[i].x >= -2 && memuse.tracks[i].x <= 2 && memuse.tracks[i].y >= -2 && memuse.tracks[i]
+          .y <= 2) {
+
+            var x = -memuse.tracks[i]["x"];
+            var z = memuse.tracks[i]["y"];
+            var h = memuse.tracks[i]["height"];
+            var color = memuse.tracks[i]["confidence"];
+            var id = memuse.tracks[i]["id"];
+            
+            s.push(id);
+
+            var local_pos = new BABYLON.Vector3(x, 0.5, -z);
+
+            
+            getAllmeshid()
+
+            if(shapes.indexOf(id)==-1)//id在场景数组中不存在,添加新的对象
+            {
+
+                createShape(id,local_pos);    
+                
+            }
+
+            else//该id在现有场景数组中存在，更新其位置
+            {
+
+                change(id.toString());
+                changePos(id.toString(),local_pos); 
+
+                judge(id.toString()); 
+
+            }
+
+            shapes=[];
+          }
+        }  
+        
+        getAllmeshid()
+
+
+        //场景数组中存在，但传入数据不存在，停止对其位置更新
+        diff = getArrDifference(shapes,s);
+        
+        if(diff.length!=0)
+        {
+           disposePos(diff);
+        }
+       //console.log(s);
+
+       s=[];
+       shapes=[];
+       
+
+    }
+
+
+
+
+
+
+
+
+
+        //box.rotate(BABYLON.Axis.Y, Math.PI / 150, BABYLON.Space.LOCAL);
+        //box.rotate(BABYLON.Axis.X, Math.PI / 200, BABYLON.Space.LOCAL);
+       
+        //box.translate(new BABYLON.Vector3(-1, -1, -1).normalize(), 0.001, BABYLON.Space.WORLD)
+        
+        //small.rotationQuaternion = box.rotationQuaternion;
+        //matrix = box.getWorldMatrix();
+        // y += 0.001;
+        // local_pos = new BABYLON.Vector3(1, 0, 1);
+
+
+
+       // box.position = BABYLON.Vector3.TransformCoordinates(local_pos, matrix);
+
+
+   
+   
+   /****************************************************************/
+
+    // show axis
+    var showAxis = function (size) {
+        var makeTextPlane = function (text, color, size) {
+            var dynamicTexture = new BABYLON.DynamicTexture("DynamicTexture", 50, scene, true);
+            dynamicTexture.hasAlpha = true;
+            dynamicTexture.drawText(text, 5, 40, "bold 36px Arial", color, "transparent", true);
+            var plane = new BABYLON.Mesh.CreatePlane("TextPlane", size, scene, true);
+            plane.material = new BABYLON.StandardMaterial("TextPlaneMaterial", scene);
+            plane.material.backFaceCulling = false;
+            plane.material.specularColor = new BABYLON.Color3(0, 0, 0);
+            plane.material.diffuseTexture = dynamicTexture;
+            return plane;
+        };
+
+        var axisX = BABYLON.Mesh.CreateLines("axisX", [
+            new BABYLON.Vector3.Zero(), new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, 0.05 * size, 0),
+            new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, -0.05 * size, 0)
+        ], scene);
+        axisX.color = new BABYLON.Color3(1, 0, 0);
+        var xChar = makeTextPlane("X", "red", size / 10);
+        xChar.position = new BABYLON.Vector3(0.9 * size, -0.05 * size, 0);
+        var axisY = BABYLON.Mesh.CreateLines("axisY", [
+            new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, size, 0), new BABYLON.Vector3(-0.05 * size, size * 0.95, 0),
+            new BABYLON.Vector3(0, size, 0), new BABYLON.Vector3(0.05 * size, size * 0.95, 0)
+        ], scene);
+        axisY.color = new BABYLON.Color3(0, 1, 0);
+        var yChar = makeTextPlane("Y", "green", size / 10);
+        yChar.position = new BABYLON.Vector3(0, 0.9 * size, -0.05 * size);
+        var axisZ = BABYLON.Mesh.CreateLines("axisZ", [
+            new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, 0, size), new BABYLON.Vector3(0, -0.05 * size, size * 0.95),
+            new BABYLON.Vector3(0, 0, size), new BABYLON.Vector3(0, 0.05 * size, size * 0.95)
+        ], scene);
+        axisZ.color = new BABYLON.Color3(0, 0, 1);
+        var zChar = makeTextPlane("Z", "blue", size / 10);
+        zChar.position = new BABYLON.Vector3(0, 0.05 * size, 0.9 * size);
+    };
+
+    //Local Axes
+    function localAxes(size) {
+        var pilot_local_axisX = BABYLON.Mesh.CreateLines("pilot_local_axisX", [
+            new BABYLON.Vector3.Zero(), new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, 0.05 * size, 0),
+            new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, -0.05 * size, 0)
+        ], scene);
+        pilot_local_axisX.color = new BABYLON.Color3(1, 0, 0);
+
+        pilot_local_axisY = BABYLON.Mesh.CreateLines("pilot_local_axisY", [
+            new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, size, 0), new BABYLON.Vector3(-0.05 * size, size * 0.95, 0),
+            new BABYLON.Vector3(0, size, 0), new BABYLON.Vector3(0.05 * size, size * 0.95, 0)
+        ], scene);
+        pilot_local_axisY.color = new BABYLON.Color3(0, 1, 0);
+
+        var pilot_local_axisZ = BABYLON.Mesh.CreateLines("pilot_local_axisZ", [
+            new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, 0, size), new BABYLON.Vector3(0, -0.05 * size, size * 0.95),
+            new BABYLON.Vector3(0, 0, size), new BABYLON.Vector3(0, 0.05 * size, size * 0.95)
+        ], scene);
+        pilot_local_axisZ.color = new BABYLON.Color3(0, 0, 1);
+
+        var local_origin = BABYLON.MeshBuilder.CreateBox("local_origin", { size: 1 }, scene);
+        local_origin.isVisible = false;
+
+        pilot_local_axisX.parent = local_origin;
+        pilot_local_axisY.parent = local_origin;
+        pilot_local_axisZ.parent = local_origin;
+
+        return local_origin;
+
+    }
+
+    //showAxis(4);
+    
+    
+    return scene;
+};
+
+        scene=createScene();//调用函数
+        
+        //注册一个重复渲染场景
+        engine.runRenderLoop(function(){
+            scene.render();
+        })
+
+          // 监测浏览器/画布大小改变事件
+        window.addEventListener("resize",function()
+        {
+            engine.resize();
+        })
+
+
+    </script>
+
+<script>
+    
+    //websocket 传输数据
+    var ws = new WebSocket('ws://' + '192.168.1.12' + ':3030');
+    ws.onopen = function () {
+      //alert("open WebSocket on server");
+    };
+
+    ws.onmessage = function (evt) {
+    //   if (tf_a == 0) {
+    //     getWidth(JSON.parse(evt.data));
+    //   }
+
+    up(JSON.parse(evt.data));
+
+
+    
+    };
+
+    ws.onclose = function () {
+      // websocket is closed.
+      //alert("Connection is closed...");
+    };
+
+
+
+
+
+
+</script>
+
+</body>
+</html>
